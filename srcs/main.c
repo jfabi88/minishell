@@ -20,33 +20,29 @@ static void	ft_check_command(char **stringa)
 
 static void	ft_parser(char *line)
 {
-	char	**commands;
 	char	**stringa;
-	int		i;
 
-	i = 0;
-	commands = ft_split(line, ';');										//malloc
-	while (commands[i])
+	if (line && *line)
 	{
-		stringa = ft_split(commands[i], ' ');
+		stringa = ft_split(line, ' ');
 		ft_check_command(stringa);
-		i++;
 	}
 }
 
-int	main(void)
+int main(void)
 {
-	char	*line;
-	char	*stringa;
-	int		n;
+    char *line;
 
-	n = 1;
-	while (n > 0)
-	{
-		write(1, "# : ", 4);
-		n = ft_get_next_line(0, &line);					//malloc
-		ft_parser(line);
-		//printf("stringa: %s\ncaratteri letti: %d\n", line, n);
-	}
-	//printf("stringa: %s\ncaratteri letti: %d\n", line, n);
+    line = readline("# Orders, my Lord? ");
+    if (line && ft_strlen(line) > 0)
+        add_history(line);
+    while (line)
+    {
+        ft_parser(line);
+        // execute(line);
+        line = readline("# Orders, my Lord? ");
+        if (line && ft_strlen(line) > 0)
+            add_history(line);
+    }
+    printf("exit\n");
 }

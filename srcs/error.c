@@ -11,6 +11,7 @@ static void	ft_error_2(int nmb, char *str)
 
 static void	ft_error_1(int nmb, char *str)
 {
+	*str = *str;
 	if (nmb == 1)
 	{
 		exit(0);
