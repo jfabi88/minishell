@@ -82,3 +82,18 @@ int	ft_find_flag(char **stringa)
 	}
 	return (0);
 }
+
+int	ft_open_arrow(int flag, char *stringa)
+{
+	int	fd;
+
+	if (flag == 1)
+		fd = open(stringa, O_WRONLY | O_CREAT | O_TRUNC, 00755);
+	else if (flag == 2)
+		fd = open(stringa, O_RDONLY);
+	if (flag == 3)
+		fd = open(stringa, O_WRONLY | O_APPEND | O_CREAT, 00755);
+	if (fd < 0)
+		printf("#: %s. No such file or directory\n", stringa);
+	return (fd);
+}

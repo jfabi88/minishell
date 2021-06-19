@@ -42,6 +42,17 @@ char	**ft_create_strinput(char **mat)
 	return (ret);
 }
 
+void	ft_free_listenv(t_list *env)
+{
+	while (env)
+	{
+		free(((t_data *)(env->content))->content);
+		free(((t_data *)(env->content))->env);
+		free(env->content);
+		env = env->next;
+	}
+}
+
 char	**ft_create_stroutput(char **mat)
 {
 	char	**ret;
@@ -69,4 +80,27 @@ char	**ft_create_stroutput(char **mat)
 	}
 	ret[j] = 0;
 	return (ret);
+}
+
+void	ft_run_extra_terminal(char *del)
+{
+	int		pid;
+	int		status;
+	char	*line;
+
+	pid = fork();
+	if (pid < 0)
+		printf("");                                  //si deve gestire l'errore
+	else if (pid == 0)
+	{
+		line = readline("> ");
+		while (line)
+		{
+			if (ft_strncmp(line, del, ft_strlen(del) + 1) == 0)
+				exit(0);
+			line = readline("> ");
+		}
+	}
+	else
+		wait(&status);
 }

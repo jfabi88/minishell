@@ -1,11 +1,14 @@
 NAME		= minishell
 
 SRCS		=	\
+				srcs/cd.c \
 				srcs/echo.c \
 				srcs/main.c \
+				srcs/pwd.c \
 				srcs/utils_mtr.c \
 				srcs/utils.c \
 				srcs/utils2.c \
+				srcs/utils3.c
 
 OBJS		= $(SRCS:.c=.o)
 
