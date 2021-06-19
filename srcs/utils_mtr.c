@@ -21,14 +21,14 @@ char	**ft_mtrlcpy(char **src, int len)
 	i = 0;
 	ret = malloc(sizeof(char *) * (ft_mtrlen(src) + 1));
 	if (ret == 0)
-		exit (0);
+		return (NULL);
 	while (src[i] && i < len)
 	{
 		ret[i] = malloc(sizeof(ft_strlen(src[i])) + 1);
 		if (ret[i] == 0)
 		{
 			ft_free_matrix(ret);
-			exit (0);
+			return (NULL);
 		}
 		ft_strlcpy(ret[i], src[i], ft_strlen(src[i]) + 1);
 		i++;

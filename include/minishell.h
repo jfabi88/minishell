@@ -32,9 +32,4 @@ int		ft_mtrlen(char **matrix);
 void	ft_free_matrix(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 
-/* error.c */
-
-void	ft_error_mat(char **mat, int nmb, char *str);
-void	ft_error(int nmb, char *str);
-
 #endif

@@ -2,7 +2,6 @@ NAME		= minishell
 
 SRCS		=	\
 				srcs/echo.c \
-				srcs/error.c \
 				srcs/main.c \
 				srcs/utils_mtr.c \
 				srcs/utils.c \

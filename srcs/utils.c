@@ -14,7 +14,7 @@ int	ft_find_strposition(char *str, char **matrix)
 	return (-1);
 }
 
-int		ft_n_flag(char **matrix)
+int	ft_n_flag(char **matrix)
 {
 	int	i;
 	int	ret;
@@ -47,7 +47,7 @@ char	*ft_convert_flag(int flag)
 	else
 		return (NULL);
 	if (ret == 0)
-		exit (0);
+		return (NULL);
 	if (flag == 1)
 		ft_strlcpy(ret, ">", 2);
 	if (flag == 2)
@@ -63,7 +63,7 @@ char	*ft_convert_flag(int flag)
 
 int	ft_find_flag(char **stringa)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (stringa[i])
