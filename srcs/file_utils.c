@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-int	ft_is_flag(char *str)
-{
-	if (ft_strncmp(str, ">", 2) == 0)
-		return (1);
-	if (ft_strncmp(str, "<", 2) == 0)
-		return (2);
-	if (ft_strncmp(str, ">>", 3) == 0)
-		return (3);
-	if (ft_strncmp(str, "<<", 3) == 0)
-		return (4);
-	return (0);
-}
-
 char	**ft_create_strinput(char **mat)
 {
 	char	**ret;
@@ -28,7 +15,7 @@ char	**ft_create_strinput(char **mat)
 	{
 		if (ft_is_flag(mat[i]) == 0 && ft_is_flag(mat[i - 1]) == 0)
 		{
-			ret[j] = malloc(sizeof(ft_strlen(mat[i]) + 1));
+			ret[j] = malloc(ft_strlen(mat[i]) + 1);
 			if (ret[j] == 0)
 			{
 				ft_free_matrix(ret);
@@ -40,17 +27,6 @@ char	**ft_create_strinput(char **mat)
 	}
 	ret[j] = 0;
 	return (ret);
-}
-
-void	ft_free_listenv(t_list *env)
-{
-	while (env)
-	{
-		free(((t_data *)(env->content))->content);
-		free(((t_data *)(env->content))->env);
-		free(env->content);
-		env = env->next;
-	}
 }
 
 char	**ft_create_stroutput(char **mat)
@@ -68,7 +44,7 @@ char	**ft_create_stroutput(char **mat)
 	{
 		if (ft_is_flag(mat[i]) != 0 || ft_is_flag(mat[i - 1]) != 0)
 		{
-			ret[j] = malloc(sizeof(ft_strlen(mat[i]) + 1));
+			ret[j] = malloc(ft_strlen(mat[i]) + 1);
 			if (ret[j] == 0)
 			{
 				ft_free_matrix(ret);
@@ -103,4 +79,51 @@ void	ft_run_extra_terminal(char *del)
 	}
 	else
 		wait(&status);
+}
+
+int	ft_open_file(char **output, int fd)
+{
+	int	i;
+	int	flag;
+	int	fd_2;
+
+	i = 0;
+	fd_2 = 0;
+	while (output && output[i])
+	{
+		flag = ft_is_flag(output[i]);
+		if (fd != 1 && (flag == 1 || flag == 3))
+			close (fd);
+		if (flag == 1 || flag == 3)
+			fd = ft_open_arrow(flag, output[i + 1]);
+		else if (flag == 2)
+			fd_2 = ft_open_arrow(flag, output[i + 1]);
+		else if (flag == 4)
+			ft_run_extra_terminal(output[i + 1]);
+		if (fd < 0 || fd_2 < 0)
+			return (-1);
+		else if (fd_2 > 0)
+			close(fd_2);
+		i += 2;
+	}
+	return (fd);
+}
+
+int	ft_open_arrow(int flag, char *stringa)
+{
+	int	fd;
+
+	if (flag == 1)
+		fd = open(stringa, O_WRONLY | O_CREAT | O_TRUNC, 00755);
+	else if (flag == 2)
+		fd = open(stringa, O_RDONLY);
+	if (flag == 3)
+		fd = open(stringa, O_WRONLY | O_APPEND | O_CREAT, 00755);
+	if (fd < 0)
+	{
+		ft_putstr_fd("#: ", 2);
+		ft_putstr_fd(stringa, 2);
+		ft_putstr_fd(". No such file or directory\n", 2);
+	}
+	return (fd);
 }

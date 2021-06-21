@@ -3,115 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfabi <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 13:25:59 by jfabi             #+#    #+#             */
-/*   Updated: 2021/01/28 13:55:46 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/06/21 17:10:39 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	lines(const char *s, char c)
+static int	count_words(const char *str, char c)
 {
 	int	i;
-	int	j;
+	int	count;
 
 	i = 0;
-	j = 0;
-	while (s[i] != 0)
+	count = 0;
+	while (str[i] != '\0')
 	{
-		if (s[i] != c && (i == 0 || s[i - 1] == c))
-			j++;
+		if (str[i] != c && (i == 0 || str[i - 1] == c))
+			count++;
 		i++;
 	}
-	return (j);
+	return (count);
 }
 
 static void	free_matrix(char **matrix)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	while (matrix[i] != 0)
-	{
-		free(matrix[i]);
-		i++;
-	}
+	while (matrix[i] != NULL)
+		free(matrix[i++]);
 	free(matrix);
 }
 
-static int	new_lines(const char *s, char c, char **matrix)
+static int	split(char const *s, char **matrix, char c)
 {
+	int	mat_i;
 	int	i;
-	int	n;
-	int	j;
+	int	word_len;
 
+	mat_i = 0;
 	i = 0;
-	j = 0;
-	while (s[i] != 0)
+	while (s[i] != '\0')
 	{
-		if (s[i] != c)
+		if (s[i] != c && (i == 0 || s[i - 1] == c))
 		{
-			n = 0;
-			while (s[i + n] != c && s[i + n] != 0)
-				n++;
-			matrix[j] = malloc(n + 1);
-			if (matrix[j] == 0)
+			word_len = 0;
+			while (s[i + word_len] != c && s[i + word_len] != '\0')
+				word_len++;
+			matrix[mat_i] = malloc(word_len + 1);
+			if (matrix[mat_i] == NULL)
 				return (-1);
-			i += n;
-			j++;
+			ft_strlcpy(matrix[mat_i], (s + i), word_len + 1);
+			matrix[mat_i++][word_len] = '\0';
+			i += word_len;
 		}
 		else
 			i++;
 	}
-	matrix[j] = 0;
-	return (j);
-}
-
-static void	cpy_mat(char const *s, char c, char **matrix)
-{
-	int	n;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i] != 0)
-	{
-		n = 0;
-		while (s[i] == c)
-			i++;
-		while (s[i] != 0 && s[i] != c)
-		{
-			matrix[j][n] = s[i];
-			n++;
-			i++;
-		}
-		if (n != 0)
-		{
-			matrix[j][n] = 0;
-			j++;
-		}
-	}
+	return (mat_i);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		line;
+	int		mat_i;
 	char	**matrix;
 
-	if (s == 0)
-		return (0);
-	matrix = malloc((lines(s, c) + 1) * sizeof(char *));
-	if (matrix == 0)
-		return (0);
-	line = new_lines(s, c, matrix);
-	if (line == -1)
+	if (s == NULL)
+		return (NULL);
+	matrix = malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (matrix == NULL)
+		return (NULL);
+	mat_i = split(s, matrix, c);
+	if ((mat_i) == -1)
 	{
 		free_matrix(matrix);
-		return (0);
+		return (NULL);
 	}
-	cpy_mat(s, c, matrix);
+	matrix[mat_i] = 0;
 	return (matrix);
 }

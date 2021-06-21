@@ -6,13 +6,13 @@
 /*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/06/19 17:23:33 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/06/21 19:07:10 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_check_command(char **stringa)
+static void	ft_check_command(char **stringa, char *line)
 {
 	if (ft_strncmp(stringa[0], "echo", 5) == 0)
 		ft_check_echo(stringa);
@@ -20,6 +20,8 @@ static void	ft_check_command(char **stringa)
 		ft_check_pwd(stringa);
 	if (ft_strncmp(stringa[0], "cd", 3) == 0)
 		ft_check_cd(stringa);
+	if (ft_strncmp(stringa[0], "exit", 5) == 0)
+		ft_check_exit(stringa, line);
 }
 
 static void	ft_parser(char *line)
@@ -29,7 +31,7 @@ static void	ft_parser(char *line)
 	if (line && *line)
 	{
 		stringa = ft_split(line, ' ');                       //malloc
-		ft_check_command(stringa);
+		ft_check_command(stringa, line);
 		ft_free_matrix(stringa);                             //free
 	}
 }
@@ -85,7 +87,7 @@ int	main(int argc, char *argv[], char *env[])
 	line = readline("# Orders, my Lord? ");
 	if (line && ft_strlen(line) > 0)
 		add_history(line);
-	while (line && ft_strncmp(line, "exit", 5) != 0)
+	while (line != 0)
 	{
 		ft_parser(line);
 		free(line);
