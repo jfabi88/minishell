@@ -29,7 +29,7 @@ static char	**ft_create_strinput(char **mat)
 	return (ret);
 }
 
-static char	**ft_create_stroutput(char **mat)
+static char	**ft_create_stroutput(char **mat)					//jfabi c'è un probabile errore con la redirectiori << perche penso prenda come argomento ciò che ha subito dopo
 {
 	char	**ret;
 	int		i;
