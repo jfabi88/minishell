@@ -12,26 +12,25 @@
 
 #include "minishell.h"
 
-static int	ft_check_command(char **stringa, t_parse *parse, char *line)
+static int	ft_check_command(t_parse *parse)
 {
 	int	num;
 
-	if (ft_strncmp(stringa[0], "echo", 5) == 0)
+	if (ft_strncmp(parse->command, "echo", 5) == 0)
 		num = ft_check_echo(parse);
-	if (ft_strncmp(stringa[0], "pwd", 4) == 0)
+	if (ft_strncmp(parse->command, "pwd", 4) == 0)
 		num = ft_check_pwd(parse);
-	if (ft_strncmp(stringa[0], "cd", 3) == 0)
+	if (ft_strncmp(parse->command, "cd", 3) == 0)
 		num = ft_check_cd(parse);
-	if (ft_strncmp(stringa[0], "exit", 5) == 0)
-		num = ft_check_exit(stringa, parse, line);
-	if (ft_strncmp(stringa[0], "export", 7) == 0)
+	if (ft_strncmp(parse->command, "exit", 5) == 0)
+		num = ft_check_exit(parse);
+	if (ft_strncmp(parse->command, "export", 7) == 0)
 		num = ft_check_export(parse);
 	return (num);
 }
 
-static int	ft_parser(char *line)
+static t_parse	*ft_parser(char *line)
 {
-	int		num;
 	char	**stringa;
 	t_parse	*parse;
 
@@ -39,18 +38,11 @@ static int	ft_parser(char *line)
 	{
 		stringa = ft_split(line, ' ');                       //malloc
 		if (stringa == NULL)
-			return (-1);
+			return (NULL);
 		parse = ft_create_parse(stringa);                    //malloc
-		if (parse == NULL)
-		{
-			ft_free_matrix(stringa);
-			return (-1);
-		}
-		num = ft_check_command(stringa, parse, line);
 		ft_free_matrix(stringa);                             //free
-		ft_free_parse(parse);                                //free
 	}
-	return (num);
+	return (parse);
 }
 
 static int	ft_create_list_env(char *env[])
@@ -81,17 +73,19 @@ static int	ft_create_list_env(char *env[])
 int	main(int argc, char *argv[], char *env[])
 {
 	char	*line;
-
+	t_parse	*parse;
 	if (argc < 0 || argv == NULL)
 		printf("qualcosa");								//si deve gestire l'errore
-	ft_create_list_env(env);
+	ft_create_list_env(env);							//malloc
 	line = readline("# Orders, my Lord? ");
 	if (line && ft_strlen(line) > 0)
 		add_history(line);
 	while (line != 0)
 	{
-		ft_parser(line);
+		parse = ft_parser(line);
 		free(line);
+		if (parse != NULL)
+			ft_check_command(parse);
 		line = readline("# Orders, my Lord? ");
 		if (line && ft_strlen(line) > 0)
 			add_history(line);

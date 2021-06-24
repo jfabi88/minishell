@@ -17,6 +17,7 @@ typedef struct s_data
 
 typedef struct s_parse
 {
+	char	*command;
 	char	**input;
 	char	**output;
 }				t_parse;
@@ -28,7 +29,7 @@ t_list	*list_env;
 int		ft_check_echo(t_parse *parse);
 int		ft_check_pwd(t_parse *parse);
 int		ft_check_cd(t_parse *parse);
-int		ft_check_exit(char **stringa, t_parse *parse, char *line);
+int		ft_check_exit(t_parse *parse);
 int		ft_check_export(t_parse *parse);
 
 /* create_path */
@@ -69,6 +70,7 @@ t_parse *ft_create_parse(char **stringa);
 
 /* utils.c */
 
+void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 
 #endif

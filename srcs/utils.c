@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	*ft_free_null(void	*obj)
+{
+	free(obj);
+	return (NULL);
+}
+
 int	ft_find_strposition(char *str, char **matrix)
 {
 	int	i;

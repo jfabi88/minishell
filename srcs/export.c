@@ -61,7 +61,6 @@ static int  ft_run_export(char **str)
     while (str[i])
     {
         flag = ft_check_export_format(str[i]);
-        printf("flag: %d\n", flag);
         if (flag == -1)
         {
             ft_export_error(str[i]);
