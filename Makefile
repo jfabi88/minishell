@@ -6,10 +6,12 @@ SRCS		=	\
 				srcs/echo.c \
 				srcs/env_utils.c \
 				srcs/exit.c \
+				srcs/export.c \
 				srcs/file_utils.c \
 				srcs/flag_utils.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
+				srcs/parse_utils.c \
 				srcs/pwd.c \
 				srcs/utils.c
 

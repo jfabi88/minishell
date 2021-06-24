@@ -12,8 +12,10 @@ static int	ft_cd(char *path, char *input)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (-1);
 	}
-	ft_change_env(list_env, "OLDPWD", ft_find_env(list_env, "PWD"));
-	ft_change_env(list_env, "PWD", path);
+	if (ft_change_env(list_env, "OLDPWD", ft_find_env(list_env, "PWD")) == -1)
+		return (-1);
+	if (ft_change_env(list_env, "PWD", path) == -1)
+		return (-1);
 	return (1);
 }
 
@@ -41,28 +43,21 @@ static char	*ft_run_cd(char **output)
 	return (path);
 }
 
-int	ft_check_cd(char **stringa)
+int	ft_check_cd(t_parse *parse)
 {
-	char	**input;
-	char	**output;
 	char	*path;
 	int		fd;
+	int		num;
 
-	input = ft_create_strinput(stringa);
-	output = ft_create_stroutput(stringa);
-	if (input == NULL || output == NULL)
-		return (-1);
-	fd = ft_open_file(output, 1);
+	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);
 	if (fd != 1)
 		close (fd);
-	path = ft_run_cd(input);
+	path = ft_run_cd(parse->input);
 	if (path == NULL)
 		return (-1);
-	ft_cd(path, input[0]);
+	num = ft_cd(path, parse->input[0]);
 	free(path);
-	ft_free_matrix(input);
-	ft_free_matrix(output);
-	return (1);
+	return (num);
 }

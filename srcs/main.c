@@ -12,66 +12,67 @@
 
 #include "minishell.h"
 
-static void	ft_check_command(char **stringa, char *line)
+static int	ft_check_command(char **stringa, t_parse *parse, char *line)
 {
+	int	num;
+
 	if (ft_strncmp(stringa[0], "echo", 5) == 0)
-		ft_check_echo(stringa);
+		num = ft_check_echo(parse);
 	if (ft_strncmp(stringa[0], "pwd", 4) == 0)
-		ft_check_pwd(stringa);
+		num = ft_check_pwd(parse);
 	if (ft_strncmp(stringa[0], "cd", 3) == 0)
-		ft_check_cd(stringa);
+		num = ft_check_cd(parse);
 	if (ft_strncmp(stringa[0], "exit", 5) == 0)
-		ft_check_exit(stringa, line);
+		num = ft_check_exit(stringa, parse, line);
+	if (ft_strncmp(stringa[0], "export", 7) == 0)
+		num = ft_check_export(parse);
+	return (num);
 }
 
-static void	ft_parser(char *line)
+static int	ft_parser(char *line)
 {
+	int		num;
 	char	**stringa;
+	t_parse	*parse;
 
 	if (line && *line)
 	{
 		stringa = ft_split(line, ' ');                       //malloc
-		ft_check_command(stringa, line);
+		if (stringa == NULL)
+			return (-1);
+		parse = ft_create_parse(stringa);                    //malloc
+		if (parse == NULL)
+		{
+			ft_free_matrix(stringa);
+			return (-1);
+		}
+		num = ft_check_command(stringa, parse, line);
 		ft_free_matrix(stringa);                             //free
+		ft_free_parse(parse);                                //free
 	}
-}
-
-static t_list	*ft_new_datalist(char *str)
-{
-	int		size;
-	int		size2;
-	t_data	*data;
-	t_list	*list;
-
-	data = malloc(sizeof(t_data *));
-	if (data == NULL)
-		return (NULL);
-	size2 = ft_strlen(ft_strchr(str, '='));
-	size = ft_strlen(str) - size2;
-	data->env = malloc(size + 1);
-	if (data->env == NULL)
-		return (NULL);
-	ft_strlcpy(data->env, str, size + 1);
-	data->content = malloc(size2);
-	if (data->content == NULL)
-		return (NULL);
-	ft_strlcpy(data->content, str + size + 1, size2 + 1);
-	list = ft_lstnew(data);
-	return (list);
+	return (num);
 }
 
 static int	ft_create_list_env(char *env[])
 {
 	int		i;
+	char	**matrix;
 	t_list	*list;
 
 	i = 0;
 	while (env[i])
 	{
-		list = ft_new_datalist(env[i]);			//malloc
-		if (list == 0)
+		matrix = ft_split(env[i], '=');							//malloc
+		if (matrix == NULL)
 			return (-1);
+		list = ft_new_datalist(matrix[0], matrix[1]);			//malloc
+		if (list == 0)
+		{
+			ft_free_listenv(list);
+			return (-1);
+		}
 		ft_lstadd_back(&list_env, list);
+		ft_free_matrix(matrix);									//free
 		i++;
 	}
 	return (1);
@@ -82,7 +83,7 @@ int	main(int argc, char *argv[], char *env[])
 	char	*line;
 
 	if (argc < 0 || argv == NULL)
-		printf("");
+		printf("qualcosa");								//si deve gestire l'errore
 	ft_create_list_env(env);
 	line = readline("# Orders, my Lord? ");
 	if (line && ft_strlen(line) > 0)
@@ -97,5 +98,5 @@ int	main(int argc, char *argv[], char *env[])
 	}
 	free(line);
 	ft_free_listenv(list_env);
-	printf("exit\n");
+	ft_putstr_fd("exit", 1);
 }

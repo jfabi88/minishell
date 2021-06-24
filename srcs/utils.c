@@ -13,4 +13,3 @@ int	ft_find_strposition(char *str, char **matrix)
 	}
 	return (-1);
 }
-

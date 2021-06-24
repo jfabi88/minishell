@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*ft_add_path(char *start, char *add)
+static char	*ft_add_path(char *start, char *add)
 {
 	char	*temp;
 	char	*path;
@@ -10,12 +10,15 @@ char	*ft_add_path(char *start, char *add)
 		return (NULL);
 	path = ft_strjoin(start, temp);
 	if (path == NULL)
+	{
+		free(temp);
 		return (NULL);
+	}
 	free(temp);
 	return (path);
 }
 
-char	*ft_sub_path(char *start)
+static char	*ft_sub_path(char *start)
 {
 	char	*temp;
 	char	*path;
@@ -23,8 +26,13 @@ char	*ft_sub_path(char *start)
 	int		len2;
 
 	temp = ft_strrchr(start, '/');
-	len1 = ft_strlen(temp);
-	len2 = ft_strlen(start) - len1;
+	if (temp == start)
+		len2 = 1;
+	else
+	{
+		len1 = ft_strlen(temp);
+		len2 = ft_strlen(start) - len1;
+	}
 	path = malloc(len2 + 1);
 	if (path == NULL)
 		return (NULL);
@@ -42,11 +50,11 @@ char	*ft_create_path(t_list *list, char *str)
 	i = 0;
 	temp = ft_find_env(list, "PWD");
 	matrix = ft_split(str, '/');
-	path = malloc(ft_strlen(temp) + 1);
-	if (path == NULL || matrix == NULL)
+	if (matrix == NULL)
 		return (NULL);
+	path = malloc(ft_strlen(temp) + 1);
 	ft_strlcpy(path, temp, ft_strlen(temp) + 1);
-	while (matrix && matrix[i])
+	while (path && matrix && matrix[i])
 	{
 		temp = path;
 		if (ft_strncmp(matrix[i], "..", 3) == 0)
@@ -56,6 +64,7 @@ char	*ft_create_path(t_list *list, char *str)
 		free(temp);
 		i++;
 	}
+	ft_free_matrix(matrix);
 	return (path);
 }
 

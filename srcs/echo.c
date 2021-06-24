@@ -41,23 +41,15 @@ static void	ft_echo(char **stringa, int fd)
 		ft_putchar_fd('\n', fd);
 }
 
-int	ft_check_echo(char **stringa)
+int	ft_check_echo(t_parse *parse)
 {
-	char	**input;
-	char	**output;
 	int		fd;
 
-	input = ft_create_strinput(stringa);                 //malloc
-	output = ft_create_stroutput(stringa);               //malloc
-	if (input == NULL || output == NULL)
-		return (-1);
-	fd = ft_open_file(output, 1);
+	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);
-	ft_echo(input, fd);
+	ft_echo(parse->input, fd);
 	if (fd != 1)
 		close (fd);
-	ft_free_matrix(input);                               //free
-	ft_free_matrix(output);                              //free
 	return (1);
 }
