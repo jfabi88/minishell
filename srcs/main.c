@@ -82,7 +82,7 @@ int	main(int argc, char *argv[], char *env[])
 		add_history(line);
 	while (line != 0)
 	{
-		parse = ft_parser(line);
+		parse = ft_parser(line);						//malloc
 		free(line);
 		if (parse != NULL)
 			ft_check_command(parse);
@@ -91,6 +91,7 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(line);
 	}
 	free(line);
-	ft_free_listenv(list_env);
+	ft_free_listenv(list_env);							//free
+	ft_free_parse(parse);								//free
 	ft_putstr_fd("exit", 1);
 }
