@@ -94,15 +94,6 @@ int ft_check_export(t_parse *parse)
     if (new_var == NULL)
         return (-1);
     ft_run_export(parse->input);
-    t_data *data;
-    t_list  *list;
-    list = list_env;
-    while (list)
-    {
-        data = ((t_data *)(list->content));
-        printf("%s=%s\n", data->env, data->content);
-        list = list->next;
-    }
     ft_free_matrix(new_var);                      //free
     return (1);
 }
