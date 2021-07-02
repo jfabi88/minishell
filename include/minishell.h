@@ -65,8 +65,8 @@ void	ft_free_matrix(char **matrix);
 
 /* parse_utils.c */
 
-void    ft_free_parse(t_parse *parse);
-t_parse *ft_create_parse(char **stringa);
+void	ft_free_parse(t_parse *parse);
+t_parse	*ft_create_parse(char **stringa);
 
 /* utils.c */
 
