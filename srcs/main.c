@@ -6,7 +6,7 @@
 /*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/06/21 19:07:10 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/07/02 15:09:28 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static t_parse	*ft_parser(char *line)
 	char	**stringa;
 	t_parse	*parse;
 
+	parse = NULL;
 	if (line && *line)
 	{
 		stringa = ft_split(line, ' ');                       //malloc
