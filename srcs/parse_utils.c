@@ -62,7 +62,7 @@ t_parse	*ft_create_parse(char **stringa)
 {
 	t_parse	*parse;
 
-	parse = malloc(sizeof(t_parse *));
+	parse = malloc(sizeof(t_parse));
 	if (parse == NULL)
 		return (NULL);
 	parse->command = ft_strdup(stringa[0]);

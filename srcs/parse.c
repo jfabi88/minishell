@@ -32,7 +32,7 @@ int	ft_check_red2(char *line)
 	int	i;
 
 	i = 0;
-	if (ft_is_in_str("!\"#&\'()\\;`<>", line[i]) == 0 && \
+	if (ft_is_in_str("!#&()\\;`<>", line[i]) == 1 && \
 	 (line[i + 1] != ' ' || line[i + 1] != 0))
 	{
 		ft_putstr_fd("#: syntax error near unexpected token `", 2);
@@ -40,7 +40,7 @@ int	ft_check_red2(char *line)
 		ft_putstr_fd("'\n", 2);
 		return (-1);
 	}
-	else if (ft_is_in_str("/~", line[i]) == 0 && \
+	else if (ft_is_in_str("/~", line[i]) == 1 && \
 	 (line[i + 1]!= ' ' || line[i + 1]!= 0))
 	{
 		ft_putstr_fd("#: ", 2);
@@ -65,7 +65,7 @@ int	ft_check_red(char *line, char c)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	if (ft_is_in_str("\"#&\'()*\\;?`><", line[i]) == 0 && \
+	if (ft_is_in_str("\"#&\'()*\\;?`><", line[i]) == 1 && \
 	 (line[i + 1] == ' ' || line[i + 1] == 0))
 	{
 		ft_putstr_fd("#: syntax error near unexpected token `", 2);
@@ -73,7 +73,7 @@ int	ft_check_red(char *line, char c)
 		ft_putstr_fd("'\n", 2);
 		return (-1);
 	}
-	else if (ft_is_in_str("./~", line[i]) == 0 && \
+	else if (ft_is_in_str("./~", line[i]) == 1 && \
 	 (line[i + 1] == ' ' || line[i + 1] == 0))
 	{
 		ft_putstr_fd("#: ", 2);
@@ -82,9 +82,8 @@ int	ft_check_red(char *line, char c)
 		return (-1);
 	}
 	else
-		return (ft_check_red2(line + i));
+		return (ft_check_red2(line + i + 1));
 }
-
 
 int	ft_flag_check(char *line)
 {
@@ -105,7 +104,7 @@ int	ft_flag_check(char *line)
 			flg = 0;
 		else if ((line[i] == '<' || line[i] == '>') && flg == 0)
 		{
-			if (ft_check_red(line + i, line[i]) == -1);
+			if (ft_check_red(line + i + 1, line[i]) == -1)
 				return (-1);
 		}
 		i++;
@@ -115,19 +114,55 @@ int	ft_flag_check(char *line)
 	return (1);
 }
 
-char	**ft_parse_lst(char *line)
+int	ft_create_str_parse(char **mtx, char *line)
 {
 	int	i;
-	int	len;
+	int	k;
+	int num;
+
+	i = 0;
+	k = 0;
+	num = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+			num = ft_dollar(line, mtx, &k, &i);
+		else if (line[i] == '\'')
+			num = ft_single_quote(line, mtx, &k, &i);
+		else if (line[i] == '\"')
+			num = ft_double_quote(line, mtx, &k, &i);
+		else if (line[i] == '>' || line[i] == '<')
+			num = ft_red(line, mtx, &k, &i);
+		else if (line[i] != ' ' && mtx[k])
+			num = ft_else(line, mtx, &k, &i);
+		if (num == -1)
+			return (-1);
+		i++;
+	}
+	mtx[k] == NULL;
+	return (1);
+}
+
+char	**ft_parse_lst(char *line)
+{
+	int		i;
+	int		len;
 	char	**tmp;
 
 	i = 0;
 	tmp = NULL;
 	if (ft_flag_check(line) == -1)
-		return (-1);
+		return (NULL);
 	len = ft_matlen_parse(line);
-	printf("len : %d\n", len);
-	// tmp = malloc(sizeof(char *))
+	//printf("len : %d\n", len);//------------DEBUG
+	tmp = malloc(sizeof(char *) * (len + 1));
+	if (tmp == NULL)
+		return (NULL);
+	if (ft_create_str_parse(tmp, line) == -1)
+	{
+		ft_free_matrix(tmp);
+		return (-1);
+	}
 	return (tmp);
 }
 /*	FLAGS DI INTERESSE :
