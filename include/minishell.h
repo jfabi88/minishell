@@ -63,6 +63,9 @@ int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
 
+/*parse.c*/
+char	**ft_parse_lst(char *line);
+
 /* parse_utils.c */
 
 void	ft_free_parse(t_parse *parse);
@@ -72,5 +75,7 @@ t_parse	*ft_create_parse(char **stringa);
 
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
+int		ft_find_next_c(char *str, char c);
+int		ft_is_in_str(char *str, char c);
 
 #endif

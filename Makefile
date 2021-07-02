@@ -11,6 +11,7 @@ SRCS		=	\
 				srcs/flag_utils.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
+				srcs/parse.c \
 				srcs/parse_utils.c \
 				srcs/pwd.c \
 				srcs/utils.c

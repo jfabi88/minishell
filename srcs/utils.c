@@ -19,3 +19,27 @@ int	ft_find_strposition(char *str, char **matrix)
 	}
 	return (-1);
 }
+
+int	ft_find_next_c(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
+
+int	ft_is_in_str(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (c == str[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
