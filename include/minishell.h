@@ -76,6 +76,6 @@ t_parse	*ft_create_parse(char **stringa);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 int		ft_find_next_c(char *str, char c);
-int		ft_is_in_str(char *str, char c);
+int		ft_is_in_str(const char *str, char c);
 
 #endif

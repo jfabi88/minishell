@@ -30,7 +30,7 @@ int	ft_find_next_c(char *str, char c)
 	return (i);
 }
 
-int	ft_is_in_str(char *str, char c)
+int	ft_is_in_str(const char *str, char c)
 {
 	int	i;
 
