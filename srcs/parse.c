@@ -27,6 +27,35 @@ static int	ft_matlen_parse(char *line)
 	return (len + flag_str);
 }
 
+int	ft_check_red2(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (ft_is_in_str("!\"#&\'()\\;`<>", line[i]) == 0 && \
+	 (line[i + 1] != ' ' || line[i + 1] != 0))
+	{
+		ft_putstr_fd("#: syntax error near unexpected token `", 2);
+		ft_putchar_fd(line[i], 2);
+		ft_putstr_fd("'\n", 2);
+		return (-1);
+	}
+	else if (ft_is_in_str("/~", line[i]) == 0 && \
+	 (line[i + 1]!= ' ' || line[i + 1]!= 0))
+	{
+		ft_putstr_fd("#: ", 2);
+		ft_putchar_fd(line[i], 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		return (-1);
+	}
+	else if (line[i] == 0)
+	{
+		ft_putstr_fd("#: syntax error near unexpected token `newline'\n", 2);
+		return (-1);
+	}
+	return (1);
+}
+
 int	ft_check_red(char *line, char c)
 {
 	int	i;
@@ -36,21 +65,24 @@ int	ft_check_red(char *line, char c)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	if (ft_is_in_str("\"#&\'()*\\;?`", line[i]) == 0)
+	if (ft_is_in_str("\"#&\'()*\\;?`><", line[i]) == 0 && \
+	 (line[i + 1] == ' ' || line[i + 1] == 0))
 	{
 		ft_putstr_fd("#: syntax error near unexpected token `", 2);
 		ft_putchar_fd(line[i], 2);
 		ft_putstr_fd("'\n", 2);
 		return (-1);
 	}
-	else if (ft_is_in_str("./~", line[i]) == 0)
+	else if (ft_is_in_str("./~", line[i]) == 0 && \
+	 (line[i + 1] == ' ' || line[i + 1] == 0))
 	{
 		ft_putstr_fd("#: ", 2);
 		ft_putchar_fd(line[i], 2);
 		ft_putstr_fd(": Is a directory\n", 2);
 		return (-1);
 	}
-	return (1);
+	else
+		return (ft_check_red2(line + i));
 }
 
 
@@ -72,9 +104,14 @@ int	ft_flag_check(char *line)
 		else if (line[i] == '\'' && flg == 2)
 			flg = 0;
 		else if ((line[i] == '<' || line[i] == '>') && flg == 0)
-			flg = ft_check_red(line + i, line[i]);
+		{
+			if (ft_check_red(line + i, line[i]) == -1);
+				return (-1);
+		}
 		i++;
 	}
+	if (flg != 0)
+		return (-1);
 	return (1);
 }
 
