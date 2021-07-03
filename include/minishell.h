@@ -41,7 +41,7 @@ char	*ft_create_home_path(t_list *list);
 
 int	ft_len_dollar(char *line);
 int	ft_change_dollar(char *dst, char *src);
-int	ft_dollar_manager(char *line);
+int	ft_dollar_manager(char **line);
 
 /* env_utils.c */
 
@@ -70,14 +70,14 @@ char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
 
 /* parse.c */
-char	**ft_parse_lst(char *line);
+char	**ft_parse_lst(char **line);
 
 /* parse_manager.c */
 
 //int	ft_dollar(char *line, char **mtx, int *k, int *i);
 int	ft_single_quote(char *line, char **mtx, int *k, int *i);
 int	ft_double_quote(char *line, char **mtx, int *k, int *i);
-// int	ft_red(char *line, char **mtx, int *k, int *i);
+int	ft_red(char *line, char **mtx, int *k, int *i);
 int	ft_else(char *line, char **mtx, int *k, int *i);
 
 /* parse_utils.c */

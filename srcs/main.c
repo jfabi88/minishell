@@ -6,7 +6,7 @@
 /*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/02 14:45:09 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/03 16:57:15 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_execute(t_parse *parse)
 	return (num);
 }
 
-static t_parse	*ft_parser(char *line)
+static t_parse	*ft_parser(char **line)
 {
 	char	**stringa;
 	t_parse	*parse;
@@ -63,7 +63,7 @@ static t_parse	*ft_parser(char *line)
 	if (line && *line)
 	{
 		ft_parse_lst(line);
-		stringa = ft_split(line, ' ');                       //malloc / parsing starts here! / change split with ad hoc func
+		stringa = ft_split(*line, ' ');                       //malloc / parsing starts here! / change split with ad hoc func
 		if (stringa == NULL)
 			return (NULL);
 		parse = ft_create_parse(stringa);                    //malloc
@@ -85,7 +85,7 @@ int	main(int argc, char *argv[], char *env[])
 		add_history(line);
 	while (line != 0)
 	{
-		parse = ft_parser(line);						//malloc
+		parse = ft_parser(&line);						//malloc
 		free(line);
 		if (parse != NULL)
 		{

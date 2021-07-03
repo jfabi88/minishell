@@ -11,10 +11,10 @@
 **			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
 */
 
-int	ft_dollar(char *line, char **mtx, int *k, int *i)// forse questa non serve più... (ft_else?)	
-{
-	return (1);
-}
+// int	ft_dollar(char *line, char **mtx, int *k, int *i)// forse questa non serve più... (ft_else?)	
+// {
+// 	return (1);
+// }
 
 /*	ft_single_quote	:	in questa funzione dobbiamo fare in modo che :
 **		[V]	venga scritto il contenuto nelle <single_quotes>,
@@ -31,7 +31,7 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 	int		j;
 
 	j = 0;
-	i++;
+	*i += 1;
 	while (line[*i + j] != '\'')
 		j++;
 	tmp = malloc(j + 1);
@@ -39,11 +39,11 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 		return (-1);
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
-	k++;
-	i++;
-	if (tmp[*i] == 0)
-		return (0);
+	*k += 1;
+	*i += j;
 	printf("line at the end of ft_single_quote : %s\n", line);//	<---------DEBUG
+	if (line[*i] == 0)
+		return (0);
 	return (1);
 }
 
@@ -65,19 +65,19 @@ int	ft_double_quote(char *line, char **mtx, int *k, int *i)
 	int		j;
 
 	j = 0;
-	i++;
+	*i += 1;
 	while (line[*i + j] != '\"')
 		j++;
 	tmp = malloc(j + 1);
-	if (!tmp)
+	if (tmp == NULL)
 		return (-1);
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
-	k++;
-	i++;
-	if (tmp[*i] == 0)
+	*k += 1;
+	*i += j + 1;
+	printf("line at the end of ft_double_quote : %s\n", mtx[*k - 1]);//	<---------DEBUG
+	if (line[*i] == 0)
 		return (0);
-	printf("line at the end of ft_double_quote : %s\n", mtx[*k]);//	<---------DEBUG
 	return (1);
 }
 
@@ -118,14 +118,16 @@ int	ft_red(char *line, char **mtx, int *k, int *i)//	27 lines
 		flg--;
 		j++;
 	}
+	printf("Il valore di j e': %d\n", j);
 	tmp = malloc(j + 1);
-	if (!tmp)
+	if (tmp == NULL)
 		return (-1);
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
-	k++;
-	i++;
-	if (tmp[*i] == 0)
+	*k += 1;
+	*i += j;
+	printf("line at the end of ft_red : |%s|\n", mtx[*k - 1]);//	<---------DEBUG
+	if (line[*i] == 0)
 		return (0);
 	return (1);
 }
@@ -145,18 +147,16 @@ int	ft_else(char *line, char **mtx, int *k, int *i)
 
 	j = 0;
 	while (line[*i + j] && !ft_is_in_str("\"\' <>", line[*i + j]))
-	{
 		j++;
-	}
 	tmp = malloc(j + 1);
-	if (!tmp)
+	if (tmp == NULL)
 		return (-1);
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
-	k++;
-	i++;
-	if (tmp[*i] == 0)
+	*k += 1;
+	*i += j;
+	printf("line at the end of ft_else : |%s|\n", mtx[*k - 1]);//	<---------DEBUG
+	if (line[*i] == 0)
 		return (0);
-	printf("line at the end of ft_else : %s\n", mtx[*k]);//	<---------DEBUG
 	return (1);
 }

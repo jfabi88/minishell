@@ -125,25 +125,26 @@ int	ft_create_str_parse(char **mtx, char *line)
 	num = 0;
 	while (line[i])
 	{
-		if (line[i] == '$')//	in teoria non dovremmo più trovarne a questo punto.
-			num = ft_dollar(line, mtx, &k, &i);//	gestisce il $
-		else if (line[i] == '\'')
+		if (line[i] == '\'')
 			num = ft_single_quote(line, mtx, &k, &i);//		gestisce le '
 		else if (line[i] == '\"')
 			num = ft_double_quote(line, mtx, &k, &i);//		gestisce le "
 		else if (line[i] == '>' || line[i] == '<')
 			num = ft_red(line, mtx, &k, &i);//		gestisce >, >>, <, <<
-		else if (line[i] != ' ' && mtx[k])
+		else if (line[i] != ' ')
 			num = ft_else(line, mtx, &k, &i);//		per tutti gli altri casi
+		else
+			i++;
 		if (num == -1)
 			return (-1);
-		i++;
+		else if (num == 0)
+			return (0);
 	}
 	mtx[k] = NULL;
 	return (1);
 }
 
-char	**ft_parse_lst(char *line)
+char	**ft_parse_lst(char **line)
 {
 	int		i;
 	int		len;
@@ -151,16 +152,16 @@ char	**ft_parse_lst(char *line)
 
 	i = 0;
 	tmp = NULL;
-	if (ft_flag_check(line) == -1)
+	if (ft_flag_check(*line) == -1)
 		return (NULL);
 	if (ft_dollar_manager(line) == -1)//	<----------WE ARE HERE!!!
 		return (NULL);
-	len = ft_matlen_parse(line);
+	len = ft_matlen_parse(*line);
 	//printf("len : %d\n", len);//------------DEBUG
 	tmp = malloc(sizeof(char *) * (len + 1));
 	if (tmp == NULL)
 		return (NULL);
-	if (ft_create_str_parse(tmp, line) == -1)
+	if (ft_create_str_parse(tmp, *line) == -1)
 	{
 		ft_free_matrix(tmp);
 		return (NULL);
