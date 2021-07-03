@@ -37,6 +37,12 @@ int		ft_check_export(t_parse *parse);
 char	*ft_create_path(t_list *list, char *str);
 char	*ft_create_home_path(t_list *list);
 
+/* dollar.c */
+
+int	ft_len_dollar(char *line);
+int	ft_change_dollar(char *dst, char *src);
+int	ft_dollar_manager(char *line);
+
 /* env_utils.c */
 
 char	*ft_find_env(t_list *list, char *env, int len);
@@ -68,14 +74,11 @@ char	**ft_parse_lst(char *line);
 
 /* parse_manager.c */
 
-int	ft_len_dollar(char *line);
-int	ft_change_dollar(char *dst, char *src);
-int	ft_dollar_manager(char *line);
 //int	ft_dollar(char *line, char **mtx, int *k, int *i);
 int	ft_single_quote(char *line, char **mtx, int *k, int *i);
-// int	ft_double_quote(char *line, char **mtx, int *k, int *i);
+int	ft_double_quote(char *line, char **mtx, int *k, int *i);
 // int	ft_red(char *line, char **mtx, int *k, int *i);
-// int	ft_else(char *line, char **mtx, int *k, int *i);
+int	ft_else(char *line, char **mtx, int *k, int *i);
 
 /* parse_utils.c */
 

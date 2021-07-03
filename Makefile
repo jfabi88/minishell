@@ -3,6 +3,7 @@ NAME		= minishell
 SRCS		=	\
 				srcs/cd.c \
 				srcs/create_path.c \
+				srcs/dollar.c \
 				srcs/echo.c \
 				srcs/env_utils.c \
 				srcs/exit.c \
