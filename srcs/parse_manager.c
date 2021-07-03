@@ -66,6 +66,7 @@ int	ft_dollar_manager(char *line)// 26 lines
 	}
 	free (line);
 	line = tmp;
+	printf("line at the end of ft_dollar_manager : %s\n", line);//	<---------DEBUG
 	return (1);
 }
 
@@ -80,7 +81,7 @@ int	ft_dollar_manager(char *line)// 26 lines
 **			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
 */
 
-int	ft_dollar(char *line, char **mtx, int *k, int *i)	
+int	ft_dollar(char *line, char **mtx, int *k, int *i)// forse questa non serve più... (ft_else?)	
 {
 	return (1);
 }
@@ -100,7 +101,7 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 	int		j;
 
 	j = 0;
-	*i++;
+	i++;
 	while (line[*i + j] != '\'')
 		j++;
 	tmp = malloc(j + 1);
@@ -108,32 +109,60 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 		return (-1);
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
-	*k++;
-	*i++;
+	k++;
+	i++;
+	if (tmp[*i] == 0)
+		return (0);
+	printf("line at the end of ft_single_quote : %s\n", line);//	<---------DEBUG
 	return (1);
 }
 
 /*	in questa funzione dobbiamo fare in modo che :
 **		[ ]	venga scritto il contenuto nelle <double_quotes>,
-**			ivi compresi spazi, separatori, ecc, FATTA ECCEZIONE per $;
-**		[ ]	in caso di $ richiamare la funzione ft_dollar per sostituire
-**			eventuale definizione (dove presente) nella stessa posizione
-**			dove era $***;
+**			ivi compresi spazi, separatori, ecc, *FATTA ECCEZIONE PER $;
 **		[ ]	alla fine la funzione restituisca:
 **			a.	1 se il processo di scrittura è andato a buon fine;
 **			b.	-1 se è intercorso un errore;
 **			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
+**
+**		*	viene gestito in fase di check (ft_parse_lst/ft_dollar_manager) e sostituito
+**			in ft_change_dollar.
 */
 
 int	ft_double_quote(char *line, char **mtx, int *k, int *i)
 {
+	char	*tmp;
+	int		j;
+
+	j = 0;
+	i++;
+	while (line[*i + j] != '\"')
+		j++;
+	tmp = malloc(j + 1);
+	if (!tmp)
+		return (-1);
+	ft_strlcpy(tmp, line + *i, j + 1);
+	mtx[*k] = tmp;
+	k++;
+	i++;
+	if (tmp[*i] == 0)
+		return (0);
+	printf("line at the end of ft_double_quote : %s\n", mtx[*k]);//	<---------DEBUG
 	return (1);
 }
 
 /*	in questa funzione dobbiamo fare in modo che :
 **		[ ] la funzione esamini il char successivo della stringa (partendo da < o >)
-**			e in caso di multipli < o >, scriverne fino a un max di 3 nella stringa
-**			di riferimento in mtx.
+**			e in caso di multipli < o >, scriverne fino a un max di (3 se <; 2 se <)
+**			nella stringa di riferimento in mtx.
+**		[ ]	COMPORTAMENTO DI <<<:	se trova riscontro con valore a sx nell'elemento a dx,
+**									lo stampa a video, altrimenti "bash: <elm_sx>: command not found";
+**		[ ]	COMPORTAMENTO DI << :	apre quote, in attesa di ricevere in input elemento dx. Quando
+**									questo avviene, si chiude quote e stampa valore sx;
+**		[ ]	COMPORTAMENTO DI >> :	crea un file con nome elemento dx (se non esiste) e scrive
+**									al suo interno il valore sx (appended);
+**		[ ]	COMPORTAMENTO DI >	:	crea un file con nome elemento dx (se non esiste) e scrive
+**									al suo interno il valore sx, sovrascrivendone i precedenti valori.
 **		[ ]	alla fine la funzione restituisca:
 **			a.	1 se il processo di scrittura è andato a buon fine;
 **			b.	-1 se è intercorso un errore;
@@ -142,6 +171,12 @@ int	ft_double_quote(char *line, char **mtx, int *k, int *i)
 
 int	ft_red(char *line, char **mtx, int *k, int *i)
 {
+	char	*tmp;
+	int		flg;// serve a contare quanti > (max 2, a 3 da syntax error) o < (max 3) vengono trovati
+	int		j;
+
+	j = 0;
+	flg = 0;
 	return (1);
 }
 
@@ -161,8 +196,17 @@ int	ft_else(char *line, char **mtx, int *k, int *i)
 	j = 0;
 	while (line[*i + j] && !ft_is_in_str("\"\' <>", line[*i + j]))
 	{
-		if ()
 		j++;
 	}
+	tmp = malloc(j + 1);
+	if (!tmp)
+		return (-1);
+	ft_strlcpy(tmp, line + *i, j + 1);
+	mtx[*k] = tmp;
+	k++;
+	i++;
+	if (tmp[*i] == 0)
+		return (0);
+	printf("line at the end of ft_else : %s\n", mtx[*k]);//	<---------DEBUG
 	return (1);
 }

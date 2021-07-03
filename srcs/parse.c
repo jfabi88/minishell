@@ -125,7 +125,7 @@ int	ft_create_str_parse(char **mtx, char *line)
 	num = 0;
 	while (line[i])
 	{
-		if (line[i] == '$')
+		if (line[i] == '$')//	in teoria non dovremmo più trovarne a questo punto.
 			num = ft_dollar(line, mtx, &k, &i);//	gestisce il $
 		else if (line[i] == '\'')
 			num = ft_single_quote(line, mtx, &k, &i);//		gestisce le '
@@ -139,7 +139,7 @@ int	ft_create_str_parse(char **mtx, char *line)
 			return (-1);
 		i++;
 	}
-	mtx[k] == NULL;
+	mtx[k] = NULL;
 	return (1);
 }
 
@@ -163,7 +163,7 @@ char	**ft_parse_lst(char *line)
 	if (ft_create_str_parse(tmp, line) == -1)
 	{
 		ft_free_matrix(tmp);
-		return (-1);
+		return (NULL);
 	}
 	return (tmp);
 }

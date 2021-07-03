@@ -68,6 +68,15 @@ char	**ft_parse_lst(char *line);
 
 /* parse_manager.c */
 
+int	ft_len_dollar(char *line);
+int	ft_change_dollar(char *dst, char *src);
+int	ft_dollar_manager(char *line);
+//int	ft_dollar(char *line, char **mtx, int *k, int *i);
+int	ft_single_quote(char *line, char **mtx, int *k, int *i);
+// int	ft_double_quote(char *line, char **mtx, int *k, int *i);
+// int	ft_red(char *line, char **mtx, int *k, int *i);
+// int	ft_else(char *line, char **mtx, int *k, int *i);
+
 /* parse_utils.c */
 
 void	ft_free_parse(t_parse *parse);
