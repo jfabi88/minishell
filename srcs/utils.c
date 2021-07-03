@@ -30,6 +30,16 @@ int	ft_find_next_c(char *str, char c)
 	return (i);
 }
 
+int	ft_find_next_str(char *str, const char *ref)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_is_in_str(ref, str[i]) == 0)
+		i++;
+	return (i);
+}
+
 int	ft_is_in_str(const char *str, char c)
 {
 	int	i;

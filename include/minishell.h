@@ -39,7 +39,7 @@ char	*ft_create_home_path(t_list *list);
 
 /* env_utils.c */
 
-char	*ft_find_env(t_list *list, char *env);
+char	*ft_find_env(t_list *list, char *env, int len);
 int		ft_change_env(t_list *list, char *dst, char *src);
 t_list	*ft_new_datalist(char *env, char *content);
 void	ft_free_listenv(t_list *env);
@@ -63,8 +63,10 @@ int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
 
-/*parse.c*/
+/* parse.c */
 char	**ft_parse_lst(char *line);
+
+/* parse_manager.c */
 
 /* parse_utils.c */
 
@@ -76,6 +78,7 @@ t_parse	*ft_create_parse(char **stringa);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 int		ft_find_next_c(char *str, char c);
+int		ft_find_next_str(char *str, const char *ref);
 int		ft_is_in_str(const char *str, char c);
 
 #endif

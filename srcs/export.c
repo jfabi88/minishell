@@ -17,7 +17,7 @@ static int	ft_create_export(char *str)
 	matrix = ft_split(str, '=');
 	if (matrix == NULL)
 		return (-1);
-	if (ft_find_env(list_env, matrix[0]) == NULL)
+	if (ft_find_env(list_env, matrix[0], ft_strlen(matrix[0])) == NULL)
 	{
 		list = ft_new_datalist(matrix[0], matrix[1]);
 		if (list == NULL)
