@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 static int	ft_create_list_env(char *env[])
 {
 	int		i;
