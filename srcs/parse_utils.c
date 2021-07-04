@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static char	**ft_create_strinput(char **mat)
 {
 	char	**ret;
