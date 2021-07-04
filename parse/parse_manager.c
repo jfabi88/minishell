@@ -137,7 +137,7 @@ int	ft_create_str_parse(char **mtx, char *line)
 {
 	int	i;
 	int	k;
-	int num;
+	int	num;
 
 	i = 0;
 	k = 0;
