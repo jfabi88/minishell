@@ -39,9 +39,9 @@ char	*ft_create_home_path(t_list *list);
 
 /* dollar.c */
 
-int	ft_len_dollar(char *line);
-int	ft_change_dollar(char *dst, char *src);
-int	ft_dollar_manager(char **line);
+int		ft_len_dollar(char *line);
+int		ft_change_dollar(char *dst, char *src);
+char	*ft_dollar_manager(char *line);
 
 /* env_utils.c */
 
@@ -49,6 +49,10 @@ char	*ft_find_env(t_list *list, char *env, int len);
 int		ft_change_env(t_list *list, char *dst, char *src);
 t_list	*ft_new_datalist(char *env, char *content);
 void	ft_free_listenv(t_list *env);
+
+/* error */
+
+int	ft_error(int id, char c);
 
 /* file_utils.c */
 
@@ -88,6 +92,7 @@ t_parse	*ft_create_parse(char **stringa);
 /* utils.c */
 
 void	*ft_free_null(void	*obj);
+int		ft_between_c(char *str, int c_pos, char c);
 int		ft_find_strposition(char *str, char **matrix);
 int		ft_find_next_c(char *str, char c);
 int		ft_find_next_str(char *str, const char *ref);

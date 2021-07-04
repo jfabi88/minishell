@@ -40,7 +40,7 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 	ft_strlcpy(tmp, line + *i, j + 1);
 	mtx[*k] = tmp;
 	*k += 1;
-	*i += j;
+	*i += j + 1;
 	printf("line at the end of ft_single_quote : %s\n", line);//	<---------DEBUG
 	if (line[*i] == 0)
 		return (0);
@@ -118,7 +118,6 @@ int	ft_red(char *line, char **mtx, int *k, int *i)//	27 lines
 		flg--;
 		j++;
 	}
-	printf("Il valore di j e': %d\n", j);
 	tmp = malloc(j + 1);
 	if (tmp == NULL)
 		return (-1);
@@ -146,7 +145,7 @@ int	ft_else(char *line, char **mtx, int *k, int *i)
 	int		j;
 
 	j = 0;
-	while (line[*i + j] && !ft_is_in_str("\"\' <>", line[*i + j]))
+	while (line[*i + j] && !ft_is_in_str(" <>", line[*i + j]))
 		j++;
 	tmp = malloc(j + 1);
 	if (tmp == NULL)

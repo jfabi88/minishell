@@ -6,6 +6,7 @@ SRCS		=	\
 				srcs/dollar.c \
 				srcs/echo.c \
 				srcs/env_utils.c \
+				srcs/error.c \
 				srcs/exit.c \
 				srcs/export.c \
 				srcs/file_utils.c \

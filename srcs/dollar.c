@@ -39,41 +39,31 @@ int	ft_change_dollar(char *dst, char *src)
 	return (ft_strlen(content));
 }
 
-int	ft_dollar_manager(char **line)// 26 lines
+char	*ft_dollar_manager(char *line)// 26 lines
 {
 	int		i;
 	int		j;
-	int		flag;
 	char	*tmp;
-	char	*line2;
 		
 	i = 0;
 	j = 0;
-	printf("%d\n", ft_len_dollar(*line));
-	tmp = malloc(ft_len_dollar(*line) + 1);
+	tmp = malloc(ft_len_dollar(line) + 1);
 	if (tmp == NULL)
-		return (-1);
-	flag = 1;
-	line2 = *line;
-	while (line2[i])
+		return (NULL);
+	while (line[i])
 	{
-		if (line2[i] == '\'')
-			flag *= -1;
-		else if (line2[i] == '$' && flag == 1)
+		if (line[i] == '$' && ft_between_c(line, i, '\'') == 0)
 		{
-			j += ft_change_dollar(tmp + j, line2 + i + 1);
-			i += ft_find_next_str(line2 + i + 1, " <>$") + 1;
+			j += ft_change_dollar(tmp + j, line + i + 1);
+			if (ft_between_c(line, i, '\"'))
+				i += ft_find_next_str(line + i + 1, " \"<>$") + 1;
+			else
+				i += ft_find_next_str(line + i + 1, " <>$") + 1;
 		}
 		else
-		{
-			tmp[j] = line2[i];
-			j++;
-			i++;
-		}
+			tmp[j++] = line[i++];
 	}
 	tmp[j] = 0;
-	free (line2);
-	*line = tmp;
-	printf("line at the end of ft_dollar_manager : %s\n", *line);//	<---------DEBUG
-	return (1);
+	return (tmp);
+	printf("line at the end of ft_dollar_manager : %s\n", tmp);//	<---------DEBUG
 }
