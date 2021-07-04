@@ -4,7 +4,7 @@ static void	ft_pwd(int fd)
 {
 	char	*pwd;
 
-	pwd = ft_find_env(list_env, "PWD", 3);
+	pwd = ft_find_env(g_list_env, "PWD", 3);
 	ft_putstr_fd(pwd, fd);
 	ft_putchar_fd('\n', fd);
 }

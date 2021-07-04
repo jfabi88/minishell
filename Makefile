@@ -1,23 +1,23 @@
 NAME		= minishell
 
 SRCS		=	\
-				parse/dollar.c \
+				command/cd.c \
+				command/echo.c \
+				command/exit.c \
+				command/export.c \
+				command/pwd.c \
+				parse/parse_dollar.c \
 				parse/parse_check.c \
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
-				srcs/cd.c \
 				srcs/create_path.c \
-				srcs/echo.c \
 				srcs/env_utils.c \
 				srcs/error.c \
-				srcs/exit.c \
-				srcs/export.c \
 				srcs/file_utils.c \
 				srcs/flag_utils.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
-				srcs/pwd.c \
 				srcs/utils.c \
 				srcs/utils_2.c
 

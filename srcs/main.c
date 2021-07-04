@@ -6,7 +6,7 @@
 /*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/04 14:55:02 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/07/04 16:57:08 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_create_list_env(char *env[])
 			ft_free_listenv(list);
 			return (-1);
 		}
-		ft_lstadd_back(&list_env, list);
+		ft_lstadd_back(&g_list_env, list);
 		ft_free_matrix(matrix);									//free
 		i++;
 	}
@@ -96,6 +96,6 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(line);
 	}
 	free(line);
-	ft_free_listenv(list_env);							//free
+	ft_free_listenv(g_list_env);							//free
 	ft_putstr_fd("exit", 1);
 }

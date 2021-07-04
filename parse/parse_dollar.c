@@ -18,7 +18,7 @@ static int	ft_len_dollar(char *line)
 		else if (line[i] == '$' && flag == 1)
 		{
 			len = ft_find_next_str(line + i + 1, " <>$");
-			tot += ft_strlen(ft_find_env(list_env, line + i, len));
+			tot += ft_strlen(ft_find_env(g_list_env, line + i, len));
 			i += len;
 		}
 		else
@@ -37,7 +37,7 @@ static int	ft_change_dollar(char *dst, char *src, int src_pos)
 		len = ft_find_next_str(src + src_pos + 1, " \"<>$");
 	else
 		len = ft_find_next_str(src + src_pos + 1, " <>$");
-	content = ft_find_env(list_env, src + src_pos + 1, len);
+	content = ft_find_env(g_list_env, src + src_pos + 1, len);
 	ft_memcpy(dst, content, ft_strlen(content));
 	return (ft_strlen(content));
 }

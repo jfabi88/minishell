@@ -22,9 +22,9 @@ typedef struct s_parse
 	char	**output;
 }				t_parse;
 
-t_list	*list_env;
+t_list	*g_list_env;
 
-/* command */
+/* COMMAND */
 
 int		ft_check_echo(t_parse *parse);
 int		ft_check_pwd(t_parse *parse);
@@ -32,14 +32,35 @@ int		ft_check_cd(t_parse *parse);
 int		ft_check_exit(t_parse *parse);
 int		ft_check_export(t_parse *parse);
 
+/* PARSE */
+
+/* parse.c */
+
+char	**ft_parse_lst(char **line);
+
+/* parse_check.c */
+
+int		ft_parse_check(char *line);
+
+/* parse_dollar.c */
+
+char	*ft_dollar_manager(char *line);
+
+/* parse_manager.c */
+
+int		ft_create_str_parse(char **mtx, char *line);
+
+/* parse_utils.c */
+
+void	ft_free_parse(t_parse *parse);
+t_parse	*ft_create_parse(char **stringa);
+
+/* SRCS */
+
 /* create_path */
 
 char	*ft_create_path(t_list *list, char *str);
 char	*ft_create_home_path(t_list *list);
-
-/* dollar.c */
-
-char	*ft_dollar_manager(char *line);
 
 /* env_utils.c */
 
@@ -50,7 +71,7 @@ void	ft_free_listenv(t_list *env);
 
 /* error */
 
-int	ft_error(int id, char c, char *str);
+int		ft_error(int id, char c, char *str);
 
 /* file_utils.c */
 
@@ -70,23 +91,6 @@ int		ft_is_flag(char *str);
 int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
-
-/* parse.c */
-
-char	**ft_parse_lst(char **line);
-
-/* parse_check.c */
-
-int		ft_parse_check(char *line);
-
-/* parse_manager.c */
-
-int		ft_create_str_parse(char **mtx, char *line);
-
-/* parse_utils.c */
-
-void	ft_free_parse(t_parse *parse);
-t_parse	*ft_create_parse(char **stringa);
 
 /* utils.c */
 

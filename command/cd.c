@@ -8,10 +8,10 @@ static int	ft_cd(char *path, char *input)
 	cd = chdir(path);
 	if (cd == -1)
 		return (ft_error(5, 0, input));
-	content = ft_find_env(list_env, "PWD", 3);
-	if (ft_change_env(list_env, "OLDPWD", content) == -1)
+	content = ft_find_env(g_list_env, "PWD", 3);
+	if (ft_change_env(g_list_env, "OLDPWD", content) == -1)
 		return (-1);
-	if (ft_change_env(list_env, "PWD", path) == -1)
+	if (ft_change_env(g_list_env, "PWD", path) == -1)
 		return (-1);
 	return (1);
 }
@@ -32,11 +32,11 @@ static char	*ft_run_cd(char **output)
 			ft_strlcpy(path, output[i], ft_strlen(output[i]) + 1);
 		}
 		else
-			path = ft_create_path(list_env, output[i]);
+			path = ft_create_path(g_list_env, output[i]);
 		i++;
 	}
 	if (i == 0)
-		path = ft_create_home_path(list_env);
+		path = ft_create_home_path(g_list_env);
 	return (path);
 }
 
