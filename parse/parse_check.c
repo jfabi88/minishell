@@ -56,7 +56,7 @@ int	ft_parse_check(char *line)
 			flg = 2;
 		else if (line[i] == '\"' && flg == 2)
 			flg = 0;
-		if (flg == 0 && ft_is_in_str("><", line[i]))
+		if (flg == 0 && ft_is_in_str("!><", line[i]))
 		{
 			if (ft_flag_check(line + i) == -1)
 				return (-1);
