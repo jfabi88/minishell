@@ -27,14 +27,14 @@ int	ft_change_env(t_list *list, char *dst, char *src)
 	return (1);
 }
 
-char	*ft_find_env(t_list *list, char *env)
+char	*ft_find_env(t_list *list, char *env, int len)
 {
 	char	*temp;
 
 	while (list)
 	{
 		temp = ((t_data *)(list->content))->env;
-		if (ft_strncmp(temp, env, ft_strlen(env) + 1) == 0)
+		if (ft_strncmp(temp, env, len + 1) == 0)
 			return (((t_data *)(list->content))->content);
 		list = list->next;
 	}

@@ -37,12 +37,22 @@ int		ft_check_export(t_parse *parse);
 char	*ft_create_path(t_list *list, char *str);
 char	*ft_create_home_path(t_list *list);
 
+/* dollar.c */
+
+int		ft_len_dollar(char *line);
+int		ft_change_dollar(char *dst, char *src, int src_pos);
+char	*ft_dollar_manager(char *line);
+
 /* env_utils.c */
 
-char	*ft_find_env(t_list *list, char *env);
+char	*ft_find_env(t_list *list, char *env, int len);
 int		ft_change_env(t_list *list, char *dst, char *src);
 t_list	*ft_new_datalist(char *env, char *content);
 void	ft_free_listenv(t_list *env);
+
+/* error */
+
+int	ft_error(int id, char c);
 
 /* file_utils.c */
 
@@ -63,14 +73,29 @@ int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
 
+/* parse.c */
+char	**ft_parse_lst(char **line);
+
+/* parse_manager.c */
+
+//int	ft_dollar(char *line, char **mtx, int *k, int *i);
+int	ft_single_quote(char *line, char **mtx, int *k, int *i);
+int	ft_double_quote(char *line, char **mtx, int *k, int *i);
+int	ft_red(char *line, char **mtx, int *k, int *i);
+int	ft_else(char *line, char **mtx, int *k, int *i);
+
 /* parse_utils.c */
 
-void    ft_free_parse(t_parse *parse);
-t_parse *ft_create_parse(char **stringa);
+void	ft_free_parse(t_parse *parse);
+t_parse	*ft_create_parse(char **stringa);
 
 /* utils.c */
 
 void	*ft_free_null(void	*obj);
+int		ft_between_c(char *str, int c_pos, char c);
 int		ft_find_strposition(char *str, char **matrix);
+int		ft_find_next_c(char *str, char c);
+int		ft_find_next_str(char *str, const char *ref);
+int		ft_is_in_str(const char *str, char c);
 
 #endif
