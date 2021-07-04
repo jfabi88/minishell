@@ -39,8 +39,6 @@ char	*ft_create_home_path(t_list *list);
 
 /* dollar.c */
 
-int		ft_len_dollar(char *line);
-int		ft_change_dollar(char *dst, char *src, int src_pos);
 char	*ft_dollar_manager(char *line);
 
 /* env_utils.c */
@@ -52,7 +50,7 @@ void	ft_free_listenv(t_list *env);
 
 /* error */
 
-int	ft_error(int id, char c);
+int	ft_error(int id, char c, char *str);
 
 /* file_utils.c */
 
@@ -74,15 +72,16 @@ char	**ft_mtrlcpy(char **src, int len);
 void	ft_free_matrix(char **matrix);
 
 /* parse.c */
+
 char	**ft_parse_lst(char **line);
+
+/* parse_check.c */
+
+int		ft_parse_check(char *line);
 
 /* parse_manager.c */
 
-//int	ft_dollar(char *line, char **mtx, int *k, int *i);
-int	ft_single_quote(char *line, char **mtx, int *k, int *i);
-int	ft_double_quote(char *line, char **mtx, int *k, int *i);
-int	ft_red(char *line, char **mtx, int *k, int *i);
-int	ft_else(char *line, char **mtx, int *k, int *i);
+int		ft_create_str_parse(char **mtx, char *line);
 
 /* parse_utils.c */
 
@@ -92,9 +91,12 @@ t_parse	*ft_create_parse(char **stringa);
 /* utils.c */
 
 void	*ft_free_null(void	*obj);
-int		ft_between_c(char *str, int c_pos, char c);
 int		ft_find_strposition(char *str, char **matrix);
-int		ft_find_next_c(char *str, char c);
+
+/* utils_2.c */
+
+int		ft_between_c(char *str, int c_pos, char c);
+int		ft_find_next_c(char *str, int start, char c);
 int		ft_find_next_str(char *str, const char *ref);
 int		ft_is_in_str(const char *str, char c);
 

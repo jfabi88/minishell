@@ -7,12 +7,7 @@ static int	ft_cd(char *path, char *input)
 
 	cd = chdir(path);
 	if (cd == -1)
-	{
-		ft_putstr_fd("#: cd: ",2);
-		ft_putstr_fd(input, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (-1);
-	}
+		return (ft_error(5, 0, input));
 	content = ft_find_env(list_env, "PWD", 3);
 	if (ft_change_env(list_env, "OLDPWD", content) == -1)
 		return (-1);

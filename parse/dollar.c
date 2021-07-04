@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_len_dollar(char *line)
+static int	ft_len_dollar(char *line)
 {
 	int		flag;
 	int		i;
@@ -28,7 +28,7 @@ int	ft_len_dollar(char *line)
 	return (tot);
 }
 
-int	ft_change_dollar(char *dst, char *src, int src_pos)
+static int	ft_change_dollar(char *dst, char *src, int src_pos)
 {
 	int		len;
 	char	*content;
@@ -42,12 +42,12 @@ int	ft_change_dollar(char *dst, char *src, int src_pos)
 	return (ft_strlen(content));
 }
 
-char	*ft_dollar_manager(char *line)// 26 lines
+char	*ft_dollar_manager(char *line)
 {
 	int		i;
 	int		j;
 	char	*tmp;
-		
+
 	i = 0;
 	j = 0;
 	tmp = malloc(ft_len_dollar(line) + 1);
@@ -68,5 +68,5 @@ char	*ft_dollar_manager(char *line)// 26 lines
 	}
 	tmp[j] = 0;
 	return (tmp);
-	printf("line at the end of ft_dollar_manager : %s\n", tmp);//	<---------DEBUG
+	printf("line at the end of ft_dollar_manager : %s\n", tmp);
 }

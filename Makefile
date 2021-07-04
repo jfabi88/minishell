@@ -1,9 +1,13 @@
 NAME		= minishell
 
 SRCS		=	\
+				parse/dollar.c \
+				parse/parse_check.c \
+				parse/parse_manager.c \
+				parse/parse_utils.c \
+				parse/parse.c \
 				srcs/cd.c \
 				srcs/create_path.c \
-				srcs/dollar.c \
 				srcs/echo.c \
 				srcs/env_utils.c \
 				srcs/error.c \
@@ -13,11 +17,9 @@ SRCS		=	\
 				srcs/flag_utils.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
-				srcs/parse.c \
-				srcs/parse_manager.c \
-				srcs/parse_utils.c \
 				srcs/pwd.c \
-				srcs/utils.c
+				srcs/utils.c \
+				srcs/utils_2.c
 
 OBJS		= $(SRCS:.c=.o)
 

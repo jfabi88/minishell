@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		ft_check_exit(t_parse *parse)
+int	ft_check_exit(t_parse *parse)
 {
 	int		fd;
 

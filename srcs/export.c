@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-static void	ft_export_error(char *str)
-{
-	ft_putstr_fd("#: export: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(" : not a valid identifier\n", 2);
-}
-
 static int	ft_create_export(char *str)
 {
 	char	**matrix;
@@ -62,17 +55,11 @@ static int	ft_run_export(char **str)
 	{
 		flag = ft_check_export_format(str[i]);
 		if (flag == -1)
-		{
-			ft_export_error(str[i]);
-			return (-1);
-		}
+			return (ft_error(6, 0, str[i]));
 		else if (flag == 1)
 		{
 			if (ft_create_export(str[i]) == -1)
-			{
-				ft_export_error(str[i]);
-				return (-1);
-			}
+				return (ft_error(6, 0, str[i]));
 		}
 		i++;
 	}

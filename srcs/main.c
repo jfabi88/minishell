@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/03 16:57:15 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/04 14:55:02 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static t_parse	*ft_parser(char **line)
 	if (line && *line)
 	{
 		stringa = ft_parse_lst(line);
-		//stringa = ft_split(*line, ' ');                       //malloc / parsing starts here! / change split with ad hoc func
 		if (stringa == NULL)
 			return (NULL);
 		parse = ft_create_parse(stringa);                    //malloc
