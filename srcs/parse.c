@@ -105,11 +105,9 @@ int	ft_create_str_parse(char **mtx, char *line)
 		else
 			i++;
 		if (num == -1)
-			return (-1);
-		else if (num == 0)
-			return (0);
+			return (num);
 	}
-	mtx[k] = NULL;
+	mtx[k] = 0;
 	return (1);
 }
 
@@ -123,12 +121,11 @@ char	**ft_parse_lst(char **line)
 	if (ft_flag_check(*line) == -1)
 		return (NULL);
 	andr = *line;
-	*line = ft_dollar_manager(*line);//	<----------WE ARE HERE!!!
+	*line = ft_dollar_manager(*line);
 	free (andr);
 	if (*line == NULL)
 		return (NULL);
 	len = ft_matlen_parse(*line);
-	//printf("len : %d\n", len);//------------DEBUG
 	tmp = malloc(sizeof(char *) * (len + 1));
 	if (tmp == NULL)
 		return (NULL);

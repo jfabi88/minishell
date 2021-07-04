@@ -28,13 +28,16 @@ int	ft_len_dollar(char *line)
 	return (tot);
 }
 
-int	ft_change_dollar(char *dst, char *src)
+int	ft_change_dollar(char *dst, char *src, int src_pos)
 {
 	int		len;
 	char	*content;
 
-	len = ft_find_next_str(src, " <>$");
-	content = ft_find_env(list_env, src, len);
+	if (ft_between_c(src, src_pos, '"'))
+		len = ft_find_next_str(src + src_pos + 1, " \"<>$");
+	else
+		len = ft_find_next_str(src + src_pos + 1, " <>$");
+	content = ft_find_env(list_env, src + src_pos + 1, len);
 	ft_memcpy(dst, content, ft_strlen(content));
 	return (ft_strlen(content));
 }
@@ -54,7 +57,7 @@ char	*ft_dollar_manager(char *line)// 26 lines
 	{
 		if (line[i] == '$' && ft_between_c(line, i, '\'') == 0)
 		{
-			j += ft_change_dollar(tmp + j, line + i + 1);
+			j += ft_change_dollar(tmp + j, line, i);
 			if (ft_between_c(line, i, '\"'))
 				i += ft_find_next_str(line + i + 1, " \"<>$") + 1;
 			else

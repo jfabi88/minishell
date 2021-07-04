@@ -62,8 +62,8 @@ static t_parse	*ft_parser(char **line)
 	parse = NULL;
 	if (line && *line)
 	{
-		ft_parse_lst(line);
-		stringa = ft_split(*line, ' ');                       //malloc / parsing starts here! / change split with ad hoc func
+		stringa = ft_parse_lst(line);
+		//stringa = ft_split(*line, ' ');                       //malloc / parsing starts here! / change split with ad hoc func
 		if (stringa == NULL)
 			return (NULL);
 		parse = ft_create_parse(stringa);                    //malloc

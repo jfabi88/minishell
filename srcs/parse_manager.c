@@ -41,7 +41,7 @@ int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 	mtx[*k] = tmp;
 	*k += 1;
 	*i += j + 1;
-	printf("line at the end of ft_single_quote : %s\n", line);//	<---------DEBUG
+	printf("line at the end of ft_single_quote : %s\n", mtx[*k - 1]);//	<---------DEBUG
 	if (line[*i] == 0)
 		return (0);
 	return (1);
@@ -102,11 +102,11 @@ int	ft_double_quote(char *line, char **mtx, int *k, int *i)
 int	ft_red(char *line, char **mtx, int *k, int *i)//	27 lines
 {
 	char	*tmp;
-	int		flg;// serve a contare quanti > (max 2, a 3 da syntax error) o < (max 3) vengono trovati
+	//int		flg;// serve a contare quanti > (max 2, a 3 da syntax error) o < (max 3) vengono trovati
 	int		j;
 
 	j = 0;
-	flg = 0;
+	/*flg = 0;
 	if (line[*i] == '<')
 		flg = 3;
 	else if (line[*i] == '>')
@@ -117,7 +117,9 @@ int	ft_red(char *line, char **mtx, int *k, int *i)//	27 lines
 			return (-1);
 		flg--;
 		j++;
-	}
+	}*/
+	while (line[*i + j] == line[*i])
+		j++;
 	tmp = malloc(j + 1);
 	if (tmp == NULL)
 		return (-1);

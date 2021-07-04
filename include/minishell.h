@@ -40,7 +40,7 @@ char	*ft_create_home_path(t_list *list);
 /* dollar.c */
 
 int		ft_len_dollar(char *line);
-int		ft_change_dollar(char *dst, char *src);
+int		ft_change_dollar(char *dst, char *src, int src_pos);
 char	*ft_dollar_manager(char *line);
 
 /* env_utils.c */
