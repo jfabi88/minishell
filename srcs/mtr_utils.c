@@ -34,7 +34,7 @@ int	ft_mtrlen(char **matrix)
 	return (i);
 }
 
-void	ft_free_matrix(char **matrix)
+void	*ft_free_matrix(char **matrix)
 {
 	int	i;
 
@@ -45,4 +45,5 @@ void	ft_free_matrix(char **matrix)
 		i++;
 	}
 	free(matrix);
+	return (NULL);
 }

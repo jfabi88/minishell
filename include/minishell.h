@@ -98,10 +98,11 @@ int		ft_file_history(void);
 
 int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
-void	ft_free_matrix(char **matrix);
+void	*ft_free_matrix(char **matrix);
 
 /* utils.c */
 
+char	**ft_lst_to_mtx(t_list *list);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 
