@@ -6,7 +6,7 @@
 /*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:16:02 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/02 11:42:34 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/07 16:41:23 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
+	struct s_list	*prev;
 }				t_list;
 
 int				ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/07 15:40:16 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/07 17:36:53 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	ft_create_list_env(char *env[])
 		ft_free_matrix(matrix);									//free
 		i++;
 	}
+	ft_setprev(&g_list_env);
 	return (1);
 }
 
@@ -53,6 +54,8 @@ static int	ft_execute(t_parse *parse, t_list *list)
 		num = ft_check_export(parse);
 	if (ft_strncmp(parse->command, "env", 4) == 0)
 		num = ft_check_env(parse);
+	if (ft_strncmp(parse->command, "unset", 4) == 0)
+		num = ft_check_unset(parse);
 	return (num);
 }
 

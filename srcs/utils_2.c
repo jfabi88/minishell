@@ -57,3 +57,20 @@ int	ft_between_c(char *str, int c_pos, char c)
 		return (1);
 	return (0);
 }
+
+void	ft_setprev(t_list **l)
+{
+	t_list	*head;
+	t_list	*p;
+
+	head = *l;
+	p = (*l)->next;
+	while (p)
+	{
+		p->prev = *l;
+		*l = (*l)->next;
+		p = p->next;
+	}
+	*l = head;
+	(*l)->prev = NULL;
+}

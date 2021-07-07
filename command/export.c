@@ -16,7 +16,10 @@ static int	ft_create_export(char *str)
 		if (list == NULL)
 			ret = -1;
 		else
+		{
 			ft_lstadd_back(&g_list_env, list);
+			ft_setprev(&g_list_env);
+		}
 	}
 	else
 		ret = ft_change_env(g_list_env, matrix[0], matrix[1]) == -1;

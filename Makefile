@@ -7,6 +7,7 @@ SRCS		=	\
 				command/exit.c \
 				command/export.c \
 				command/pwd.c \
+				command/unset.c \
 				gnl/get_next_line_utils.c \
 				gnl/get_next_line.c \
 				parse/parse_dollar.c \

@@ -48,3 +48,13 @@ int	ft_find_strposition(char *str, char **matrix)
 	}
 	return (-1);
 }
+
+void	ft_free_data(t_data *data)
+{
+	t_data	*d;
+
+	d = data;
+	free(d->content);
+	free(d->env);
+	free (data);
+}
