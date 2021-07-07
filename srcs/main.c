@@ -6,7 +6,7 @@
 /*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/04 16:57:08 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/07/07 15:27:15 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_create_list_env(char *env[])
 	return (1);
 }
 
-static int	ft_execute(t_parse *parse)
+static int	ft_execute(t_parse *parse, t_list *list)
 {
 	int	num;
 
@@ -48,7 +48,7 @@ static int	ft_execute(t_parse *parse)
 	if (ft_strncmp(parse->command, "cd", 3) == 0)
 		num = ft_check_cd(parse);
 	if (ft_strncmp(parse->command, "exit", 5) == 0)
-		num = ft_check_exit(parse);
+		num = ft_check_exit(parse, list);
 	if (ft_strncmp(parse->command, "export", 7) == 0)
 		num = ft_check_export(parse);
 	return (num);
@@ -65,7 +65,8 @@ static t_parse	*ft_parser(char **line)
 		stringa = ft_parse_lst(line);
 		if (stringa == NULL)
 			return (NULL);
-		parse = ft_create_parse(stringa);                    //malloc
+		if (ft_mtrlen(stringa) > 0)
+			parse = ft_create_parse(stringa);                    //malloc
 		ft_free_matrix(stringa);                             //free
 	}
 	return (parse);
@@ -74,26 +75,30 @@ static t_parse	*ft_parser(char **line)
 int	main(int argc, char *argv[], char *env[])
 {
 	char	*line;
+	t_list	*list;
 	t_parse	*parse;
 
+	list = NULL;
 	if (argc < 0 || argv == NULL)
 		printf("qualcosa");								//si deve gestire l'errore
 	ft_create_list_env(env);							//malloc
+	if (ft_file_history() == -1)
+		return (-1);
 	line = readline("# Orders, my Lord? ");
 	if (line && ft_strlen(line) > 0)
-		add_history(line);
+		ft_change_history(line, &list);
 	while (line != 0)
 	{
 		parse = ft_parser(&line);						//malloc
 		free(line);
 		if (parse != NULL)
 		{
-			ft_execute(parse);
+			ft_execute(parse, list);
 			ft_free_parse(parse);						//free
 		}
 		line = readline("# Orders, my Lord? ");
 		if (line && ft_strlen(line) > 0)
-			add_history(line);
+			ft_change_history(line, &list);
 	}
 	free(line);
 	ft_free_listenv(g_list_env);							//free

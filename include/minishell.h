@@ -8,6 +8,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "get_next_line.h"
 
 typedef struct s_data
 {
@@ -29,7 +30,7 @@ t_list	*g_list_env;
 int		ft_check_echo(t_parse *parse);
 int		ft_check_pwd(t_parse *parse);
 int		ft_check_cd(t_parse *parse);
-int		ft_check_exit(t_parse *parse);
+int		ft_check_exit(t_parse *parse, t_list *list);
 int		ft_check_export(t_parse *parse);
 
 /* PARSE */
@@ -85,6 +86,12 @@ int		ft_find_flag(char **stringa);
 char	*ft_convert_flag(int flag);
 int		ft_n_flag(char **matrix);
 int		ft_is_flag(char *str);
+
+/* history.c */
+
+int		ft_cpy_history(t_list *list);
+int		ft_change_history(char *line, t_list **list);
+int		ft_file_history(void);
 
 /* mtr_utils.c */
 

@@ -6,6 +6,8 @@ SRCS		=	\
 				command/exit.c \
 				command/export.c \
 				command/pwd.c \
+				gnl/get_next_line_utils.c \
+				gnl/get_next_line.c \
 				parse/parse_dollar.c \
 				parse/parse_check.c \
 				parse/parse_manager.c \
@@ -16,6 +18,7 @@ SRCS		=	\
 				srcs/error.c \
 				srcs/file_utils.c \
 				srcs/flag_utils.c \
+				srcs/history.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
 				srcs/utils.c \
@@ -26,7 +29,7 @@ OBJS		= $(SRCS:.c=.o)
 CFLAGS		= -Wall -Wextra -Werror
 
 %.o :		%.c
-			gcc -c -g -I./include -I./libft $(CFLAGS) $< -o $@
+			gcc -c -g -I./include -I./libft -I./gnl $(CFLAGS) $< -o $@
 
 $(NAME):	$(OBJS)
 			make -C libft
