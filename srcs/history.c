@@ -17,6 +17,7 @@ int	ft_cpy_history(t_list *list)
 		ft_putchar_fd('\n', fd);
 		list = list->next;
 	}
+	free (dst);
 	return (1);
 }
 
