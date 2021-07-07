@@ -30,6 +30,7 @@ t_list	*g_list_env;
 int		ft_check_echo(t_parse *parse);
 int		ft_check_pwd(t_parse *parse);
 int		ft_check_cd(t_parse *parse);
+int		ft_check_env(t_parse *parse);
 int		ft_check_exit(t_parse *parse, t_list *list);
 int		ft_check_export(t_parse *parse);
 

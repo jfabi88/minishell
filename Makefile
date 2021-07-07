@@ -3,6 +3,7 @@ NAME		= minishell
 SRCS		=	\
 				command/cd.c \
 				command/echo.c \
+				command/env.c \
 				command/exit.c \
 				command/export.c \
 				command/pwd.c \

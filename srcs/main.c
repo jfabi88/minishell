@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/07 15:27:15 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/07/07 15:40:16 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static int	ft_execute(t_parse *parse, t_list *list)
 		num = ft_check_exit(parse, list);
 	if (ft_strncmp(parse->command, "export", 7) == 0)
 		num = ft_check_export(parse);
+	if (ft_strncmp(parse->command, "env", 4) == 0)
+		num = ft_check_env(parse);
 	return (num);
 }
 

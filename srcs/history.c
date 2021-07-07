@@ -13,7 +13,6 @@ int	ft_cpy_history(t_list *list)
 		return (fd);
 	while (list)
 	{
-		printf("%s\n", (char *)(list->content));
 		ft_putstr_fd((char *)(list->content), fd);
 		ft_putchar_fd('\n', fd);
 		list = list->next;
