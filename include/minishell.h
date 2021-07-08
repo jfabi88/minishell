@@ -3,10 +3,12 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -67,10 +69,13 @@ char	*ft_create_path(t_list *list, char *str);
 char	*ft_create_minus_path(t_list *list);
 char	*ft_create_home_path(t_list *list);
 
+/* data_utils.c */
+t_data	*ft_malloc_data(int size_env, int size_content);
+t_list	*ft_new_datalist(const char *env, const char *content);
+
 /* env_utils.c */
 char	*ft_find_env(t_list *list, char *env, int len);
 int		ft_change_env(t_list *list, char *dst, char *src);
-t_list	*ft_new_datalist(const char *env, const char *content);
 void	ft_free_listenv(t_list *env);
 int		ft_create_env(t_list *list, const char *env, const char *content);
 
@@ -97,6 +102,9 @@ int		ft_file_history(void);
 int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	*ft_free_matrix(char **matrix);
+
+/* termios.c */
+void	ft_set_termios(void);
 
 /* utils.c */
 char	**ft_lst_to_mtx(t_list *list);

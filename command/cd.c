@@ -29,7 +29,7 @@ static char	*ft_run_cd(char **output)
 	int		i;
 	char	*path;
 
-	i = 0;
+	i = 1;
 	if (output && output[i])
 	{
 		if (ft_strncmp(output[i], "-", 2) == 0)
@@ -45,7 +45,7 @@ static char	*ft_run_cd(char **output)
 			path = ft_create_path(g_list_env, output[i]);
 		i++;
 	}
-	if (i == 0)
+	if (i == 1)
 		path = ft_create_home_path(g_list_env);
 	return (path);
 }
@@ -55,9 +55,9 @@ static int	ft_check_flag(char **input)
 	int	flag;
 
 	flag = 0;
-	if (input[0] == NULL)
+	if (input[1] == NULL)
 		return (0);
-	else if (ft_strncmp(input[0], "-", 2) == 0)
+	else if (ft_strncmp(input[1], "-", 2) == 0)
 		flag = 1;
 	return (flag);
 }
@@ -76,7 +76,7 @@ int	ft_check_cd(t_parse *parse)
 	path = ft_run_cd(parse->input);
 	if (path == NULL)
 		return (-1);
-	num = ft_cd(path, parse->input[0]);
+	num = ft_cd(path, parse->input[1]);
 	if (flag == 1)
 	{
 		ft_putstr_fd(ft_find_env(g_list_env, "PWD", 3), fd);

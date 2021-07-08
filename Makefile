@@ -17,6 +17,7 @@ SRCS		=	\
 				parse/parse_utils.c \
 				parse/parse.c \
 				srcs/create_path.c \
+				srcs/data_utils.c \
 				srcs/env_utils.c \
 				srcs/error.c \
 				srcs/file_utils.c \
@@ -24,6 +25,7 @@ SRCS		=	\
 				srcs/history.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
+				srcs/termios.c \
 				srcs/utils.c \
 				srcs/utils_2.c
 

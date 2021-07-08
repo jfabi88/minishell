@@ -6,7 +6,7 @@
 /*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/07 19:55:35 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/07/08 19:44:47 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,14 @@ static t_parse	*ft_parser(char **line)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	char	*line;
-	t_list	*list;
-	t_parse	*parse;
+	char			*line;
+	t_list			*list;
+	t_parse			*parse;
 
 	list = NULL;
 	if (argc < 0 || argv == NULL)
 		printf("qualcosa");								//si deve gestire l'errore
+	ft_set_termios();
 	ft_create_list_env(env);							//malloc
 	if (ft_file_history() == -1)
 		return (-1);

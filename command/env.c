@@ -6,7 +6,7 @@ static void	ft_env(int fd, t_list *list)
 
 	while (list)
 	{
-		p = ((t_data*)(list->content));
+		p = ((t_data *)(list->content));
 		ft_putstr_fd(p->env, fd);
 		ft_putchar_fd('=', fd);
 		ft_putstr_fd(p->content, fd);
@@ -18,6 +18,7 @@ static void	ft_env(int fd, t_list *list)
 int	ft_check_env(t_parse *parse)
 {
 	int	fd;
+
 	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);

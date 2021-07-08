@@ -32,16 +32,17 @@ static int	ft_unset(t_list *list, char *parse)
 	}
 	if (!list)
 		return (-1);
-	return (1);	
+	return (1);
 }
 
 int	ft_check_unset(t_parse *parse)
 {
 	int	fd;
+
 	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);
-	if (ft_unset(g_list_env, parse->input[0]) == -1)
+	if (ft_unset(g_list_env, parse->input[1]) == -1)
 		return (-1);
 	if (fd != 1)
 		close (fd);

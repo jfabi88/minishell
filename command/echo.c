@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 11:33:23 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/02 14:45:19 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/08 18:09:42 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_echo(char **stringa, int fd)
 	int	flag2;
 
 	flag = 0;
-	i = 0;
+	i = 1;
 	while (stringa && stringa[i] != 0 && ft_strncmp(stringa[i], "-n", 3) == 0)
 	{
 		flag = 1;
@@ -28,7 +28,7 @@ static void	ft_echo(char **stringa, int fd)
 	}
 	while (stringa && stringa[i])
 	{
-		if ((flag == 1 && i == flag2) || (flag == 0 && i == 0))
+		if ((flag == 1 && i == flag2) || (flag == 0 && i == 1))
 			ft_putstr_fd(stringa[i], fd);
 		else
 		{

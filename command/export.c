@@ -53,7 +53,7 @@ static int	ft_run_export(char **str)
 	int	i;
 	int	flag;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
 		flag = ft_check_export_format(str[i]);
