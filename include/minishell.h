@@ -36,6 +36,7 @@ int		ft_check_env(t_parse *parse);
 int		ft_check_exit(t_parse *parse, t_list *list);
 int		ft_check_export(t_parse *parse);
 int		ft_check_unset(t_parse *parse);
+int		ft_execute_command(t_parse *parse);
 
 /*
 **	>---PARSE---<

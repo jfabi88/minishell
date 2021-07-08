@@ -19,5 +19,6 @@ int	ft_check_exit(t_parse *parse, t_list *list)
 		free(list);
 		list = list->next;
 	}
+	ft_putstr_fd("exit\n", 1);
 	exit(0);
 }

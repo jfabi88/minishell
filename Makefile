@@ -1,6 +1,7 @@
 NAME		= minishell
 
 SRCS		=	\
+				command/all_com.c \
 				command/cd.c \
 				command/echo.c \
 				command/env.c \

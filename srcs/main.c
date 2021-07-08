@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/07 17:36:53 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/07/07 19:55:35 by jfabi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,20 @@ static int	ft_execute(t_parse *parse, t_list *list)
 
 	if (ft_strncmp(parse->command, "echo", 5) == 0)
 		num = ft_check_echo(parse);
-	if (ft_strncmp(parse->command, "pwd", 4) == 0)
+	else if (ft_strncmp(parse->command, "pwd", 4) == 0)
 		num = ft_check_pwd(parse);
-	if (ft_strncmp(parse->command, "cd", 3) == 0)
+	else if (ft_strncmp(parse->command, "cd", 3) == 0)
 		num = ft_check_cd(parse);
-	if (ft_strncmp(parse->command, "exit", 5) == 0)
+	else if (ft_strncmp(parse->command, "exit", 5) == 0)
 		num = ft_check_exit(parse, list);
-	if (ft_strncmp(parse->command, "export", 7) == 0)
+	else if (ft_strncmp(parse->command, "export", 7) == 0)
 		num = ft_check_export(parse);
-	if (ft_strncmp(parse->command, "env", 4) == 0)
+	else if (ft_strncmp(parse->command, "env", 4) == 0)
 		num = ft_check_env(parse);
-	if (ft_strncmp(parse->command, "unset", 4) == 0)
+	else if (ft_strncmp(parse->command, "unset", 4) == 0)
 		num = ft_check_unset(parse);
+	else
+		num = ft_execute_command(parse);
 	return (num);
 }
 
