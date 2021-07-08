@@ -14,6 +14,8 @@ static int	ft_error_10(int id, char *str)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(" : not a valid identifier\n", 2);
 	}
+	else if (id == 7)
+		ft_putstr_fd("#: cd: OLDPWD not set\n", 2);
 	return (-1);
 }
 

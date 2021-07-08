@@ -68,6 +68,26 @@ char	*ft_create_path(t_list *list, char *str)
 	return (path);
 }
 
+char	*ft_create_minus_path(t_list *list)
+{
+	int		len;
+	char	*l;
+	char	*path;
+
+	l = ft_find_env(list, "OLDPWD", 6);
+	if (l == NULL)
+	{
+		ft_error(7, 0, NULL);
+		return (NULL);
+	}
+	len = ft_strlen(l);
+	path = malloc(len + 1);
+	if (path == NULL)
+		return (NULL);
+	ft_strlcpy(path, ft_find_env(list, "OLDPWD", 6), len + 1);
+	return (path);
+}
+
 char	*ft_create_home_path(t_list *list)
 {
 	int		len;

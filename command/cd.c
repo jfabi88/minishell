@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	ft_cd(char *path, char *input, int fd, int flag)
+static int	ft_cd(char *path, char *input)
 {
 	int		cd;
 	char	*content;
@@ -9,19 +9,22 @@ static int	ft_cd(char *path, char *input, int fd, int flag)
 	if (cd == -1)
 		return (ft_error(5, 0, input));
 	content = ft_find_env(g_list_env, "PWD", 3);
-	if (ft_change_env(g_list_env, "OLDPWD", content) == -1)
-		return (-1);
+	if (ft_find_env(g_list_env, "OLDPWD", 6) == NULL)
+	{
+		if (ft_create_env(g_list_env, "OLDPWD", content) == -1)
+			return (-1);
+	}
+	else
+	{
+		if (ft_change_env(g_list_env, "OLDPWD", content) == -1)
+			return (-1);
+	}
 	if (ft_change_env(g_list_env, "PWD", path) == -1)
 		return (-1);
-	if (flag == 1)
-	{
-		ft_putstr_fd(ft_find_env(g_list_env, "PWD", 3), fd);
-		ft_putchar_fd('\n', fd);
-	}
 	return (1);
 }
 
-static char	*ft_run_cd(char **output, int *flag)
+static char	*ft_run_cd(char **output)
 {
 	int		i;
 	char	*path;
@@ -30,10 +33,7 @@ static char	*ft_run_cd(char **output, int *flag)
 	if (output && output[i])
 	{
 		if (ft_strncmp(output[i], "-", 2) == 0)
-		{
-			flag = 1;
 			path = ft_create_minus_path(g_list_env);
-		}
 		else if (output[i][0] == '/')
 		{
 			path = malloc(ft_strlen(output[i]) + 1);
@@ -50,6 +50,18 @@ static char	*ft_run_cd(char **output, int *flag)
 	return (path);
 }
 
+static int	ft_check_flag(char **input)
+{
+	int	flag;
+
+	flag = 0;
+	if (input[0] == NULL)
+		return (0);
+	else if (ft_strncmp(input[0], "-", 2) == 0)
+		flag = 1;
+	return (flag);
+}
+
 int	ft_check_cd(t_parse *parse)
 {
 	char	*path;
@@ -57,14 +69,19 @@ int	ft_check_cd(t_parse *parse)
 	int		fd;
 	int		num;
 
-	flag = 0;
 	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);
-	path = ft_run_cd(parse->input, &flag);
+	flag = ft_check_flag(parse->input);
+	path = ft_run_cd(parse->input);
 	if (path == NULL)
 		return (-1);
-	num = ft_cd(path, parse->input[0], fd, flag);
+	num = ft_cd(path, parse->input[0]);
+	if (flag == 1)
+	{
+		ft_putstr_fd(ft_find_env(g_list_env, "PWD", 3), fd);
+		ft_putchar_fd('\n', fd);
+	}
 	if (fd != 1)
 		close (fd);
 	free(path);

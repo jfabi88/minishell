@@ -64,7 +64,7 @@ t_data	*ft_malloc_data(int size_env, int size_content)
 	return (data);
 }
 
-t_list	*ft_new_datalist(char *env, char *content)
+t_list	*ft_new_datalist(const char *env, const char *content)
 {
 	t_data	*data;
 	t_list	*list;
@@ -82,6 +82,8 @@ t_list	*ft_new_datalist(char *env, char *content)
 	ft_strlcpy(data->env, env, len_env + 1);
 	ft_strlcpy(data->content, content, len_content + 1);
 	list = ft_lstnew(data);
+	if (list == NULL)
+		ft_free_data(data);
 	return (list);
 }
 
@@ -94,4 +96,16 @@ void	ft_free_listenv(t_list *env)
 		free(env->content);
 		env = env->next;
 	}
+}
+
+int	ft_create_env(t_list *list, const char *env, const char *content)
+{
+	t_list	*l;
+
+	l = ft_new_datalist(env, content);
+	if (l == NULL)
+		return (-1);
+	ft_lstadd_back(&list, l);
+	ft_setprev(&list);
+	return (1);
 }
