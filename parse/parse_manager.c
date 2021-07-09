@@ -32,8 +32,11 @@ static int	ft_single_quote(char *line, char **mtx, int *k, int *i)
 }
 
 /*	ft_double_quote	:	in questa funzione dobbiamo fare in modo che :
-**		[ ]	venga scritto il contenuto nelle <double_quotes>,
+**		[V]	venga scritto il contenuto nelle <double_quotes>,
 **			ivi compresi spazi, separatori, ecc, *FATTA ECCEZIONE PER $;
+**		[ ]	se le <single_quotes> sono all'interno di <double_quotes> (chiuse)
+**			e è presente un $, venga stampata la relativa variabile all'interno
+**			di <single_quotes> (LE "" INIBISCONO TUTTI I CARATTERI TRANNE IL $);
 **		[V]	alla fine la funzione restituisca:
 **			a.	1 se il processo di scrittura è andato a buon fine;
 **			b.	-1 se è intercorso un errore;
@@ -133,7 +136,24 @@ static int	ft_else(char *line, char **mtx, int *k, int *i)
 	return (1);
 }
 
-int	ft_create_str_parse(char **mtx, char *line)
+// static int	ft_quotes_manager(char *line, char **mtx, int *k, int *i)
+// {
+// 	int	num;
+// 	int	flg;
+
+// 	num = 0;
+// 	flg = 0;
+// 	if (line[*i] == '\'' && flg == 0)
+// 		num = ft_single_quote(line, mtx, k, i);
+// 	else
+// 	{
+// 		num = ft_double_quote(line, mtx, k, i);
+// 		flg = 1;
+// 	}
+// 	return (num);
+// }
+
+int	ft_create_str_parse(char **mtx, char *line)//	la condizione di stampa $ dentro a <single_quotes>, comprese in <double_quotes> va inserita qui!
 {
 	int	i;
 	int	k;
@@ -144,10 +164,12 @@ int	ft_create_str_parse(char **mtx, char *line)
 	num = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' && ft_find_next_c(line, i, line[i]))
+		if (line[i] == '\'' && ft_is_in_quotes(line, i, '\'', '\"') == 0 && ft_find_next_c(line, i, line[i]))
 			num = ft_single_quote(line, mtx, &k, &i);
-		else if (line[i] == '\"' && ft_find_next_c(line, i, line[i]))
+		else if (line[i] == '\"' && ft_is_in_quotes(line, i, '\'', '\"') == 0 && ft_find_next_c(line, i, line[i]))
 			num = ft_double_quote(line, mtx, &k, &i);
+		// if ((line[i] == '\'' || line[i] == '\"') && ft_find_next_c(line, i, line[i]))	//	<---- da usare con ft_quotes_manager
+		// 	num = ft_quotes_manager(line, mtx, &k, &i);
 		else if (line[i] == '>' || line[i] == '<')
 			num = ft_red(line, mtx, &k, &i);
 		else if (line[i] != ' ')

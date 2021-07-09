@@ -59,6 +59,7 @@ int		ft_create_str_parse(char **mtx, char *line);
 /* parse_utils.c */
 void	ft_free_parse(t_parse *parse);
 t_parse	*ft_create_parse(char **stringa);
+int		ft_is_in_quotes(char *str, int c_pos, char c, char d);
 
 /*
 **	>---SRCS---<
@@ -112,7 +113,6 @@ char	**ft_lst_to_mtx(t_list *list);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 void	ft_free_data(t_data *data);
-int		ft_lst_add_content(void	*content, t_list **list, int flag);
 
 /* utils_2.c */
 int		ft_between_c(char *str, int c_pos, char c);
