@@ -26,6 +26,7 @@ typedef struct s_parse
 }				t_parse;
 
 t_list	*g_list_env;
+struct termios	saved;
 
 /*
 **	>---COMMAND---<
