@@ -22,6 +22,7 @@ SRCS		=	\
 				srcs/error.c \
 				srcs/file_utils.c \
 				srcs/flag_utils.c \
+				srcs/lst_utils.c \
 				srcs/history.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \

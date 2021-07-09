@@ -21,34 +21,6 @@ int	ft_len_file(char *dst)
 	return (len);
 }
 
-static int	ft_change_list(char *dst, t_list **list, int len, int offset)
-{
-	int		i;
-	int		fd;
-	char	*line;
-
-	i = 0;
-	fd = open(dst, O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	while (i < len)
-	{
-		if (ft_get_next_line(fd, &line) == -1)
-		{
-			close (fd);
-			return (-1);
-		}
-		if (i++ >= offset && ft_lst_add_content(line, list, 2) == -1)
-		{
-			close(fd);
-			free(line);
-			return (-1);
-		}
-	}
-	close (fd);
-	return (1);
-}
-
 int	ft_check_fdlist(char *dst, t_list **list)
 {
 	int		file_len;
@@ -62,7 +34,7 @@ int	ft_check_fdlist(char *dst, t_list **list)
 	lst_len = ft_lstsize(*list);
 	if (file_len + lst_len > 500)
 	{
-		if (ft_change_list(dst, &nw, file_len, file_len + lst_len - 500) == -1)
+		if (ft_list_by_file(dst, &nw, file_len, file_len + lst_len - 500) == -1)
 			return (-1);
 		ft_lstadd_front(list, ft_lstlast(nw));
 		*list = nw;

@@ -93,6 +93,10 @@ char	*ft_convert_flag(int flag);
 int		ft_n_flag(char **matrix);
 int		ft_is_flag(char *str);
 
+/* lst_utils.c */
+int		ft_list_by_file(char *dst, t_list **list, int file_len, int offset);
+int		ft_lst_add_content(void	*content, t_list **list, int flag);
+
 /* history.c */
 int		ft_cpy_history(t_list *list);
 int		ft_change_history(char *line, t_list **list);
