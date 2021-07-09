@@ -25,7 +25,6 @@ SRCS		=	\
 				srcs/history.c \
 				srcs/main.c \
 				srcs/mtr_utils.c \
-				srcs/termios.c \
 				srcs/utils.c \
 				srcs/utils_2.c
 

@@ -1,23 +1,101 @@
 #include "minishell.h"
 
+int	ft_len_file(char *dst)
+{
+	char	*buffer;
+	int		fd;
+	int		len;
+
+	len = 0;
+	fd = open(dst, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	while (ft_get_next_line(fd, &buffer) > 0)
+	{
+		len++;
+		free(buffer);
+	}
+	if (buffer != NULL)
+		free(buffer);
+	close(fd);
+	return (len);
+}
+
+static int	ft_change_list(char *dst, t_list **list, int len, int offset)
+{
+	int		i;
+	int		fd;
+	char	*line;
+
+	i = 0;
+	fd = open(dst, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	while (i < len)
+	{
+		if (ft_get_next_line(fd, &line) == -1)
+		{
+			close (fd);
+			return (-1);
+		}
+		if (i++ >= offset && ft_lst_add_content(line, list, 2) == -1)
+		{
+			close(fd);
+			free(line);
+			return (-1);
+		}
+	}
+	close (fd);
+	return (1);
+}
+
+int	ft_check_fdlist(char *dst, t_list **list)
+{
+	int		file_len;
+	int		lst_len;
+	t_list	*nw;
+
+	nw = NULL;
+	file_len = ft_len_file(dst);
+	if (file_len == -1)
+		return (-1);
+	lst_len = ft_lstsize(*list);
+	if (file_len + lst_len > 500)
+	{
+		if (ft_change_list(dst, &nw, file_len, file_len + lst_len - 500) == -1)
+			return (-1);
+		ft_lstadd_front(list, ft_lstlast(nw));
+		*list = nw;
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_cpy_history(t_list *list)
 {
 	int		fd;
+	int		flag;
 	char	*dst;
 
 	dst = ft_strjoin(ft_find_env(g_list_env, "HOME", 4), "/.minishell_history");
 	if (dst == NULL)
 		return (-1);
-	fd = open(dst, O_WRONLY | O_APPEND);
-	if (fd == -1)
-		return (fd);
-	while (list)
+	flag = ft_check_fdlist(dst, &list);
+	if (flag == 0)
+		fd = open(dst, O_WRONLY | O_APPEND);
+	else if (flag == 1)
+		fd = open(dst, O_WRONLY | O_TRUNC);
+	free (dst);
+	if (flag >= 0 && fd == -1)
+		return (-1);
+	while (flag >= 0 && list)
 	{
 		ft_putstr_fd((char *)(list->content), fd);
 		ft_putchar_fd('\n', fd);
 		list = list->next;
 	}
-	free (dst);
+	if (flag >= 0)
+		close (fd);
 	return (1);
 }
 
@@ -58,8 +136,7 @@ int	ft_file_history(void)
 		free(buffer);
 		num = ft_get_next_line(fd, &buffer);
 	}
-	if (num == 0)
-		add_history(buffer);
+	close (fd);
 	free(buffer);
 	free(dst);
 	return (num);

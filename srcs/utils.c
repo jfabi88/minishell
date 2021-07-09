@@ -58,3 +58,17 @@ void	ft_free_data(t_data *data)
 	free(d->env);
 	free (data);
 }
+
+int	ft_lst_add_content(void	*content, t_list **list, int flag)
+{
+	t_list	*new;
+
+	new = ft_lstnew(content);
+	if (new == NULL)
+		return (-1);
+	if (flag == 1)
+		ft_lstadd_front(list, new);
+	else if (flag == 2)
+		ft_lstadd_back(list, new);
+	return (1);
+}

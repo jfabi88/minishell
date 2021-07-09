@@ -103,14 +103,12 @@ int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	*ft_free_matrix(char **matrix);
 
-/* termios.c */
-void	ft_set_termios(void);
-
 /* utils.c */
 char	**ft_lst_to_mtx(t_list *list);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 void	ft_free_data(t_data *data);
+int		ft_lst_add_content(void	*content, t_list **list, int flag);
 
 /* utils_2.c */
 int		ft_between_c(char *str, int c_pos, char c);
