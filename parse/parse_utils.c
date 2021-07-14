@@ -94,6 +94,19 @@ void	ft_free_parse(t_parse *parse)
 	free(parse);
 }
 
+int	ft_is_quotes(char *str, int c_pos, char c, char d)
+{
+	if (ft_is_in_quotes(str, c_pos + 1, c, d) == 1)
+		return (1);
+	if (c_pos != 0 && ft_is_in_quotes(str, c_pos - 1, c, d) == 1)
+		return (1);
+	if (str[c_pos] == str[c_pos + 1])
+		return (1);
+	if (c_pos != 0 && str[c_pos] == str[c_pos -1])
+		return (1);
+	return (0);
+}
+
 int	ft_is_in_quotes(char *str, int c_pos, char c, char d)
 {
 	int	i;

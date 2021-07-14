@@ -10,7 +10,7 @@ int	ft_check_exit(t_parse *parse, t_list *list)
 	if (fd != 1)
 		close (fd);
 	if (ft_cpy_history(list) == -1)
-		return (-1);
+		exit (-1);
 	ft_free_listenv(g_list_env);
 	ft_free_parse(parse);
 	while (list)

@@ -16,12 +16,15 @@ SRCS		=	\
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
+				read/prompt.c \
+				read/read.c \
 				srcs/create_path.c \
 				srcs/data_utils.c \
 				srcs/env_utils.c \
 				srcs/error.c \
 				srcs/file_utils.c \
 				srcs/flag_utils.c \
+				srcs/ft_m_strlcpy.c \
 				srcs/lst_utils.c \
 				srcs/history.c \
 				srcs/main.c \

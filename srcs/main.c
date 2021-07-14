@@ -84,17 +84,20 @@ int	main(int argc, char *argv[], char *env[])
 	char			*line;
 	t_list			*list;
 	t_parse			*parse;
+	struct termios	origin;
 
+	tcgetattr(STDIN_FILENO, &origin);
 	list = NULL;
 	if (argc < 0 || argv == NULL)
 		printf("qualcosa");								//si deve gestire l'errore
 	ft_create_list_env(env);							//malloc
-	if (ft_file_history() == -1)
+	if (ft_file_history(&list) == -1)
 		return (-1);
-	line = readline("# Orders, my Lord? ");
-	if (line && ft_strlen(line) > 0)
-		ft_change_history(line, &list);
-	while (line != 0)
+	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+	//line = readline("# Orders, my Lord? ");
+	//if (line && ft_strlen(line) > 0)
+	//	ft_change_history(line, &list);
+	while (1)
 	{
 		parse = ft_parser(&line);						//malloc
 		free(line);
@@ -103,9 +106,10 @@ int	main(int argc, char *argv[], char *env[])
 			ft_execute(parse, list);
 			ft_free_parse(parse);						//free
 		}
-		line = readline("# Orders, my Lord? ");
-		if (line && ft_strlen(line) > 0)
-			ft_change_history(line, &list);
+		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+		//line = readline("# Orders, my Lord? ");
+		//if (line && ft_strlen(line) > 0)
+		//	ft_change_history(line, &list);
 	}
 	free(line);
 	ft_free_listenv(g_list_env);							//free

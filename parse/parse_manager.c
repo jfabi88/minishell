@@ -1,157 +1,71 @@
 #include "minishell.h"
 
-/*	ft_single_quote	:	in questa funzione dobbiamo fare in modo che :
-**		[V]	venga scritto il contenuto nelle <single_quotes>,
-**			ivi compresi spazi, separatori, ecc;
-**		[V]	alla fine la funzione restituisca:
-**			a.	1 se il processo di scrittura è andato a buon fine;
-**			b.	-1 se è intercorso un errore;
-**			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
-*/
-
-static int	ft_single_quote(char *line, char **mtx, int *k, int *i)
+static size_t	ft_strlcpy_no_c(char *dst, char *s, size_t size)
 {
-	char	*tmp;
-	int		j;
+	size_t	i;
+	size_t	j;
 
+	i = 0;
 	j = 0;
-	*i += 1;
-	while (line[*i + j] != '\'')
-		j++;
-	tmp = malloc(j + 1);
-	if (!tmp)
-		return (-1);
-	ft_strlcpy(tmp, line + *i, j + 1);
-	mtx[*k] = tmp;
-	*k += 1;
-	*i += j + 1;
-	//printf("line at the end of ft_single_quote : %s\n", mtx[*k - 1]);//	<---------DEBUG
-	if (line[*i] == 0)
+	if (s == 0 || dst == 0)
 		return (0);
-	return (1);
+	if (size != 0)
+	{
+		while (i < (size - 1) && s[i] != 0)
+		{
+			if (s[i] == '\'' && ft_is_quotes(s, i, '\'', '"') != 1)
+				dst[j++] = s[i];
+			else if (s[i] == '"' && ft_is_quotes(s, i, '"', '\'') != 1)
+				dst[j++] = s[i];
+			else if (s[i] != '\'' && s[i] != '"')
+				dst[j++] = s[i];
+			i++;
+		}
+		dst[j] = 0;
+	}
+	return (j);
 }
 
-/*	ft_double_quote	:	in questa funzione dobbiamo fare in modo che :
-**		[V]	venga scritto il contenuto nelle <double_quotes>,
-**			ivi compresi spazi, separatori, ecc, *FATTA ECCEZIONE PER $;
-**		[ ]	se le <single_quotes> sono all'interno di <double_quotes> (chiuse)
-**			e è presente un $, venga stampata la relativa variabile all'interno
-**			di <single_quotes> (LE "" INIBISCONO TUTTI I CARATTERI TRANNE IL $);
-**		[V]	alla fine la funzione restituisca:
-**			a.	1 se il processo di scrittura è andato a buon fine;
-**			b.	-1 se è intercorso un errore;
-**			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
-**
-**		*	viene gestito in fase di check (ft_parse_lst/ft_dollar_manager) e sostituito
-**			in ft_change_dollar.
-*/
-
-static int	ft_double_quote(char *line, char **mtx, int *k, int *i)
+static int	ft_red(char *line, char **mtx, int k)//	27 lines
 {
 	char	*tmp;
 	int		j;
 
 	j = 0;
-	*i += 1;
-	while (line[*i + j] != '\"')
+	while (line[j] == line[0])
 		j++;
 	tmp = malloc(j + 1);
 	if (tmp == NULL)
 		return (-1);
-	ft_strlcpy(tmp, line + *i, j + 1);
-	mtx[*k] = tmp;
-	*k += 1;
-	*i += j + 1;
-	//printf("line at the end of ft_double_quote : %s\n", mtx[*k - 1]);//	<---------DEBUG
-	if (line[*i] == 0)
-		return (0);
-	return (1);
-}
-
-/*	ft_red : in questa funzione dobbiamo fare in modo che :
-**		[V] la funzione esamini il char successivo della stringa (partendo da < o >)
-**			e in caso di multipli < o >, scriverne fino a un max di (3 se <; 2 se <)
-**			nella stringa di riferimento in mtx.
-**		[V]	alla fine la funzione restituisca:
-**			a.	1 se il processo di scrittura è andato a buon fine;
-**			b.	-1 se è intercorso un errore;
-**			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
-**	COMPORTAMENTO DI <<<:	se trova riscontro con valore a sx nell'elemento a dx,
-**							lo stampa a video, altrimenti "bash: <elm_sx>: command not found";
-**	COMPORTAMENTO DI << :	apre quote, in attesa di ricevere in input elemento dx. Quando
-**							questo avviene, si chiude quote e stampa valore sx;
-**	COMPORTAMENTO DI >> :	crea un file con nome elemento dx (se non esiste) e scrive
-**							al suo interno il valore sx (appended);
-**	COMPORTAMENTO DI >	:	crea un file con nome elemento dx (se non esiste) e scrive
-**							al suo interno il valore sx, sovrascrivendone i precedenti valori.
-*/
-
-static int	ft_red(char *line, char **mtx, int *k, int *i)//	27 lines
-{
-	char	*tmp;
-	int		j;
-
-	j = 0;
-	while (line[*i + j] == line[*i])
-		j++;
-	tmp = malloc(j + 1);
-	if (tmp == NULL)
-		return (-1);
-	ft_strlcpy(tmp, line + *i, j + 1);
-	mtx[*k] = tmp;
-	*k += 1;
-	*i += j;
+	ft_strlcpy(tmp, line, j + 1);
+	mtx[k] = tmp;
 	//printf("line at the end of ft_red : |%s|\n", mtx[*k - 1]);//	<---------DEBUG
-	if (line[*i] == 0)
-		return (0);
-	return (1);
+	return (j);
 }
 
-/*	ft_else	: in questa funzione dobbiamo fare in modo che :
-**		[V]	qualsiasi caso standard in cui va copiato tutto fino al prossimo separatore;
-**		[V]	alla fine la funzione restituisca:
-**			a.	1 se il processo di scrittura è andato a buon fine;
-**			b.	-1 se è intercorso un errore;
-**			c.	0 se la lettura della stringa in ingresso è arrivata a EOS.
-*/
-
-static int	ft_else(char *line, char **mtx, int *k, int *i)
+static int	ft_cpy(char *l, char **mtx, int k)
 {
-	char	*tmp;
+	int		i;
 	int		j;
 
+	i = 0;
 	j = 0;
-	while (line[*i + j] && !ft_is_in_str(" <>", line[*i + j]))
-		j++;
-	tmp = malloc(j + 1);
-	if (tmp == NULL)
+	while (l[i] && (!ft_is_in_str(" <>", l[i]) || ft_is_in_quotes(l, i, '\'', '\"')))
+	{
+		if (l[i] == '\'' && ft_is_quotes(l, i , '\'', '\"') == 1)
+			j += 0;
+		if (l[i] == '"' && ft_is_quotes(l, i , '"', '\'') == 1)
+			j += 0;
+		else
+			j++;
+		i++;
+	}
+	mtx[k] = malloc(j + 1);
+	if (mtx[k] == NULL)
 		return (-1);
-	ft_strlcpy(tmp, line + *i, j + 1);
-	mtx[*k] = tmp;
-	*k += 1;
-	*i += j;
-	//printf("line at the end of ft_else : |%s|\n", mtx[*k - 1]);
-	if (line[*i] == 0)
-		return (0);
-	return (1);
+	ft_strlcpy_no_c(mtx[k], l, i + 1);
+	return (i);
 }
-
-// static int	ft_quotes_manager(char *line, char **mtx, int *k, int *i)
-// {
-// 	int	num;
-// 	int	flg;
-
-// 	num = 0;
-// 	flg = 0;
-// 	if (line[*i] == '\'' && flg == 0)
-// 		num = ft_single_quote(line, mtx, k, i);
-// 	else
-// 	{
-// 		num = ft_double_quote(line, mtx, k, i);
-// 		flg = 1;
-// 	}
-// 	return (num);
-// }
 
 int	ft_create_str_parse(char **mtx, char *line)//	la condizione di stampa $ dentro a <single_quotes>, comprese in <double_quotes> va inserita qui!
 {
@@ -161,23 +75,22 @@ int	ft_create_str_parse(char **mtx, char *line)//	la condizione di stampa $ dent
 
 	i = 0;
 	k = 0;
-	num = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' && ft_is_in_quotes(line, i, '\'', '\"') == 0 && ft_find_next_c(line, i, line[i]))
-			num = ft_single_quote(line, mtx, &k, &i);
-		else if (line[i] == '\"' && ft_is_in_quotes(line, i, '\'', '\"') == 0 && ft_find_next_c(line, i, line[i]))
-			num = ft_double_quote(line, mtx, &k, &i);
-		// if ((line[i] == '\'' || line[i] == '\"') && ft_find_next_c(line, i, line[i]))	//	<---- da usare con ft_quotes_manager
-		// 	num = ft_quotes_manager(line, mtx, &k, &i);
-		else if (line[i] == '>' || line[i] == '<')
-			num = ft_red(line, mtx, &k, &i);
-		else if (line[i] != ' ')
-			num = ft_else(line, mtx, &k, &i);
-		else
+		num = 0;
+		if (line[i] == ' ')
 			i++;
-		if (num == -1)
-			return (num);
+		else
+		{
+			if ((line[i] == '>' || line[i] == '<'))
+				num = ft_red(line + i, mtx, k);
+			else
+				num = ft_cpy(line + i, mtx, k);
+			if (num == -1)
+				return (num);
+			i += num;
+			k++;
+		}
 	}
 	mtx[k] = 0;
 	return (1);

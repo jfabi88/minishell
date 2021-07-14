@@ -1,5 +1,28 @@
 #include "minishell.h"
 
+char	*ft_strdel(char *str, int num)
+{
+	char	*ret;
+	int		len;
+	int		i;
+
+	len = ft_strlen(str);
+	if (len - num <= 0)
+		return (NULL);
+	else
+		ret = malloc(len - num + 1);
+	if (ret == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len - num)
+	{
+		ret[i] = str[i];
+		i++;
+	}
+	ret[i] = 0;
+	return (ret);
+}
+
 char	**ft_lst_to_mtx(t_list *list)
 {
 	int		len;

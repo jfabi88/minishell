@@ -60,7 +60,19 @@ int		ft_create_str_parse(char **mtx, char *line);
 /* parse_utils.c */
 void	ft_free_parse(t_parse *parse);
 t_parse	*ft_create_parse(char **stringa);
+int		ft_is_quotes(char *str, int c_pos, char c, char d);
 int		ft_is_in_quotes(char *str, int c_pos, char c, char d);
+
+/*
+**  >---READ---<
+*/
+
+/* prompt.c */
+char	*ft_prompt(const char *prompt, t_list **list, struct termios *or_termios);
+void	ft_write_prompt(char *prompt, char *line);
+
+/* read.c */
+char	*ft_read(const char *prompt, t_list **list);
 
 /*
 **	>---SRCS---<
@@ -95,6 +107,9 @@ char	*ft_convert_flag(int flag);
 int		ft_n_flag(char **matrix);
 int		ft_is_flag(char *str);
 
+/* ft_m_strlcpy.c */
+char	*ft_m_strlcpy(char *str, int len);
+
 /* lst_utils.c */
 int		ft_list_by_file(char *dst, t_list **list, int file_len, int offset);
 int		ft_lst_add_content(void	*content, t_list **list, int flag);
@@ -102,7 +117,7 @@ int		ft_lst_add_content(void	*content, t_list **list, int flag);
 /* history.c */
 int		ft_cpy_history(t_list *list);
 int		ft_change_history(char *line, t_list **list);
-int		ft_file_history(void);
+int		ft_file_history(t_list **list);
 
 /* mtr_utils.c */
 int		ft_mtrlen(char **matrix);
@@ -114,6 +129,7 @@ char	**ft_lst_to_mtx(t_list *list);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 void	ft_free_data(t_data *data);
+char	*ft_strdel(char *str, int num);
 
 /* utils_2.c */
 int		ft_between_c(char *str, int c_pos, char c);
