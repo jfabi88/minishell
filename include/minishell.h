@@ -46,7 +46,7 @@ int		ft_execute_command(t_parse *parse);
 */
 
 /* parse.c */
-char	**ft_parse_lst(char **line);
+t_parse	*ft_parsing(char **line);
 
 /* parse_check.c */
 int		ft_parse_check(char *line);
@@ -55,7 +55,7 @@ int		ft_parse_check(char *line);
 char	*ft_dollar_manager(char *line);
 
 /* parse_manager.c */
-int		ft_create_str_parse(char **mtx, char *line);
+int		ft_create_str_parse(char **mtx, char **red, char *line);
 
 /* parse_utils.c */
 void	ft_free_parse(t_parse *parse);

@@ -1,53 +1,104 @@
 #include "minishell.h"
 
+static int	ft_redlen_parse(char *line)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	len = 0;
+	while (line[i])
+	{
+		if (ft_is_in_str("<>", line[i]) && line[i + 1] != line[i])
+		{
+			if (!ft_is_in_quotes(line, i, '\'', '"'))
+				len++;
+		}
+		i++;
+	}
+	return (len * 2);
+}
+
 static int	ft_matlen_parse(char *line)
 {
 	int		len;
 	int		i;
-	int		flag_str;
 
 	len = 0;
 	i = 0;
-	flag_str = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
 	while (line[i])
 	{
-		flag_str = 0;
-		if (ft_is_in_str("<> ", line[i]) && line[i + 1] != line[i])
-			len++;
-		else if (line[i] == '"' || line[i] == '\'')
-		{
+		if (line[i] == '"' || line[i] == '\'')
 			i += ft_find_next_c(line, i, line[i]);
-			flag_str = 1;
+		else if (ft_is_in_str("<>", line[i]))
+		{
+			if (i != 0 && (line[i - 1] != line[i]))
+				len++;
+			if (line[i + 1] != line[i])
+				len++;
 		}
-		else
-			flag_str = 1;
+		else if (line[i] == ' ' && !ft_is_in_str("<> ", line[i + 1]))
+			len++;
 		i++;
 	}
-	return (len + flag_str);
+	if (i != 0 && !ft_is_in_str("<> ", line[i - 1]))
+		return (len + 1);
+	return (len);
 }
 
-char	**ft_parse_lst(char **line)
+static int	ft_parse_lst(char **line, t_parse *parse)
 {
 	int		len;
-	char	*andr;
-	char	**tmp;
+	int		r_len;
 
-	tmp = NULL;
 	if (ft_parse_check(*line) == -1)
-		return (NULL);
-	andr = *line;
+		return (-1);
+	len = ft_matlen_parse(*line);
+	r_len = ft_redlen_parse(*line);
+	printf("Le due grandezzr sono: %d e %d\n", len, r_len);
+	parse->input = (char **)ft_calloc(sizeof(char *), (len - r_len + 1));
+	if (parse->input == NULL)
+		return (-1);
+	parse->output = (char **)ft_calloc(sizeof(char *), (r_len + 1));
+	if (parse->output == NULL)
+	{
+		free(parse->input);	
+		return (-1);
+	}
+	if (ft_create_str_parse(parse->input, parse->output, *line) == -1)
+	{
+		ft_free_matrix(parse->input);
+		ft_free_matrix(parse->output);
+		return (-1);
+	}
+	return (1);
+}
+
+t_parse	*ft_parsing(char **line)
+{
+	t_parse	*parse;
+	char	*tmp;
+
+	tmp = *line;
 	*line = ft_dollar_manager(*line);
-	free (andr);
+	free (tmp);
 	if (*line == NULL)
 		return (NULL);
-	len = ft_matlen_parse(*line);
-	tmp = malloc(sizeof(char *) * (len + 1));
-	if (tmp == NULL)
+	if (ft_parse_check(*line) == -1)
 		return (NULL);
-	if (ft_create_str_parse(tmp, *line) == -1)
+	parse = (t_parse *)malloc(sizeof(t_parse));
+	if (parse == NULL)
+		return (NULL);
+	if (ft_parse_lst(line, parse) == -1)
+		return(ft_free_null(parse));
+	parse->command = ft_m_strlcpy(parse->input[0], ft_strlen(parse->input[0]) + 1);
+	if (parse->command == NULL)
 	{
-		ft_free_matrix(tmp);
+		ft_free_matrix(parse->input);
+		ft_free_matrix(parse->output);
 		return (NULL);
 	}
-	return (tmp);
+	return (parse);
 }

@@ -26,30 +26,37 @@ static size_t	ft_strlcpy_no_c(char *dst, char *s, size_t size)
 	return (j);
 }
 
-static int	ft_red(char *line, char **mtx, int k)//	27 lines
+static int	ft_red(char *line, char **mtx, int *flag)//	27 lines
 {
 	char	*tmp;
 	int		j;
+	int		k;
 
 	j = 0;
+	k = 0;
 	while (line[j] == line[0])
 		j++;
 	tmp = malloc(j + 1);
 	if (tmp == NULL)
 		return (-1);
 	ft_strlcpy(tmp, line, j + 1);
+	while (mtx[k])
+		k++;
 	mtx[k] = tmp;
+	*flag = 1;
 	//printf("line at the end of ft_red : |%s|\n", mtx[*k - 1]);//	<---------DEBUG
 	return (j);
 }
 
-static int	ft_cpy(char *l, char **mtx, int k)
+static int	ft_cpy(char *l, char **mtx)
 {
 	int		i;
 	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
+	k = 0;
 	while (l[i] && (!ft_is_in_str(" <>", l[i]) || ft_is_in_quotes(l, i, '\'', '\"')))
 	{
 		if (l[i] == '\'' && ft_is_quotes(l, i , '\'', '\"') == 1)
@@ -60,6 +67,8 @@ static int	ft_cpy(char *l, char **mtx, int k)
 			j++;
 		i++;
 	}
+	while (mtx[k])
+		k++;
 	mtx[k] = malloc(j + 1);
 	if (mtx[k] == NULL)
 		return (-1);
@@ -67,31 +76,30 @@ static int	ft_cpy(char *l, char **mtx, int k)
 	return (i);
 }
 
-int	ft_create_str_parse(char **mtx, char *line)//	la condizione di stampa $ dentro a <single_quotes>, comprese in <double_quotes> va inserita qui!
+int	ft_create_str_parse(char **mtx, char **red, char *line)//	la condizione di stampa $ dentro a <single_quotes>, comprese in <double_quotes> va inserita qui!
 {
 	int	i;
-	int	k;
 	int	num;
+	int	flag;
 
 	i = 0;
-	k = 0;
+	flag = 0;
 	while (line[i])
 	{
-		num = 0;
 		if (line[i] == ' ')
-			i++;
-		else
+			num = 1;
+		else if ((line[i] == '>' || line[i] == '<'))
+			num = ft_red(line + i, red, &flag);
+		else if (flag == 1)
 		{
-			if ((line[i] == '>' || line[i] == '<'))
-				num = ft_red(line + i, mtx, k);
-			else
-				num = ft_cpy(line + i, mtx, k);
-			if (num == -1)
-				return (num);
-			i += num;
-			k++;
+			flag = 0;
+			num = ft_cpy(line + i, red);
 		}
+		else
+			num = ft_cpy(line + i, mtx);
+		if (num == -1)
+			return (num);
+		i += num;
 	}
-	mtx[k] = 0;
 	return (1);
 }

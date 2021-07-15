@@ -63,18 +63,14 @@ static int	ft_execute(t_parse *parse, t_list *list)
 
 static t_parse	*ft_parser(char **line)
 {
-	char	**stringa;
 	t_parse	*parse;
 
 	parse = NULL;
 	if (line && *line)
 	{
-		stringa = ft_parse_lst(line);
-		if (stringa == NULL)
+		parse = ft_parsing(line);
+		if (parse == NULL)
 			return (NULL);
-		if (ft_mtrlen(stringa) > 0)
-			parse = ft_create_parse(stringa);                    //malloc
-		ft_free_matrix(stringa);                             //free
 	}
 	return (parse);
 }
