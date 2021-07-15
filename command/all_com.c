@@ -47,6 +47,7 @@ static char	*ft_check_path(char *str)
 int	ft_execute_command(t_parse *parse)
 {
 	int		pid;
+	int		status;
 	char	*path;
 	char	**mtx;
 
@@ -58,7 +59,7 @@ int	ft_execute_command(t_parse *parse)
 		{
 			mtx = ft_lst_to_mtx(g_list_env);
 			if (execve(path, parse->input, mtx) == -1)
-				printf("ciao\n");
+				ft_putstr_fd(strerror(errno), 1);
 			ft_free_matrix(mtx);
 			free(path);
 		}
@@ -66,7 +67,8 @@ int	ft_execute_command(t_parse *parse)
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+		WEXITSTATUS(status);
 		return (1);
 	}
 }

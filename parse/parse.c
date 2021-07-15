@@ -36,7 +36,7 @@ static int	ft_matlen_parse(char *line)
 		{
 			if (i != 0 && (line[i - 1] != line[i]))
 				len++;
-			if (line[i + 1] != line[i])
+			if (line[i + 1] != line[i] && line[i + 1] != ' ')
 				len++;
 		}
 		else if (line[i] == ' ' && !ft_is_in_str("<> ", line[i + 1]))
