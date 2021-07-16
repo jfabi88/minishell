@@ -15,7 +15,7 @@ static char	*ft_str_arrow(char *buf, char *tmp, t_list **list, int *size)
 			*list = (*list)->next;
 		src = ((char *)((*list)->content));
 	}
-	ret = ft_m_strlcpy(src, ft_strlen(src));
+	ret = ft_m_strlcpy(src, ft_strlen(src) + 1);
 	if ((*list) && buf[2] == 'A' && (*list)->prev)
 		(*size)++;
 	else if ((*list) && buf[2] == 'B' && *size > 0)
@@ -49,7 +49,7 @@ static char	*ft_create_line(char *buf, char *lne)
 			ret = ft_strdel(lne, 1);
 	}
 	else
-		ret = ft_m_strlcpy(lne, ft_strlen(lne));
+		ret = ft_m_strlcpy(lne, ft_strlen(lne) + 1);
 	return (ret);
 }
 
@@ -72,7 +72,7 @@ static char	*ft_newstr(char buf[5], char *line, t_list **list, int *size)
 		line = ft_create_line(buf, line);
 		if (tmp != NULL)
 			free(tmp);
-		tmp = ft_m_strlcpy(line, ft_strlen(line));
+		tmp = ft_m_strlcpy(line, ft_strlen(line) + 1);
 	}
 	free(del);
 	return (line);

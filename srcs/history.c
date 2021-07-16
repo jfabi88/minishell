@@ -36,10 +36,10 @@ int	ft_cpy_history(t_list *list)
 	free (dst);
 	if (fd == -1)
 		return (-1);
-	num = ft_lstsize(list) - 10;
+	num = ft_lstsize(list) - 500;
 	if (num < 0)
 		num = 0;
-	while (list && i < 10 + num)
+	while (list && i < 500 + num)
 	{
 		if (i > num)
 			ft_putstrn_fd((char *)(list->content), fd);

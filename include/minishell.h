@@ -13,6 +13,14 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+typedef struct	s_token
+{
+	char	*line;
+	t_list	*flag;
+	t_list	*commands;
+}				t_token;
+
+
 typedef struct s_data
 {
 	char	*env;
@@ -138,5 +146,22 @@ int		ft_find_next_c(char *str, int start, char c);
 int		ft_find_next_str(char *str, const char *ref);
 int		ft_is_in_str(const char *str, char c);
 void	ft_setprev(t_list **l);
+
+/*
+**  >--TOKEN--<
+*/
+
+/* token.c */
+t_token	*ft_tokanizer(char *line);
+
+/* token2.c */
+int		ft_list_token(char *line, t_token *token);
+
+/* token_utils.c */
+void	ft_print_token(t_token *token);
+int		ft_after_flag(char *line);
+int		ft_next_pare(char *line);
+int		ft_is_inpar(char *line, int pos);
+int		ft_next_flag(char *line);
 
 #endif

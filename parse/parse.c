@@ -57,7 +57,6 @@ static int	ft_parse_lst(char **line, t_parse *parse)
 		return (-1);
 	len = ft_matlen_parse(*line);
 	r_len = ft_redlen_parse(*line);
-	printf("Le due grandezzr sono: %d e %d\n", len, r_len);
 	parse->input = (char **)ft_calloc(sizeof(char *), (len - r_len + 1));
 	if (parse->input == NULL)
 		return (-1);

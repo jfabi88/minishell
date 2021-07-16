@@ -30,7 +30,10 @@ SRCS		=	\
 				srcs/main.c \
 				srcs/mtr_utils.c \
 				srcs/utils.c \
-				srcs/utils_2.c
+				srcs/utils_2.c \
+				token/token.c \
+				token/token2.c \
+				token/token_utils.c
 
 OBJS		= $(SRCS:.c=.o)
 

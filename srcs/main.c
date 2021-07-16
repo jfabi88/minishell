@@ -75,9 +75,29 @@ static t_parse	*ft_parser(char **line)
 	return (parse);
 }
 
+static int	ft_running(t_token *token)
+{
+	t_parse	*parse;
+	t_list	*list;
+
+	list = NULL;
+	parse = ft_parser(&token->line);
+	if (parse != NULL)
+	{
+		ft_execute(parse, list);
+		ft_free_parse(parse);						//free
+	}
+	while(token->commands)
+	{
+		ft_running(token->commands->content);
+		token->commands = token->commands->next;
+	}
+}
+
 int	main(int argc, char *argv[], char *env[])
 {
 	char			*line;
+	t_token			*token;
 	t_list			*list;
 	t_parse			*parse;
 	struct termios	origin;
@@ -90,11 +110,10 @@ int	main(int argc, char *argv[], char *env[])
 	if (ft_file_history(&list) == -1)
 		return (-1);
 	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
-	//line = readline("# Orders, my Lord? ");
-	//if (line && ft_strlen(line) > 0)
-	//	ft_change_history(line, &list);
 	while (1)
 	{
+		token = ft_tokanizer(line);
+		ft_print_token(token);
 		parse = ft_parser(&line);						//malloc
 		free(line);
 		if (parse != NULL)
@@ -103,9 +122,6 @@ int	main(int argc, char *argv[], char *env[])
 			ft_free_parse(parse);						//free
 		}
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
-		//line = readline("# Orders, my Lord? ");
-		//if (line && ft_strlen(line) > 0)
-		//	ft_change_history(line, &list);
 	}
 	free(line);
 	ft_free_listenv(g_list_env);							//free
