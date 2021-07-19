@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void	ft_free_list(t_list *list)
+{
+	while (list)
+	{
+		free(list->content);
+		free(list);
+		list = list->next;
+	}
+}
+
 char	*ft_strdel(char *str, int num)
 {
 	char	*ret;

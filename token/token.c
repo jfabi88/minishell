@@ -1,31 +1,5 @@
 #include "minishell.h"
 
-int	ft_del_par(char *line, t_token *token)
-{
-	int		i;
-	int		len;
-	char	*ret;
-
-	i = 0;
-	while (line[i] && line[i] == ' ')
-		i++;
-	if (line[i] == '(')
-	{
-		len = ft_next_pare(line + i) + 1;
-		ret = ft_m_strlcpy(line + i + 1, len - 1);
-	}
-	else
-	{
-		len = ft_next_flag(line + i);
-		ret = ft_m_strlcpy(line + i, len + 1); 
-	}
-	if (ret == NULL)
-		return (-1);
-	token->line = ret;
-	//printf("La stringa é: %s\n", token->line);
-	return (i + len);
-}
-
 int	ft_add_t_flag(t_list **list, char *line)
 {
 	int		i;
@@ -51,7 +25,7 @@ int	ft_add_t_flag(t_list **list, char *line)
 	return (i);
 }
 
-int	ft_create_token(char *line, t_token *token)
+int	ft_create_token(char *line, t_list **list)
 {
 	int		i;
 	int		add;
@@ -64,7 +38,7 @@ int	ft_create_token(char *line, t_token *token)
 		{
 			if (!ft_is_inpar(line, i) && !ft_is_in_quotes(line, i, '\'', '"'))
 			{
-				add = ft_add_t_flag(&token->flag, line + i);
+				add = ft_add_t_flag(list, line + i);
 				if (add == -1)
 					return (-1);
 			}
@@ -74,34 +48,88 @@ int	ft_create_token(char *line, t_token *token)
 	return (1);
 }
 
+int	ft_par(char *line, t_token *token)
+{
+	int		len;
+	char	*ret;
+
+	len = ft_next_flag(line);
+	ret = ft_m_strlcpy(line, len + 1);
+	if (ret == NULL)
+		return (-1); 
+	token->line = ret;
+	token->s_flag = NULL;
+	if (ft_create_token(line + len, &token->s_flag) == -1)
+	{
+		free(token->line);
+		return (-1);
+	}
+	token->s_commands = NULL;
+	len += ft_after_flag(line + len);
+	if (ft_list_token(line + len, &token->s_commands) == -1)
+	{
+		free(token->line);
+		ft_lstdelone(token->s_flag, free);
+		return (-1);
+	}
+	return (1);
+}
+
+int	ft_del_par(char *line, t_token *token)
+{
+	int		i;
+	int		len;
+	char	*ret;
+
+	i = 0;
+	len = 0;
+	while (line && line[i] && line[i] == ' ')
+		i++;
+	if (line)
+	{
+		if (line[i] == '(')
+		{
+			len = ft_next_pare(line + i) + 1;
+			ret = ft_m_strlcpy(line + i + 1, len - 1);
+		}
+		else if (line[i])
+		{
+			len = ft_next_flag(line + i);
+			ret = ft_m_strlcpy(line + i, len + 1);
+		}
+		if (ret == NULL)
+			return (-1);
+		ft_par(ret, token);
+		free(ret);
+		if (token->line == NULL)
+			return (-1);
+	}
+	return (i + len);
+}
+
 t_token	*ft_tokanizer(char *line)
 {
 	t_token	*ret;
 	char	*tmp;
 	int		len;
 
-	ret = (t_token *)malloc(sizeof(t_token));
+	ret = ft_init_token();
 	if (ret == NULL)
 		return (NULL);
+	if (ft_check_token(line) == -1)
+		return (ret);
 	len = ft_del_par(line, ret);
-	//printf("il valore di len é: %d\n", len);
-	//printf("La stringa fuori é: %s\n", ret->line);
 	if (len == -1)
 		return (ft_free_null(ret));
-	ret->flag = NULL;
-	if (ft_create_token(line + len, ret) == -1)
+	if (ft_create_token(line + len, &ret->flag) == -1)
 	{
-		free(ret->line);
-		free(ret);
+		ft_free_token(ret);
 		return (NULL);
 	}
-	ret->commands = NULL;
 	len += ft_after_flag(line + len);
-	if (ft_list_token(line + len, ret) == -1)
+	if (ft_list_token(line + len, &ret->commands) == -1)
 	{
-		free(ret->line);
-		ft_lstdelone(ret->flag, free);
-		free(ret);
+		ft_free_token(ret);
 		return (NULL);
 	}
 	return (ret);

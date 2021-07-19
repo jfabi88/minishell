@@ -21,7 +21,7 @@ int	ft_len_file(char *dst)
 	return (len);
 }
 
-int	ft_cpy_history(t_list *list)
+int	ft_cpy_history(t_list *list, t_list *var)
 {
 	int		fd;
 	int		num;
@@ -29,7 +29,7 @@ int	ft_cpy_history(t_list *list)
 	char	*dst;
 
 	i = 0;
-	dst = ft_strjoin(ft_find_env(g_list_env, "HOME", 4), "/.minishell_history");
+	dst = ft_strjoin(ft_find_env(var, "HOME", 4), "/.minishell_history");
 	if (dst == NULL)
 		return (-1);
 	fd = open(dst, O_WRONLY | O_TRUNC | O_CREAT);
@@ -41,7 +41,7 @@ int	ft_cpy_history(t_list *list)
 		num = 0;
 	while (list && i < 500 + num)
 	{
-		if (i > num)
+		if (i >= num)
 			ft_putstrn_fd((char *)(list->content), fd);
 		list = list->next;
 		i++;
@@ -68,7 +68,7 @@ int	ft_change_history(char *line, t_list **list)
 	return (1);
 }
 
-int	ft_file_history(t_list **list)
+int	ft_file_history(t_list **list, t_list *var)
 {
 	int		fd;
 	int		num;
@@ -76,7 +76,7 @@ int	ft_file_history(t_list **list)
 	char	*buffer;
 
 	buffer = NULL;
-	dst = ft_strjoin(ft_find_env(g_list_env, "HOME", 4), "/.minishell_history");
+	dst = ft_strjoin(ft_find_env(var, "HOME", 4), "/.minishell_history");
 	fd = open(dst, O_RDONLY | O_CREAT, 00755);
 	if (fd == -1)
 		return (fd);

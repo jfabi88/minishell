@@ -2,22 +2,41 @@
 
 void	ft_print_token(t_token *token)
 {
+	t_list		*s_flag;
+	t_list		*s_commands;
+	t_list		*flag;
+	t_list		*commands;
 	static int	i;
 	int			j;
 
+	s_flag = token->s_flag;
+	s_commands = token->s_commands;
+	flag = token->commands;
+	commands = token->commands;
 	printf("La stringa del token %d é: %s\n", i, token->line);
 	j = 0;
-	while(token->flag)
+	while (s_flag)
 	{
-		printf("La flag numero %d del token %d é: %s\n", j, i, token->flag->content);
+		printf("La flag paritaria numero %d del token %d é: %s\n", j, i, s_flag->content);
 		j++;
-		token->flag = token->flag->next;
+		s_flag = s_flag->next;
+	}
+	while (s_commands)
+	{
+		ft_print_token(s_commands->content);
+		s_commands = s_commands->next;
+	}
+	while(flag)
+	{
+		printf("La flag numero %d del token %d é: %s\n", j, i, flag->content);
+		j++;
+		flag = flag->next;
 	}
 	i++;
-	while (token->commands)
+	while (commands)
 	{
-		ft_print_token(token->commands->content);
-		token->commands = token->commands->next;
+		ft_print_token(commands->content);
+		commands = commands->next;
 	}
 	i = 0;
 }

@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+static int	ft_error_15(int id, char *str)
+{
+	if (id == 10)
+	{
+		ft_putstr_fd("#: syntax error near unexpected token `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("'\n", 2);
+	}
+	return (-1);
+}
+
 static int	ft_error_10(int id, char *str)
 {
 	if (id == 5)
@@ -47,5 +58,7 @@ int	ft_error(int id, char c, char *str)
 		num = ft_error_5(id, c);
 	if (id >= 5 && id < 10)
 		num = ft_error_10(id, str);
+	if (id >= 10 && id < 15)
+		num = ft_error_15(id, str);
 	return (num);
 }

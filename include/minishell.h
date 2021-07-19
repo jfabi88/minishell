@@ -16,7 +16,9 @@
 typedef struct	s_token
 {
 	char	*line;
+	t_list	*s_flag;
 	t_list	*flag;
+	t_list	*s_commands;
 	t_list	*commands;
 }				t_token;
 
@@ -34,34 +36,33 @@ typedef struct s_parse
 	char	**output;
 }				t_parse;
 
-t_list	*g_list_env;
-struct termios	saved;
+t_token	*g_token;
 
 /*
 **	>---COMMAND---<
 */
 
 int		ft_check_echo(t_parse *parse);
-int		ft_check_pwd(t_parse *parse);
-int		ft_check_cd(t_parse *parse);
-int		ft_check_env(t_parse *parse);
-int		ft_check_exit(t_parse *parse, t_list *list);
-int		ft_check_export(t_parse *parse);
-int		ft_check_unset(t_parse *parse);
-int		ft_execute_command(t_parse *parse);
+int		ft_check_pwd(t_parse *parse, t_list *env);
+int		ft_check_cd(t_parse *parse, t_list *env);
+int		ft_check_env(t_parse *parse, t_list *env);
+int		ft_check_exit(t_parse *parse, t_list *list, t_list *env);
+int		ft_check_export(t_parse *parse, t_list *env);
+int		ft_check_unset(t_parse *parse, t_list *env);
+int		ft_execute_command(t_parse *parse, t_list *env);
 
 /*
 **	>---PARSE---<
 */
 
 /* parse.c */
-t_parse	*ft_parsing(char **line);
+t_parse	*ft_parsing(char **line, t_list *var);
 
 /* parse_check.c */
 int		ft_parse_check(char *line);
 
 /* parse_dollar.c */
-char	*ft_dollar_manager(char *line);
+char	*ft_dollar_manager(char *line, t_list *var);
 
 /* parse_manager.c */
 int		ft_create_str_parse(char **mtx, char **red, char *line);
@@ -71,6 +72,9 @@ void	ft_free_parse(t_parse *parse);
 t_parse	*ft_create_parse(char **stringa);
 int		ft_is_quotes(char *str, int c_pos, char c, char d);
 int		ft_is_in_quotes(char *str, int c_pos, char c, char d);
+
+/* parse_wild.c */
+char	*ft_wild_card(char *line, t_list *var);
 
 /*
 **  >---READ---<
@@ -124,9 +128,9 @@ int		ft_list_by_file(char *dst, t_list **list, int file_len, int offset);
 int		ft_lst_add_content(void	*content, t_list **list, int flag);
 
 /* history.c */
-int		ft_cpy_history(t_list *list);
+int		ft_cpy_history(t_list *list, t_list *var);
 int		ft_change_history(char *line, t_list **list);
-int		ft_file_history(t_list **list);
+int		ft_file_history(t_list **list, t_list *var);
 
 /* mtr_utils.c */
 int		ft_mtrlen(char **matrix);
@@ -134,6 +138,7 @@ char	**ft_mtrlcpy(char **src, int len);
 void	*ft_free_matrix(char **matrix);
 
 /* utils.c */
+void	ft_free_list(t_list *list);
 char	**ft_lst_to_mtx(t_list *list);
 void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
@@ -151,11 +156,13 @@ void	ft_setprev(t_list **l);
 **  >--TOKEN--<
 */
 
+int	ft_running(t_token *token, t_list *list, t_list *var);
+
 /* token.c */
 t_token	*ft_tokanizer(char *line);
 
 /* token2.c */
-int		ft_list_token(char *line, t_token *token);
+int		ft_list_token(char *line, t_list **list);
 
 /* token_utils.c */
 void	ft_print_token(t_token *token);
@@ -163,5 +170,12 @@ int		ft_after_flag(char *line);
 int		ft_next_pare(char *line);
 int		ft_is_inpar(char *line, int pos);
 int		ft_next_flag(char *line);
+
+/* token_utils2.c */
+void	ft_free_token(t_token *token);
+t_token	*ft_init_token(void);
+
+/* token_check.c */
+int		ft_check_token(char *ln);
 
 #endif

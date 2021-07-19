@@ -9,6 +9,9 @@ char	*ft_m_strlcpy(char *str, int len)
 	ret = malloc(len);
 	if (ret == NULL)
 		return (NULL);
-	ft_strlcpy(ret, str, len);
+	if (str == NULL)
+		ret[0] = 0;
+	else
+		ft_strlcpy(ret, str, len);
 	return (ret);
 }

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	ft_create_export(char *str)
+static int	ft_create_export(char *str, t_list *var)
 {
 	char	**matrix;
 	int		ret;
@@ -10,19 +10,19 @@ static int	ft_create_export(char *str)
 	matrix = ft_split(str, '=');
 	if (matrix == NULL)
 		return (-1);
-	if (ft_find_env(g_list_env, matrix[0], ft_strlen(matrix[0])) == NULL)
+	if (ft_find_env(var, matrix[0], ft_strlen(matrix[0])) == NULL)
 	{
 		list = ft_new_datalist(matrix[0], matrix[1]);
 		if (list == NULL)
 			ret = -1;
 		else
 		{
-			ft_lstadd_back(&g_list_env, list);
-			ft_setprev(&g_list_env);
+			ft_lstadd_back(&var, list);
+			ft_setprev(&var);
 		}
 	}
 	else
-		ret = ft_change_env(g_list_env, matrix[0], matrix[1]) == -1;
+		ret = ft_change_env(var, matrix[0], matrix[1]) == -1;
 	ft_free_matrix(matrix);
 	return (ret);
 }
@@ -48,7 +48,7 @@ static int	ft_check_export_format(char *str)
 	return (1);
 }
 
-static int	ft_run_export(char **str)
+static int	ft_run_export(char **str, t_list *var)
 {
 	int	i;
 	int	flag;
@@ -61,7 +61,7 @@ static int	ft_run_export(char **str)
 			return (ft_error(6, 0, str[i]));
 		else if (flag == 1)
 		{
-			if (ft_create_export(str[i]) == -1)
+			if (ft_create_export(str[i], var) == -1)
 				return (ft_error(6, 0, str[i]));
 		}
 		i++;
@@ -69,7 +69,7 @@ static int	ft_run_export(char **str)
 	return (1);
 }
 
-int	ft_check_export(t_parse *parse)
+int	ft_check_export(t_parse *parse, t_list *var)
 {
 	char	**new_var;
 	int		fd;
@@ -82,7 +82,7 @@ int	ft_check_export(t_parse *parse)
 	new_var = ft_calloc(3, sizeof(char *));       //malloc
 	if (new_var == NULL)
 		return (-1);
-	ft_run_export(parse->input);
+	ft_run_export(parse->input, var);
 	ft_free_matrix(new_var);                      //free
 	return (1);
 }

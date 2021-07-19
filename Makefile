@@ -33,7 +33,9 @@ SRCS		=	\
 				srcs/utils_2.c \
 				token/token.c \
 				token/token2.c \
-				token/token_utils.c
+				token/token_check.c \
+				token/token_utils.c \
+				token/token_utils2.c \
 
 OBJS		= $(SRCS:.c=.o)
 

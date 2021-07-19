@@ -35,14 +35,14 @@ static int	ft_unset(t_list *list, char *parse)
 	return (1);
 }
 
-int	ft_check_unset(t_parse *parse)
+int	ft_check_unset(t_parse *parse, t_list *var)
 {
 	int	fd;
 
 	fd = ft_open_file(parse->output, 1);
 	if (fd == -1)
 		return (-1);
-	if (ft_unset(g_list_env, parse->input[1]) == -1)
+	if (ft_unset(var, parse->input[1]) == -1)
 		return (-1);
 	if (fd != 1)
 		close (fd);

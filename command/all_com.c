@@ -23,7 +23,7 @@ static char	*ft_set_path(char **mtx, char *str)
 	return (NULL);
 }
 
-static char	*ft_check_path(char *str)
+static char	*ft_check_path(char *str, t_list *var)
 {
 	char		**mtx;
 	char		*path;
@@ -36,7 +36,7 @@ static char	*ft_check_path(char *str)
 	if (lstat(path, &sb) == 0)
 		return (path);
 	free(path);
-	mtx = ft_split(ft_find_env(g_list_env, "PATH", 4), ':');
+	mtx = ft_split(ft_find_env(var, "PATH", 4), ':');
 	if (mtx == NULL)
 		return (NULL);
 	path = ft_set_path(mtx, str);
@@ -44,7 +44,7 @@ static char	*ft_check_path(char *str)
 	return (path);
 }
 
-int	ft_execute_command(t_parse *parse)
+int	ft_execute_command(t_parse *parse, t_list *var)
 {
 	int		pid;
 	int		status;
@@ -54,10 +54,10 @@ int	ft_execute_command(t_parse *parse)
 	pid = fork();
 	if (pid == 0)
 	{
-		path = ft_check_path(parse->command);
+		path = ft_check_path(parse->command, var);
 		if (path != NULL)
 		{
-			mtx = ft_lst_to_mtx(g_list_env);
+			mtx = ft_lst_to_mtx(var);
 			if (execve(path, parse->input, mtx) == -1)
 				ft_putstr_fd(strerror(errno), 1);
 			ft_free_matrix(mtx);
