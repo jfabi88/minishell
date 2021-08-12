@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/09 11:20:41 by jfabi            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static int	ft_create_list_env(char *env[], t_list	**var)
@@ -75,57 +63,19 @@ static t_parse	*ft_parser(char **line, t_list *var)
 	return (parse);
 }
 
-static int	ft_run_commands(t_token *token, int num, t_list *var, t_list *list)
-{
-	t_list	*commands;
-	t_list	*flag;
-
-	commands = token->commands;
-	flag = token->flag;
-	while (commands)
-	{
-		if (num == 1 && ft_strncmp(flag->content, "&&", 3) == 0)
-			num = ft_running(commands->content, list, var);
-		else if ((num == 0 || num == -1) && ft_strncmp(flag->content, "||", 3) == 0)
-			num = ft_running(commands->content, list, var);
-		commands = commands->next;
-		flag = flag->next;
-	}
-	return (num);
-}
-
-static int	ft_run_s_commands(t_token *token, int num, t_list *var, t_list *list)
-{
-	t_list	*commands;
-	t_list	*flag;
-
-	commands = token->s_commands;
-	flag = token->s_flag;
-	while (commands)
-	{
-		if (num == 1 && ft_strncmp(flag->content, "&&", 3) == 0)
-			num = ft_running(commands->content, list, var);
-		else if ((num == 0 || num == -1)  && ft_strncmp(flag->content, "||", 3) == 0)
-			num = ft_running(commands->content, list, var);
-		commands = commands->next;
-		flag = flag->next;
-	}
-	return (num);
-}
-
-int	ft_running(t_token *token, t_list *list, t_list *var)
+static int	ft_run(char *line, t_list *list, t_list *var)
 {
 	t_parse	*parse;
 	int		num;
 
-	parse = ft_parser(&token->line, var);
+	num = 0;
+	parse = ft_parser(&line, var);
 	if (parse != NULL)
 	{
 		num = ft_execute(parse, list, var);
 		ft_free_parse(parse);						//free
 	}
-	num = ft_run_s_commands(token, num, var, list);
-	num = ft_run_commands(token, num, var, list);
+	free(line);
 	return (num);
 }
 
@@ -151,10 +101,7 @@ int	main(int argc, char *argv[], char *env[])
 	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{
-		g_token = ft_tokanizer(line);
-		free(line);
-		ft_running(g_token, list, var);
-		ft_free_token(g_token);
+		ft_run(line, list, var);
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	}
 }
