@@ -2,11 +2,14 @@
 
 void	ft_free_list(t_list *list)
 {
+	t_list *tmp;
+
 	while (list)
 	{
 		free(list->content);
-		free(list);
+		tmp = list;
 		list = list->next;
+		free(tmp);
 	}
 }
 

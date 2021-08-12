@@ -4,6 +4,7 @@ static int	ft_check_par(char *line)
 {
 	int	i;
 
+	i = 0;
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == 0)
