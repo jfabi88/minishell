@@ -75,28 +75,13 @@ static int	ft_parse_lst(char **line, t_parse *parse)
 	return (1);
 }
 
-static char	*ft_expand(char *line, t_list *var)
-{
-	char	*tmp;
-
-	tmp = line;
-	line = ft_dollar_manager(line, var);
-	free(tmp);
-	if (line == NULL)
-		return (NULL);
-	tmp = line;
-	line = ft_wildcard(line, var);
-	free(tmp);
-	return (line);
-}
-
 t_parse	*ft_parsing(char **line, t_list *var)
 {
 	t_parse	*parse;
 	char	*tmp;
 
 	tmp = *line;
-	*line = ft_expand(*line, var);
+	*line = ft_dollar_manager(*line, var);
 	free (tmp);
 	if (*line == NULL)
 		return (NULL);

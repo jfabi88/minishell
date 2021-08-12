@@ -86,7 +86,7 @@ static int	ft_run_commands(t_token *token, int num, t_list *var, t_list *list)
 	{
 		if (num == 1 && ft_strncmp(flag->content, "&&", 3) == 0)
 			num = ft_running(commands->content, list, var);
-		else if (num == 0 && ft_strncmp(flag->content, "||", 3) == 0)
+		else if ((num == 0 || num == -1) && ft_strncmp(flag->content, "||", 3) == 0)
 			num = ft_running(commands->content, list, var);
 		commands = commands->next;
 		flag = flag->next;
@@ -105,7 +105,7 @@ static int	ft_run_s_commands(t_token *token, int num, t_list *var, t_list *list)
 	{
 		if (num == 1 && ft_strncmp(flag->content, "&&", 3) == 0)
 			num = ft_running(commands->content, list, var);
-		else if (num == 0 && ft_strncmp(flag->content, "||", 3) == 0)
+		else if ((num == 0 || num == -1)  && ft_strncmp(flag->content, "||", 3) == 0)
 			num = ft_running(commands->content, list, var);
 		commands = commands->next;
 		flag = flag->next;
