@@ -12,7 +12,7 @@ static int	ft_len_dollar(char *line, t_list *var)//	27 lines
 	i = 0;
 	tot = 0;
 	flag = 1;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == '\'' && ft_is_in_quotes(line, i + 1, '\'', '\"') == 1)
 			flag *= -1;
@@ -52,7 +52,7 @@ static int	ft_change_dollar(char *dst, char *src, int src_pos, t_list *var)
 	return (ft_strlen(content));
 }
 
-char	*ft_dollar_manager(char *line, t_list *var)
+static char	*ft_dollar_manager(char *line, t_list *var)
 {
 	int		i;
 	int		j;
@@ -63,7 +63,7 @@ char	*ft_dollar_manager(char *line, t_list *var)
 	tmp = malloc(ft_len_dollar(line, var) + 1);
 	if (tmp == NULL)
 		return (NULL);
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == '$' && ft_is_in_quotes(line, i, '\'', '\"') != 1)
 		{
@@ -78,4 +78,14 @@ char	*ft_dollar_manager(char *line, t_list *var)
 	}
 	tmp[j] = 0;
 	return (tmp);
+}
+
+char    *ft_expand(char *line, t_list *var)
+{
+    char    *tmp;
+
+    tmp = line;
+	line = ft_dollar_manager(line, var);
+	free (tmp);
+    return (line);
 }

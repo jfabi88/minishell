@@ -85,7 +85,7 @@ CFLAGS		= -Wall -Wextra -Werror
 $(NAME):	$(OBJS)
 			make -C libft
 			mv libft/libft.a .
-			gcc $(OBJS) libft.a -o $(NAME) -lreadline
+			gcc -fsanitize=address $(OBJS) libft.a -o $(NAME) -lreadline
 
 $(NAME_BONUS):	$(OBJS_BONUS)
 				make -C libft

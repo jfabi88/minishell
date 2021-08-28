@@ -75,22 +75,18 @@ static int	ft_parse_lst(char **line, t_parse *parse)
 	return (1);
 }
 
-t_parse	*ft_parsing(char **line, t_list *var)
+t_parse	*ft_parsing(char *line)
 {
 	t_parse	*parse;
-	char	*tmp;
 
-	tmp = *line;
-	*line = ft_dollar_manager(*line, var);
-	free (tmp);
-	if (*line == NULL)
+	if (line == NULL)
 		return (NULL);
-	if (ft_parse_check(*line) == -1)
+	if (ft_parse_check(line) == -1)
 		return (NULL);
 	parse = (t_parse *)malloc(sizeof(t_parse));
 	if (parse == NULL)
 		return (NULL);
-	if (ft_parse_lst(line, parse) == -1)
+	if (ft_parse_lst(&line, parse) == -1)
 		return(ft_free_null(parse));
 	parse->command = ft_m_strlcpy(parse->input[0], ft_strlen(parse->input[0]) + 1);
 	if (parse->command == NULL)

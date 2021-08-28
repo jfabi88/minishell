@@ -58,13 +58,13 @@ int		ft_execute_command(t_parse *parse, t_list *env);
 */
 
 /* parse.c */
-t_parse	*ft_parsing(char **line, t_list *var);
+t_parse	*ft_parsing(char *line);
 
 /* parse_check.c */
 int		ft_parse_check(char *line);
 
 /* parse_dollar.c */
-char	*ft_dollar_manager(char *line, t_list *var);
+char    *ft_expand(char *line, t_list *var);
 
 /* parse_manager.c */
 int		ft_create_str_parse(char **mtx, char **red, char *line);
@@ -82,7 +82,8 @@ char	*ft_wild_card(char *line, t_list *var);
 **  >--PIPE---<
 */
 
-void ft_list_pipe(char *line, t_list **list);
+t_list	*ft_list_parse(char *line);
+int		ft_exec_pipe(t_parse *data, t_list *env, int fd[2]);
 
 /*
 **  >---READ---<
