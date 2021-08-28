@@ -65,16 +65,28 @@ static t_parse	*ft_parser(char **line, t_list *var)
 
 static int	ft_run(char *line, t_list *list, t_list *var)
 {
+	t_list	*pipe_list;
 	t_parse	*parse;
+	char	*tmp;
 	int		num;
+	int		fd[2];
 
 	num = 0;
-	parse = ft_parser(&line, var);
-	if (parse != NULL)
+	pipe_list = NULL;
+	if (line)
+		ft_list_pipe(line, &pipe_list);
+	while (pipe_list && num >= 0)
 	{
-		num = ft_execute(parse, list, var);
-		ft_free_parse(parse);						//free
+		tmp = pipe_list->content;
+		parse = ft_parser(&tmp, var);
+		if (parse != NULL)
+		{
+			num = ft_execute(parse, list, var);
+			ft_free_parse(parse);						//free
+		}
+		pipe_list = pipe_list->next;
 	}
+	ft_free_list(pipe_list);
 	free(line);
 	return (num);
 }

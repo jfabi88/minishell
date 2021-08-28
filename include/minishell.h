@@ -79,6 +79,12 @@ int		ft_is_in_quotes(char *str, int c_pos, char c, char d);
 char	*ft_wild_card(char *line, t_list *var);
 
 /*
+**  >--PIPE---<
+*/
+
+void ft_list_pipe(char *line, t_list **list);
+
+/*
 **  >---READ---<
 */
 

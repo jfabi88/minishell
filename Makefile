@@ -18,6 +18,7 @@ SRCS		=	\
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
+				pipe/pipe.c \
 				read/prompt.c \
 				read/read.c \
 				srcs/create_path.c \
@@ -49,6 +50,7 @@ SRCS_BONUS	=	\
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
+				pipe/pipe.c \
 				read/prompt.c \
 				read/read.c \
 				srcs/create_path.c \
