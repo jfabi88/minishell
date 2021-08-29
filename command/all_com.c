@@ -44,7 +44,7 @@ static char	*ft_check_path(char *str, t_list *var)
 	return (path);
 }
 
-int	ft_execute_command(t_parse *parse, t_list *var)
+int	ft_execute_command(t_parse *parse, t_list *var, int fd[2])
 {
 	int		pid;
 	int		status;
@@ -63,11 +63,14 @@ int	ft_execute_command(t_parse *parse, t_list *var)
 			ft_free_matrix(mtx);
 			free(path);
 		}
+		close(fd[0]);
+		close(fd[1]);
 		_exit (1);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		printf("ASpettando nell'esucuzione\n");
 		WEXITSTATUS(status);
 		return (1);
 	}

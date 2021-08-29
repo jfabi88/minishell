@@ -7,8 +7,8 @@ int	ft_exec_pipe(t_parse *data, t_list *env, int fd[2])
 	fork_id = fork();
 	if (fork_id == 0)
 	{
-		dup2(fd[1], STDOUT_FILENO);
         close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
 		return (0);
 	}
 	else if (fork_id == -1)
@@ -59,6 +59,8 @@ t_list  *ft_list_parse(char *line)
 
     pipe_list = NULL;
     ret = NULL;
+    if (line == NULL)
+        return (ret);
     ft_list_pipe(line, &pipe_list);
     free(line);
     while (pipe_list)

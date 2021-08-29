@@ -26,7 +26,7 @@ static int	ft_create_list_env(char *env[], t_list	**var)
 	return (1);
 }
 
-static int	ft_execute(t_parse *parse, t_list *list, t_list *var)
+static int	ft_execute(t_parse *parse, t_list *list, t_list *var, int fd[2])
 {
 	int	num;
 
@@ -45,7 +45,7 @@ static int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 	else if (ft_strncmp(parse->command, "unset", 4) == 0)
 		num = ft_check_unset(parse, var);
 	else
-		num = ft_execute_command(parse, var);
+		num = ft_execute_command(parse, var, fd);
 	return (num);
 }
 
@@ -63,12 +63,17 @@ static int	ft_run(char *line, t_list *list, t_list *var)
 		pipe(fd);
 		if (ft_exec_pipe(parse_list->content, list, fd) == 0)
 		{
-			num = ft_execute(parse_list->content, list, var);
-			exit (num);
+			num = ft_execute(parse_list->content, list, var, fd);
+			close(fd[0]);
+			close(fd[1]);
+			_exit (num);
 		}
 		parse_list = parse_list->next;
 	}
-	num = ft_execute(parse_list->content, list, var);
+	if (parse_list)
+		num = ft_execute(parse_list->content, list, var, fd);
+	close(fd[0]);
+	close(fd[1]);
 	//free(line);
 	return (num);
 }

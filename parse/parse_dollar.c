@@ -84,8 +84,9 @@ char    *ft_expand(char *line, t_list *var)
 {
     char    *tmp;
 
-    tmp = line;
-	line = ft_dollar_manager(line, var);
+	tmp = line;
+	if (line)
+		line = ft_dollar_manager(line, var);
 	free (tmp);
     return (line);
 }
