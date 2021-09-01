@@ -26,7 +26,7 @@ static int	ft_create_list_env(char *env[], t_list	**var)
 	return (1);
 }
 
-static int	ft_execute(t_parse *parse, t_list *list, t_list *var, int fd[2])
+static int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 {
 	int	num;
 
@@ -45,11 +45,31 @@ static int	ft_execute(t_parse *parse, t_list *list, t_list *var, int fd[2])
 	else if (ft_strncmp(parse->command, "unset", 4) == 0)
 		num = ft_check_unset(parse, var);
 	else
-		num = ft_execute_command(parse, var, fd);
+		num = ft_execute_command(parse, var);
 	return (num);
 }
 
-static int	ft_run(char *line, t_list *list, t_list *var)
+static int ft_go(t_list *parse_list, t_list *history, t_list *var)
+{
+	int	num;
+
+	if(parse_list && parse_list->next)
+	{
+		if (ft_exec_pipe(parse_list, parse_list->content, history) == 0)
+		{
+			num = ft_execute(parse_list->content, history, var);
+			exit (num);
+		}
+		else 
+			return (ft_go(parse_list->next, history, var));
+	}
+	if (parse_list)
+		num = ft_execute(parse_list->content, history, var);
+	dup2(1, STDIN_FILENO);
+	return (num);
+}
+
+static int	ft_run(char *line, t_list *history, t_list *var)
 {
 	t_list	*parse_list;
 	int		num;
@@ -58,23 +78,9 @@ static int	ft_run(char *line, t_list *list, t_list *var)
 	num = 0;
 	line = ft_expand(line, var);
 	parse_list = ft_list_parse(line);
-	while (parse_list && parse_list->next)
-	{
-		pipe(fd);
-		if (ft_exec_pipe(parse_list->content, list, fd) == 0)
-		{
-			num = ft_execute(parse_list->content, list, var, fd);
-			close(fd[0]);
-			close(fd[1]);
-			_exit (num);
-		}
-		parse_list = parse_list->next;
-	}
-	if (parse_list)
-		num = ft_execute(parse_list->content, list, var, fd);
-	close(fd[0]);
-	close(fd[1]);
-	//free(line);
+	num = ft_go(parse_list, history, var);
+	free(line);
+	ft_free_parse_list(parse_list);
 	return (num);
 }
 

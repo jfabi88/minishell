@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+void	ft_free_parse_list(t_list *list)
+{
+	t_list *tmp;
+
+	while (list)
+	{
+		tmp = list;
+		ft_free_parse(list->content);
+		list = list->next;
+		free(tmp);
+	}
+}
+
 void	ft_free_list(t_list *list)
 {
 	t_list *tmp;

@@ -51,7 +51,7 @@ int		ft_check_env(t_parse *parse, t_list *env);
 int		ft_check_exit(t_parse *parse, t_list *list, t_list *env);
 int		ft_check_export(t_parse *parse, t_list *env);
 int		ft_check_unset(t_parse *parse, t_list *env);
-int		ft_execute_command(t_parse *parse, t_list *env, int fd[2]);
+int		ft_execute_command(t_parse *parse, t_list *env);
 
 /*
 **	>---PARSE---<
@@ -83,7 +83,7 @@ char	*ft_wild_card(char *line, t_list *var);
 */
 
 t_list	*ft_list_parse(char *line);
-int		ft_exec_pipe(t_parse *data, t_list *env, int fd[2]);
+int		ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *env);
 
 /*
 **  >---READ---<
@@ -153,6 +153,7 @@ void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 void	ft_free_data(t_data *data);
 char	*ft_strdel(char *str, int num);
+void	ft_free_parse_list(t_list *list);
 
 /* utils_2.c */
 int		ft_between_c(char *str, int c_pos, char c);

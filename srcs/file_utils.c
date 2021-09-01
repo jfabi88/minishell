@@ -36,6 +36,8 @@ int	ft_open_file(char **output, int fd)
 		flag = ft_is_flag(output[i]);
 		if (fd != 1 && (flag == 1 || flag == 3))
 			close (fd);
+		if (fd_2 != 0 && (flag == 2))
+			close (fd_2);
 		if (flag == 1 || flag == 3)
 			fd = ft_open_arrow(flag, output[i + 1]);
 		else if (flag == 2)
@@ -44,8 +46,6 @@ int	ft_open_file(char **output, int fd)
 			ft_run_extra_terminal(output[i + 1]);
 		if (fd < 0 || fd_2 < 0)
 			return (-1);
-		else if (fd_2 > 0)
-			close(fd_2);
 		i += 2;
 	}
 	return (fd);

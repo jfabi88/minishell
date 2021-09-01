@@ -1,23 +1,50 @@
 #include "minishell.h"
 
-int	ft_exec_pipe(t_parse *data, t_list *env, int fd[2])
+void	ft_set_dup(int fd[2], int flag)
+{
+	if (flag == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], 1);
+		close(fd[1]);
+	}
+	if (flag == 1)
+	{
+		dup2(fd[1], 1);
+		dup2(fd[0], 0);
+		close (fd[1]);
+		close(fd[0]);
+	}
+	if (flag == 2)
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
+}
+
+int	ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *env)
 {
     int		fork_id;
+	int		fd[2];
 
+	pipe(fd);
 	fork_id = fork();
-	if (fork_id == 0)
+	if (fork_id == 0 && !parse_list->prev)
 	{
-        close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
+        ft_set_dup(fd, 0);
+		return (0);
+	}
+	else if(fork_id == 0)
+	{
+		ft_set_dup(fd, 1);
 		return (0);
 	}
 	else if (fork_id == -1)
 		return (-1);
 	else
 	{
-		waitpid(fork_id, NULL, 0);
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		ft_set_dup(fd, 2);
 		return (1);
 	}
 }
@@ -54,6 +81,7 @@ static void ft_list_pipe(char *line, t_list **list)
 t_list  *ft_list_parse(char *line)
 {
     t_list  *pipe_list;
+	t_list	*tmp;
     t_list  *ret;
     t_parse	*parse;
 
@@ -62,13 +90,13 @@ t_list  *ft_list_parse(char *line)
     if (line == NULL)
         return (ret);
     ft_list_pipe(line, &pipe_list);
-    free(line);
+	tmp = pipe_list;
     while (pipe_list)
     {
         parse = ft_parsing(pipe_list->content);
         ft_lst_add_content(parse, &ret, 2);
         pipe_list = pipe_list->next;
     }
-    ft_free_list(pipe_list);
+    ft_free_list(tmp);
     return (ret);
 }
