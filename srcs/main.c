@@ -26,7 +26,7 @@ static int	ft_create_list_env(char *env[], t_list	**var)
 	return (1);
 }
 
-static int	ft_execute(t_parse *parse, t_list *list, t_list *var)
+int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 {
 	int	num;
 
@@ -55,17 +55,13 @@ static int ft_go(t_list *parse_list, t_list *history, t_list *var)
 
 	if(parse_list && parse_list->next)
 	{
-		if (ft_exec_pipe(parse_list, parse_list->content, history) == 0)
-		{
-			num = ft_execute(parse_list->content, history, var);
-			exit (num);
-		}
-		else 
-			return (ft_go(parse_list->next, history, var));
+		num = ft_exec_pipe(parse_list, parse_list->content, history, var);
+		if (num == -1)
+			return (num);
+		return (ft_go(parse_list->next, history, var));
 	}
 	if (parse_list)
 		num = ft_execute(parse_list->content, history, var);
-	dup2(1, STDIN_FILENO);
 	return (num);
 }
 
@@ -106,7 +102,12 @@ int	main(int argc, char *argv[], char *env[])
 	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{
+		void *vuf;
 		ft_run(line, list, var);
+		printf("oppela\n");
+		while(read(1, vuf, 1) > 0)
+			printf("Ciao\n");
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+		sleep(2);
 	}
 }

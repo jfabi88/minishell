@@ -96,7 +96,7 @@ char	*ft_read(const char *prompt, t_list **list)
 		line = ft_newstr(buf, line, list, &size);
 		ft_write_prompt((char *)prompt, line);
 		ft_bzero(buf, 5);
-		num = read(1, buf, 4);
+		num = read(STDIN_FILENO, buf, 4);
 	}
 	if (buf[0] == 3 && line != NULL)
 		ft_bzero(line, ft_strlen(line));

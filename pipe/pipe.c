@@ -1,50 +1,28 @@
 #include "minishell.h"
 
-void	ft_set_dup(int fd[2], int flag)
-{
-	if (flag == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		close(fd[1]);
-	}
-	if (flag == 1)
-	{
-		dup2(fd[1], 1);
-		dup2(fd[0], 0);
-		close (fd[1]);
-		close(fd[0]);
-	}
-	if (flag == 2)
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
-	}
-}
-
-int	ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *env)
+int	ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *history, t_list *env)
 {
     int		fork_id;
 	int		fd[2];
 
-	pipe(fd);
+	if (pipe(fd) == -1)
+        return (-1);
 	fork_id = fork();
-	if (fork_id == 0 && !parse_list->prev)
+	if (fork_id == 0)
 	{
-        ft_set_dup(fd, 0);
-		return (0);
-	}
-	else if(fork_id == 0)
-	{
-		ft_set_dup(fd, 1);
-		return (0);
+        close(fd[0]);
+		dup2(fd[1], 1);
+		close(fd[1]);
+        exit (ft_execute(parse_list->content, history, env));
 	}
 	else if (fork_id == -1)
 		return (-1);
 	else
 	{
-		ft_set_dup(fd, 2);
+        waitpid(fork_id, NULL, 0);
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
 		return (1);
 	}
 }

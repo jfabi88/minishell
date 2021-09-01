@@ -2,8 +2,8 @@
 
 void	ft_write_prompt(char *prompt, char *line)
 {
-	write(STDIN_FILENO,"\x1b[2K",4);
-	write(STDIN_FILENO, "\033[u", 4);
+	write(STDOUT_FILENO,"\x1b[2K",4);
+	write(STDOUT_FILENO, "\033[u", 4);
 	ft_putstr_fd(prompt, 1);
 	ft_putstr_fd(line, 1);
 }
@@ -16,8 +16,8 @@ char	*ft_prompt(const char *prompt, t_list **list, struct termios *or_termios)
 	new_termios = *or_termios;
 	new_termios.c_lflag &= ~(ECHO | ICANON | ISIG);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_termios);
-	write(STDIN_FILENO, "\033[s", 4);
-	ft_putstr_fd((char *)prompt, 1);
+	write(STDOUT_FILENO, "\033[s", 4);
+	ft_putstr_fd((char *)prompt, STDOUT_FILENO);
 	if (*list != NULL)
 		*list = ft_lstlast(*list);
 	line = ft_read(prompt, list);
