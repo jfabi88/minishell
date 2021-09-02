@@ -52,10 +52,11 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 static int ft_go(t_list *parse_list, t_list *history, t_list *var)
 {
 	int	num;
+	int fd_old;
 
 	if(parse_list && parse_list->next)
 	{
-		num = ft_exec_pipe(parse_list, parse_list->content, history, var);
+		num = ft_exec_pipe(parse_list->content, history, var);
 		if (num == -1)
 			return (num);
 		return (ft_go(parse_list->next, history, var));
@@ -74,7 +75,9 @@ static int	ft_run(char *line, t_list *history, t_list *var)
 	num = 0;
 	line = ft_expand(line, var);
 	parse_list = ft_list_parse(line);
+	ft_save_fd(&fd[0], &fd[1]);
 	num = ft_go(parse_list, history, var);
+	ft_restore_fd(fd);
 	free(line);
 	ft_free_parse_list(parse_list);
 	return (num);
@@ -104,10 +107,6 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		void *vuf;
 		ft_run(line, list, var);
-		printf("oppela\n");
-		while(read(1, vuf, 1) > 0)
-			printf("Ciao\n");
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
-		sleep(2);
 	}
 }

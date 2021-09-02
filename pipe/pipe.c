@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *history, t_list *env)
+int	ft_exec_pipe(t_parse *data, t_list *history, t_list *env)
 {
     int		fork_id;
 	int		fd[2];
@@ -11,17 +11,18 @@ int	ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *history, t_list *env
 	if (fork_id == 0)
 	{
         close(fd[0]);
-		dup2(fd[1], 1);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-        exit (ft_execute(parse_list->content, history, env));
+        exit (ft_execute(data, history, env));
 	}
 	else if (fork_id == -1)
 		return (-1);
 	else
 	{
-        waitpid(fork_id, NULL, 0);
+        //waitpid(fork_id, NULL, 0);
+        sleep(1);
 		close(fd[1]);
-		dup2(fd[0], 0);
+		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		return (1);
 	}

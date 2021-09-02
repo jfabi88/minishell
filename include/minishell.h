@@ -39,6 +39,7 @@ typedef struct s_parse
 }				t_parse;
 
 t_token	*g_token;
+int		g_fd[2];
 
 /*
 **	>---COMMAND---<
@@ -53,9 +54,18 @@ int		ft_check_export(t_parse *parse, t_list *env);
 int		ft_check_unset(t_parse *parse, t_list *env);
 int		ft_execute_command(t_parse *parse, t_list *env);
 
+/*
+**  >---FILE_MANAGER---<
+*/
+
+void    ft_save_fd(int *fd_in, int *fd_out);
+void    ft_restore_fd(int fd[2]);
+
+/*
+**  >---MAIN---<
+*/
 
 int	ft_execute(t_parse *parse, t_list *list, t_list *var);
-
 
 /*
 **	>---PARSE---<
@@ -87,7 +97,7 @@ char	*ft_wild_card(char *line, t_list *var);
 */
 
 t_list	*ft_list_parse(char *line);
-int		ft_exec_pipe(t_list *parse_list, t_parse *data, t_list *history, t_list *var);
+int		ft_exec_pipe(t_parse *data, t_list *history, t_list *var);
 
 /*
 **  >---READ---<

@@ -2,10 +2,10 @@
 
 void	ft_write_prompt(char *prompt, char *line)
 {
-	write(STDOUT_FILENO,"\x1b[2K",4);
+	write(STDOUT_FILENO,"\x1b[2K", 4);
 	write(STDOUT_FILENO, "\033[u", 4);
-	ft_putstr_fd(prompt, 1);
-	ft_putstr_fd(line, 1);
+	ft_putstr_fd(prompt, STDOUT_FILENO);
+	ft_putstr_fd(line, STDOUT_FILENO);
 }
 
 char	*ft_prompt(const char *prompt, t_list **list, struct termios *or_termios)
