@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+int	ft_add_env(t_list *var, char *dst, char *src, int id)
+{
+	if (ft_find_env(var, dst, ft_strlen(dst)) == NULL)
+	{
+		if (ft_create_env(var, dst, src, id) == -1)
+			return (-1);
+	}
+	else
+	{
+		if (ft_change_env(var, dst, src) == -1)
+			return (-1);
+	}
+	return (1);
+}
+
 int	ft_change_env(t_list *list, char *dst, char *src)
 {
 	t_data	*temp;
@@ -52,11 +67,11 @@ void	ft_free_listenv(t_list *env)
 	}
 }
 
-int	ft_create_env(t_list *list, const char *env, const char *content)
+int	ft_create_env(t_list *list, const char *env, const char *content, int id)
 {
 	t_list	*l;
 
-	l = ft_new_datalist(env, content);
+	l = ft_new_datalist(env, content, id);
 	if (l == NULL)
 		return (-1);
 	ft_lstadd_back(&list, l);

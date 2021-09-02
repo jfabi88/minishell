@@ -46,5 +46,5 @@ int	ft_check_unset(t_parse *parse, t_list *var)
 		return (-1);
 	if (fd != 1)
 		close (fd);
-	return (1);
+	return (0);
 }

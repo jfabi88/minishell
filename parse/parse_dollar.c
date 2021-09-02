@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-static int	ft_len_dollar(char *line, t_list *var)//	27 lines
+static int	ft_len_dollar(char *line, t_list *var)
 {
 	char	*tmp;
 	int		flag;
@@ -80,13 +79,13 @@ static char	*ft_dollar_manager(char *line, t_list *var)
 	return (tmp);
 }
 
-char    *ft_expand(char *line, t_list *var)
+char	*ft_expand(char *line, t_list *var)
 {
-    char    *tmp;
+	char	*tmp;
 
 	tmp = line;
 	if (line)
 		line = ft_dollar_manager(line, var);
 	free (tmp);
-    return (line);
+	return (line);
 }

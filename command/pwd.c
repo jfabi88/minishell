@@ -19,5 +19,5 @@ int	ft_check_pwd(t_parse *parse, t_list *var)
 	ft_pwd(fd, var);
 	if (fd != 1)
 		close (fd);
-	return (1);
+	return (0);
 }

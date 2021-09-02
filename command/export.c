@@ -12,7 +12,7 @@ static int	ft_create_export(char *str, t_list *var)
 		return (-1);
 	if (ft_find_env(var, matrix[0], ft_strlen(matrix[0])) == NULL)
 	{
-		list = ft_new_datalist(matrix[0], matrix[1]);
+		list = ft_new_datalist(matrix[0], matrix[1], 1);
 		if (list == NULL)
 			ret = -1;
 		else
@@ -84,5 +84,5 @@ int	ft_check_export(t_parse *parse, t_list *var)
 		return (-1);
 	ft_run_export(parse->input, var);
 	ft_free_matrix(new_var);                      //free
-	return (1);
+	return (0);
 }

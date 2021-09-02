@@ -2,7 +2,7 @@
 
 void	ft_free_parse_list(t_list *list)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	while (list)
 	{
@@ -15,7 +15,7 @@ void	ft_free_parse_list(t_list *list)
 
 void	ft_free_list(t_list *list)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	while (list)
 	{
@@ -49,6 +49,22 @@ char	*ft_strdel(char *str, int num)
 	return (ret);
 }
 
+int	ft_data_lst_size(t_list *data_list, int id)
+{
+	t_data	*data;
+	int		ret;
+
+	ret = 0;
+	while (data_list)
+	{
+		data = data_list->content;
+		if (data->id == id || id == 2)
+			ret++;
+		data_list = data_list->next;
+	}
+	return (ret);
+}
+
 char	**ft_lst_to_mtx(t_list *list)
 {
 	int		len;
@@ -56,7 +72,7 @@ char	**ft_lst_to_mtx(t_list *list)
 	char	**mtx;
 	t_data	*d;
 
-	len = ft_lstsize(list);
+	len = ft_data_lst_size(list, 0);
 	mtx = malloc(sizeof(char *) * (len + 1));
 	if (mtx == NULL)
 		return (NULL);
@@ -64,14 +80,17 @@ char	**ft_lst_to_mtx(t_list *list)
 	while (list)
 	{
 		d = ((t_data *)(list->content));
-		s_l = ft_strlen(d->env);
-		mtx[len] = malloc(ft_strlen(d->content) + s_l + 2);
-		if (mtx[len] == NULL)
-			return (ft_free_matrix(mtx));
-		ft_memcpy(mtx[len], d->env, s_l);
-		ft_memcpy(mtx[len] + s_l, "=", 1);
-		ft_strlcpy(mtx[len] + s_l + 1, d->content, ft_strlen(d->content) + 1);
-		len++;
+		if (d->id == 0)
+		{
+			s_l = ft_strlen(d->env);
+			mtx[len] = malloc(ft_strlen(d->content) + s_l + 2);
+			if (mtx[len] == NULL)
+				return (ft_free_matrix(mtx));
+			ft_memcpy(mtx[len], d->env, s_l);
+			ft_memcpy(mtx[len] + s_l, "=", 1);
+			ft_strlcpy(mtx[len] + s_l + 1, d->content, ft_strlen(d->content) + 1);
+			len++;
+		}
 		list = list->next;
 	}
 	mtx[len] = NULL;

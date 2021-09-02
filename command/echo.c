@@ -45,11 +45,12 @@ int	ft_check_echo(t_parse *parse)
 {
 	int		fd;
 
-	fd = ft_open_file(parse->output, 1);
-	if (fd == -1)
-		return (-1);
+	fd = 1;
+	//fd = ft_open_file(parse->output, 1);
+	//if (fd == -1)
+	//	return (-1);
 	ft_echo(parse->input, fd);
-	if (fd != 1)
-		close (fd);
-	return (1);
+	//if (fd != 1)
+	//	close (fd);
+	return (0);
 }

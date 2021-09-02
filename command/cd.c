@@ -9,19 +9,10 @@ static int	ft_cd(char *path, char *input, t_list *var)
 	if (cd == -1)
 		return (ft_error(5, 0, input));
 	content = ft_find_env(var, "PWD", 3);
-	if (ft_find_env(var, "OLDPWD", 6) == NULL)
-	{
-		if (ft_create_env(var, "OLDPWD", content) == -1)
-			return (-1);
-	}
-	else
-	{
-		if (ft_change_env(var, "OLDPWD", content) == -1)
-			return (-1);
-	}
+	ft_add_env(var, "OLDPWD", content, 0);
 	if (ft_change_env(var, "PWD", path) == -1)
 		return (-1);
-	return (1);
+	return (0);
 }
 
 static char	*ft_run_cd(char **output, t_list *var)

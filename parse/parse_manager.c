@@ -26,7 +26,7 @@ static size_t	ft_strlcpy_no_c(char *dst, char *s, size_t size)
 	return (j);
 }
 
-static int	ft_red(char *line, char **mtx, int *flag)//	27 lines
+static int	ft_red(char *line, char **mtx, int *flag)
 {
 	char	*tmp;
 	int		j;
@@ -44,7 +44,6 @@ static int	ft_red(char *line, char **mtx, int *flag)//	27 lines
 		k++;
 	mtx[k] = tmp;
 	*flag = 1;
-	//printf("line at the end of ft_red : |%s|\n", mtx[*k - 1]);//	<---------DEBUG
 	return (j);
 }
 
@@ -59,9 +58,9 @@ static int	ft_cpy(char *l, char **mtx)
 	k = 0;
 	while (l[i] && (!ft_is_in_str(" <>", l[i]) || ft_is_in_quotes(l, i, '\'', '\"')))
 	{
-		if (l[i] == '\'' && ft_is_quotes(l, i , '\'', '\"') == 1)
+		if (l[i] == '\'' && ft_is_quotes(l, i, '\'', '\"') == 1)
 			j += 0;
-		if (l[i] == '"' && ft_is_quotes(l, i , '"', '\'') == 1)
+		if (l[i] == '"' && ft_is_quotes(l, i, '"', '\'') == 1)
 			j += 0;
 		else
 			j++;

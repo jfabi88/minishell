@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void	ft_run_extra_terminal(char *del)
+int	ft_run_extra_terminal(char *del)
 {
-	int		pid;
+	pid_t	pid;
 	int		status;
 	char	*line;
 
 	pid = fork();
 	if (pid < 0)
-		printf("qualcosa");                                  //si deve gestire l'errore
+		return (-1);
 	else if (pid == 0)
 	{
 		line = readline("> ");
@@ -19,8 +19,8 @@ void	ft_run_extra_terminal(char *del)
 			line = readline("> ");
 		}
 	}
-	else
-		wait(&status);
+	waitpid(pid, NULL, 0);
+	return (0);
 }
 
 int	ft_open_file(char **output, int fd)

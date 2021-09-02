@@ -4,7 +4,7 @@ t_data	*ft_malloc_data(int size_env, int size_content)
 {
 	t_data	*data;
 
-	data = malloc(sizeof(t_data *));
+	data = malloc(sizeof(t_data));
 	if (data == NULL)
 		return (NULL);
 	data->env = malloc(size_env + 1);
@@ -23,7 +23,7 @@ t_data	*ft_malloc_data(int size_env, int size_content)
 	return (data);
 }
 
-t_list	*ft_new_datalist(const char *env, const char *content)
+t_list	*ft_new_datalist(const char *env, const char *content, int id)
 {
 	t_data	*data;
 	t_list	*list;
@@ -40,6 +40,7 @@ t_list	*ft_new_datalist(const char *env, const char *content)
 		return (NULL);
 	ft_strlcpy(data->env, env, len_env + 1);
 	ft_strlcpy(data->content, content, len_content + 1);
+	data->id = id;
 	list = ft_lstnew(data);
 	if (list == NULL)
 		ft_free_data(data);

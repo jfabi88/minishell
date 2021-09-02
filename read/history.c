@@ -55,8 +55,7 @@ int	ft_change_history(char *line, t_list **list)
 	t_list	*tmp;
 	char	*cpy;
 
-	//add_history(line);
-	*list = ft_lstfirst(*list); 
+	*list = ft_lstfirst(*list);
 	cpy = malloc(ft_strlen(line) + 1);
 	if (cpy == NULL)
 		return (-1);
@@ -83,7 +82,6 @@ int	ft_file_history(t_list **list, t_list *var)
 	num = ft_get_next_line(fd, &buffer);
 	while (num == 1)
 	{
-		//add_history(buffer);
 		num = ft_change_history(buffer, list);
 		free(buffer);
 		if (num != -1)

@@ -12,7 +12,7 @@ static int	ft_create_list_env(char *env[], t_list	**var)
 		matrix = ft_split(env[i], '=');							//malloc
 		if (matrix == NULL)
 			return (-1);
-		list = ft_new_datalist(matrix[0], matrix[1]);			//malloc
+		list = ft_new_datalist(matrix[0], matrix[1], 0);			//malloc
 		if (list == 0)
 		{
 			ft_free_listenv(list);
@@ -51,18 +51,27 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 
 static int ft_go(t_list *parse_list, t_list *history, t_list *var)
 {
-	int	num;
-	int fd_old;
+	int		num;
+	int		fd[2];
+	t_parse	*data;
 
 	if(parse_list && parse_list->next)
 	{
-		num = ft_exec_pipe(parse_list->content, history, var);
+		data = ((t_parse *)(parse_list->next)->content);
+		num = ft_exec_pipe(parse_list->content, data, history, var);
 		if (num == -1)
 			return (num);
 		return (ft_go(parse_list->next, history, var));
 	}
-	if (parse_list)
+	if (parse_list && parse_list->prev != NULL)
 		num = ft_execute(parse_list->content, history, var);
+	else if (parse_list && parse_list->prev == NULL)
+	{
+		ft_open_red(((t_parse *)(parse_list->content))->output, &fd[0], &fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		num = ft_execute(parse_list->content, history, var);
+	}
 	return (num);
 }
 
@@ -77,6 +86,7 @@ static int	ft_run(char *line, t_list *history, t_list *var)
 	parse_list = ft_list_parse(line);
 	ft_save_fd(&fd[0], &fd[1]);
 	num = ft_go(parse_list, history, var);
+	ft_add_env(var, "?", ft_itoa(num), 1);
 	ft_restore_fd(fd);
 	free(line);
 	ft_free_parse_list(parse_list);
@@ -105,7 +115,6 @@ int	main(int argc, char *argv[], char *env[])
 	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{
-		void *vuf;
 		ft_run(line, list, var);
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	}

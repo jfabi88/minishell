@@ -29,6 +29,7 @@ typedef struct s_data
 {
 	char	*env;
 	char	*content;
+	int		id;
 }				t_data;
 
 typedef struct s_parse
@@ -60,6 +61,7 @@ int		ft_execute_command(t_parse *parse, t_list *env);
 
 void    ft_save_fd(int *fd_in, int *fd_out);
 void    ft_restore_fd(int fd[2]);
+int		ft_open_red(char **output, int *fd_in, int *fd_out);
 
 /*
 **  >---MAIN---<
@@ -97,7 +99,7 @@ char	*ft_wild_card(char *line, t_list *var);
 */
 
 t_list	*ft_list_parse(char *line);
-int		ft_exec_pipe(t_parse *data, t_list *history, t_list *var);
+int		ft_exec_pipe(t_parse *parse, t_parse *next, t_list *history, t_list *var);
 
 /*
 **  >---READ---<
@@ -121,19 +123,20 @@ char	*ft_create_home_path(t_list *list);
 
 /* data_utils.c */
 t_data	*ft_malloc_data(int size_env, int size_content);
-t_list	*ft_new_datalist(const char *env, const char *content);
+t_list	*ft_new_datalist(const char *env, const char *content, int id);
 
 /* env_utils.c */
 char	*ft_find_env(t_list *list, char *env, int len);
 int		ft_change_env(t_list *list, char *dst, char *src);
 void	ft_free_listenv(t_list *env);
-int		ft_create_env(t_list *list, const char *env, const char *content);
+int		ft_create_env(t_list *list, const char *env, const char *content, int id);
+int		ft_add_env(t_list *var, char *dst, char *src, int id);
 
 /* error */
 int		ft_error(int id, char c, char *str);
 
 /* file_utils.c */
-void	ft_run_extra_terminal(char *del);
+int		ft_run_extra_terminal(char *del);
 int		ft_open_file(char **output, int fd);
 int		ft_open_arrow(int flag, char *stringa);
 
@@ -168,6 +171,7 @@ int		ft_find_strposition(char *str, char **matrix);
 void	ft_free_data(t_data *data);
 char	*ft_strdel(char *str, int num);
 void	ft_free_parse_list(t_list *list);
+int		ft_data_lst_size(t_list *data_list, int id);
 
 /* utils_2.c */
 int		ft_between_c(char *str, int c_pos, char c);

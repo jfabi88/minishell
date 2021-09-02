@@ -22,6 +22,7 @@ SRCS		=	\
 				pipe/pipe.c \
 				read/prompt.c \
 				read/read.c \
+				read/history.c \
 				srcs/create_path.c \
 				srcs/data_utils.c \
 				srcs/env_utils.c \
@@ -31,7 +32,6 @@ SRCS		=	\
 				srcs/ft_m_strlcpy.c \
 				srcs/main.c \
 				srcs/lst_utils.c \
-				srcs/history.c \
 				srcs/mtr_utils.c \
 				srcs/utils.c \
 				srcs/utils_2.c \
@@ -52,6 +52,7 @@ SRCS_BONUS	=	\
 				parse/parse_utils.c \
 				parse/parse.c \
 				pipe/pipe.c \
+				read/history.c \
 				read/prompt.c \
 				read/read.c \
 				srcs/create_path.c \
@@ -62,7 +63,6 @@ SRCS_BONUS	=	\
 				srcs/flag_utils.c \
 				srcs/ft_m_strlcpy.c \
 				srcs/lst_utils.c \
-				srcs/history.c \
 				srcs/mtr_utils.c \
 				srcs/utils.c \
 				srcs/utils_2.c \

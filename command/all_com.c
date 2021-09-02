@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+static void	ft_null(int sign)
+{
+	return ;
+}
+
 static char	*ft_set_path(char **mtx, char *str)
 {
 	char		*path;
@@ -44,6 +49,32 @@ static char	*ft_check_path(char *str, t_list *var)
 	return (path);
 }
 
+int	ft_execute_child(t_parse *parse, t_list *var)
+{
+	int		ret;
+	char	*path;
+	char	**mtx;
+
+	path = ft_check_path(parse->command, var);
+	if (path != NULL)
+	{
+		mtx = ft_lst_to_mtx(var);
+		ret = execve(path, parse->input, mtx);
+		if (ret < 0)
+			ft_putstr_fd(strerror(errno), 2);
+		ft_free_matrix(mtx);
+		free(path);
+	}
+	else
+	{
+		ft_putstr_fd(": command not found: ", 2);
+		ft_putstr_fd(parse->command, 2);
+		ft_putstr_fd("\n", 2);
+		return (127);
+	}
+	return (ret);
+}
+
 int	ft_execute_command(t_parse *parse, t_list *var)
 {
 	int		pid;
@@ -53,22 +84,12 @@ int	ft_execute_command(t_parse *parse, t_list *var)
 
 	pid = fork();
 	if (pid == 0)
-	{
-		path = ft_check_path(parse->command, var);
-		if (path != NULL)
-		{
-			mtx = ft_lst_to_mtx(var);
-			if (execve(path, parse->input, mtx) == -1)
-				ft_putstr_fd(strerror(errno), 1);
-			ft_free_matrix(mtx);
-			free(path);
-		}
-		_exit (1);
-	}
+		exit(ft_execute_child(parse, var));
 	else
 	{
+		signal(SIGINT, ft_null);
+		signal(SIGQUIT, ft_null);
 		waitpid(pid, &status, 0);
-		WEXITSTATUS(status);
-		return (1);
+		return (WEXITSTATUS(status));
 	}
 }

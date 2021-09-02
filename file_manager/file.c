@@ -1,13 +1,42 @@
 #include "minishell.h"
 
-void    ft_save_fd(int *fd_in, int *fd_out)
+int	ft_open_red(char **output, int *fd_in, int *fd_out)
 {
-    *fd_in = dup(STDIN_FILENO);
+	int	i;
+	int	flag;
+	int	fd[2];
+
+	i = 0;
+	fd[0] = 0;
+	fd[1] = 1;
+	while (output && output[i])
+	{
+		flag = ft_is_flag(output[i]);
+		if (flag != 4 && fd[flag % 2] != flag % 2)
+			close (fd[flag % 2]);
+		if (flag == 1 || flag == 3 || flag == 2)
+			fd[flag % 2] = ft_open_arrow(flag, output[i + 1]);
+		if (flag == 4)
+			ft_run_extra_terminal(output[i + 1]);
+		if (fd[1] < 0 || fd[0] < 0)
+			return (-1);
+		i += 2;
+	}
+	*fd_in = fd[0];
+	*fd_out = fd[1];
+	return (0);
+}
+
+void	ft_save_fd(int *fd_in, int *fd_out)
+{
+	*fd_in = dup(STDIN_FILENO);
 	*fd_out = dup(STDOUT_FILENO);
 }
 
-void    ft_restore_fd(int fd[2])
+void	ft_restore_fd(int fd[2])
 {
-    dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 }

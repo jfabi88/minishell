@@ -102,7 +102,7 @@ int	ft_is_quotes(char *str, int c_pos, char c, char d)
 		return (1);
 	if (str[c_pos] == str[c_pos + 1])
 		return (1);
-	if (c_pos != 0 && str[c_pos] == str[c_pos -1])
+	if (c_pos != 0 && str[c_pos] == str[c_pos - 1])
 		return (1);
 	return (0);
 }
@@ -116,7 +116,6 @@ int	ft_is_in_quotes(char *str, int c_pos, char c, char d)
 	flag = 0;
 	while (i < c_pos)
 	{
-		
 		if (str[i] == c && flag == 0)
 			flag = 1;
 		else if (str[i] == c && flag == 1)
