@@ -8,6 +8,7 @@ static int	ft_error_20(int id)
 		ft_putstr_fd("#: fail to create env's list\n", 2);
 	if (id == 17)
 		ft_putstr_fd("#: error with history file\n", 2);
+	return (-1);
 }
 
 static int	ft_error_15(int id, char *str)

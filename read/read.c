@@ -71,10 +71,15 @@ static char	*ft_newstr(char buf[5], char *line, t_list **list, int *size)
 	{
 		line = ft_create_line(buf, line);
 		if (tmp != NULL)
+		{
 			free(tmp);
+			tmp = NULL;
+		}
 		tmp = ft_m_strlcpy(line, ft_strlen(line) + 1);
 	}
-	free(del);
+	else if (buf[0] == 4)// non rimuovere per nessun motivo al mondo!!!!!
+		return(line);
+	free(del);//	se commento questo, l'errore di malloc in caso di cat + ctrl+d + cttrl+d non appare
 	return (line);
 }
 
@@ -91,9 +96,13 @@ char	*ft_read(const char *prompt, t_list **list)
 	num = read(STDIN_FILENO, buf, 4);
 	while (num > 0 && buf[0] != '\n' && buf[0] != 3)
 	{
-		if (buf[0] == 4 && line == NULL)
-			return (ft_create_exit(line));
-		line = ft_newstr(buf, line, list, &size);
+		write(2, &buf[0], 1);
+		if (buf[0] == 4)
+		{
+			if (line == NULL)
+				return (ft_create_exit(line));
+		}
+		line = ft_newstr(buf, line, list, &size);// l'errore di malloc si ctrl+d nasce qui
 		ft_write_prompt((char *)prompt, line);
 		ft_bzero(buf, 5);
 		num = read(STDIN_FILENO, buf, 4);

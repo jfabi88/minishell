@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfabi <jfabi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:19:14 by jfabi             #+#    #+#             */
-/*   Updated: 2021/07/09 11:20:41 by jfabi            ###   ########.fr       */
+/*   Updated: 2021/09/06 12:11:52 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,6 @@ int	ft_running(t_token *token, t_list *history, t_list *var, int id)
 	}
 	return (num);
 }
-
 
 int	main(int argc, char *argv[], char *env[])
 {

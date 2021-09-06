@@ -26,7 +26,7 @@ void	ft_print_token(t_token *token)
 		ft_print_token(s_commands->content);
 		s_commands = s_commands->next;
 	}
-	while(flag)
+	while (flag)
 	{
 		printf("La flag numero %d del token %d é: %s\n", j, i, flag->content);
 		j++;

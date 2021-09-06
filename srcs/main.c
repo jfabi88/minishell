@@ -112,7 +112,6 @@ int	main(int argc, char *argv[], char *env[])
 		ft_error(16, 0, NULL);
 	if (ft_file_history(&list, var) == -1)
 		ft_error(17, 0, NULL);
-	//line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);

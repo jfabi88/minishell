@@ -93,12 +93,12 @@ CFLAGS		= -Wall -Wextra -Werror
 $(NAME):	$(OBJS)
 			make -C libft
 			mv libft/libft.a .
-			gcc $(OBJS) libft.a -o $(NAME) -lreadline
+			gcc $(CFLAGS) $(OBJS) libft.a -o $(NAME) -lreadline
 
 $(NAME_BONUS):	$(OBJS_BONUS)
 				make -C libft
 				mv libft/libft.a .
-				gcc $(OBJS_BONUS) libft.a -o $(NAME_BONUS) -lreadline
+				gcc $(CFLAGS) $(OBJS_BONUS) libft.a -o $(NAME_BONUS) -lreadline
 
 all:		$(NAME)
 
