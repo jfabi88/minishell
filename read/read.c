@@ -97,11 +97,8 @@ char	*ft_read(const char *prompt, t_list **list)
 	while (num > 0 && buf[0] != '\n' && buf[0] != 3)
 	{
 		write(2, &buf[0], 1);
-		if (buf[0] == 4)
-		{
-			if (line == NULL)
+		if (buf[0] == 4 && line == NULL)
 				return (ft_create_exit(line));
-		}
 		line = ft_newstr(buf, line, list, &size);// l'errore di malloc si ctrl+d nasce qui
 		ft_write_prompt((char *)prompt, line);
 		ft_bzero(buf, 5);
