@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+static int	ft_error_20(int id)
+{
+	if (id == 15)
+		ft_putstr_fd("#: argv and argc error\n", 2);
+	if (id == 16)
+		ft_putstr_fd("#: fail to create env's list\n", 2);
+	if (id == 17)
+		ft_putstr_fd("#: error with history file\n", 2);
+}
+
 static int	ft_error_15(int id, char *str)
 {
 	if (id == 10)
@@ -27,6 +37,8 @@ static int	ft_error_10(int id, char *str)
 	}
 	else if (id == 7)
 		ft_putstr_fd("#: cd: OLDPWD not set\n", 2);
+	else if (id == 8)
+		ft_putstr_fd("#: cd: HOME not set\n", 2);
 	return (-1);
 }
 
@@ -60,5 +72,7 @@ int	ft_error(int id, char c, char *str)
 		num = ft_error_10(id, str);
 	if (id >= 10 && id < 15)
 		num = ft_error_15(id, str);
+	if (id >= 15 && id < 20)
+		num = ft_error_20(id);
 	return (num);
 }

@@ -39,7 +39,7 @@ static char	*ft_create_command(char *line, int *indx)
 	else
 	{
 		len = ft_next_flag(line + i);
-		ret = ft_m_strlcpy(line + i, len + 1); 
+		ret = ft_m_strlcpy(line + i, len + 1);
 	}
 	*indx += len + i;
 	return (ret);
@@ -74,7 +74,7 @@ static int	ft_create_commands(char *line, t_list **listone)
 	return (1);
 }
 
-int ft_list_token(char *line, t_list **list)
+int	ft_list_token(char *line, t_list **list)
 {
 	t_list	*list_string;
 	t_list	*pointer;
@@ -83,9 +83,9 @@ int ft_list_token(char *line, t_list **list)
 	if (ft_create_commands(line, &list_string) == -1)
 		return (-1);
 	pointer = list_string;
-	while(list_string)
+	while (list_string)
 	{
-		if (ft_add_token(list_string->content, list) == - 1)
+		if (ft_add_token(list_string->content, list) == -1)
 		{
 			ft_free_list(pointer);
 			while (*list)

@@ -1,26 +1,5 @@
 #include "minishell.h"
 
-int	ft_len_file(char *dst)
-{
-	char	*buffer;
-	int		fd;
-	int		len;
-
-	len = 0;
-	fd = open(dst, O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	while (ft_get_next_line(fd, &buffer) > 0)
-	{
-		len++;
-		free(buffer);
-	}
-	if (buffer != NULL)
-		free(buffer);
-	close(fd);
-	return (len);
-}
-
 int	ft_cpy_history(t_list *list, t_list *var)
 {
 	int		fd;
@@ -32,7 +11,7 @@ int	ft_cpy_history(t_list *list, t_list *var)
 	dst = ft_strjoin(ft_find_env(var, "HOME", 4), "/.minishell_history");
 	if (dst == NULL)
 		return (-1);
-	fd = open(dst, O_WRONLY | O_TRUNC | O_CREAT);
+	fd = open(dst, O_WRONLY | O_TRUNC | O_CREAT, 00755);
 	free (dst);
 	if (fd == -1)
 		return (-1);
@@ -76,6 +55,8 @@ int	ft_file_history(t_list **list, t_list *var)
 
 	buffer = NULL;
 	dst = ft_strjoin(ft_find_env(var, "HOME", 4), "/.minishell_history");
+	if (dst == NULL)
+		return (-1);
 	fd = open(dst, O_RDONLY | O_CREAT, 00755);
 	if (fd == -1)
 		return (fd);

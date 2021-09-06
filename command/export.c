@@ -72,17 +72,11 @@ static int	ft_run_export(char **str, t_list *var)
 int	ft_check_export(t_parse *parse, t_list *var)
 {
 	char	**new_var;
-	int		fd;
 
-	fd = ft_open_file(parse->output, 1);
-	if (fd == -1)
-		return (-1);
-	if (fd != 1)
-		close (1);
-	new_var = ft_calloc(3, sizeof(char *));       //malloc
+	new_var = ft_calloc(3, sizeof(char *));
 	if (new_var == NULL)
 		return (-1);
 	ft_run_export(parse->input, var);
-	ft_free_matrix(new_var);                      //free
+	ft_free_matrix(new_var);
 	return (0);
 }

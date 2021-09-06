@@ -9,17 +9,17 @@ static int	ft_create_list_env(char *env[], t_list	**var)
 	i = 0;
 	while (env[i])
 	{
-		matrix = ft_split(env[i], '=');							//malloc
+		matrix = ft_split(env[i], '=');
 		if (matrix == NULL)
 			return (-1);
-		list = ft_new_datalist(matrix[0], matrix[1], 0);			//malloc
+		list = ft_new_datalist(matrix[0], matrix[1], 0);
 		if (list == 0)
 		{
 			ft_free_listenv(list);
 			return (-1);
 		}
 		ft_lstadd_back(var, list);
-		ft_free_matrix(matrix);									//free
+		ft_free_matrix(matrix);
 		i++;
 	}
 	ft_setprev(var);
@@ -49,13 +49,13 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 	return (num);
 }
 
-static int ft_go(t_list *parse_list, t_list *history, t_list *var)
+static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 {
 	int		num;
 	int		fd[2];
 	t_parse	*data;
 
-	if(parse_list && parse_list->next)
+	if (parse_list && parse_list->next)
 	{
 		data = ((t_parse *)(parse_list->next)->content);
 		num = ft_exec_pipe(parse_list->content, data, history, var);
@@ -84,11 +84,11 @@ static int	ft_run(char *line, t_list *history, t_list *var)
 	num = 0;
 	line = ft_expand(line, var);
 	parse_list = ft_list_parse(line);
+	free(line);
 	ft_save_fd(&fd[0], &fd[1]);
 	num = ft_go(parse_list, history, var);
 	ft_add_env(var, "?", ft_itoa(num), 1);
 	ft_restore_fd(fd);
-	free(line);
 	ft_free_parse_list(parse_list);
 	return (num);
 }
@@ -103,15 +103,12 @@ int	main(int argc, char *argv[], char *env[])
 	tcgetattr(STDIN_FILENO, &origin);
 	list = NULL;
 	if (argc < 0 || argv == NULL)
-		printf("qualcosa");								//si deve gestire l'errore
+		ft_error(15, 0, NULL);
 	var = NULL;
-	if (ft_create_list_env(env, &var) == -1)							//malloc
-		return (-1);
+	if (ft_create_list_env(env, &var) == -1)
+		ft_error(16, 0, NULL);
 	if (ft_file_history(&list, var) == -1)
-	{
-		ft_free_listenv(var);
-		return (-1);
-	}
+		ft_error(17, 0, NULL);
 	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{

@@ -19,6 +19,8 @@ int	ft_run_extra_terminal(char *del)
 			line = readline("> ");
 		}
 	}
+	signal(SIGINT, ft_null);
+	signal(SIGKILL, ft_null);
 	waitpid(pid, NULL, 0);
 	return (0);
 }

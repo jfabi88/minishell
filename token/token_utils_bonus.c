@@ -11,7 +11,7 @@ void	ft_print_token(t_token *token)
 
 	s_flag = token->s_flag;
 	s_commands = token->s_commands;
-	flag = token->commands;
+	flag = token->flag;
 	commands = token->commands;
 	printf("La stringa del token %d é: %s\n", i, token->line);
 	j = 0;
@@ -58,9 +58,9 @@ int	ft_next_flag(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
-		if (!ft_is_in_quotes(line, i, '\'', '"'))
+		if (!ft_in_quotes(line, i, '\'', '"'))
 		{
 			if (line[i] == '|' || !ft_strncmp("&&", line + i, 2))
 				return (i);
@@ -81,9 +81,9 @@ int	ft_is_inpar(char *line, int pos)
 	flag = 0;
 	while (i < pos)
 	{
-		if (line[i] == '(' && ft_is_in_quotes(line, i, '\'', '"' ) == 0)
+		if (line[i] == '(' && ft_in_quotes(line, i, '\'', '"' ) == 0)
 			flag += 1;
-		else if (line[i] == ')' && ft_is_in_quotes(line, i, '\'', '"' ) == 0)
+		else if (line[i] == ')' && ft_in_quotes(line, i, '\'', '"' ) == 0)
 			flag += -1;
 		i++;
 	}
@@ -99,9 +99,9 @@ int	ft_next_pare(char *line)
 	flag = 0;
 	while (line[i])
 	{
-		if (line[i] == '(' && ft_is_in_quotes(line, i, '\'', '"' ) == 0)
+		if (line[i] == '(' && ft_in_quotes(line, i, '\'', '"' ) == 0)
 			flag += 1;
-		else if (line[i] == ')' && ft_is_in_quotes(line, i, '\'', '"' ) == 0)
+		else if (line[i] == ')' && ft_in_quotes(line, i, '\'', '"' ) == 0)
 			flag += -1;
 		if (flag == 0)
 			return (i);

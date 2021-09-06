@@ -8,10 +8,12 @@ static void	ft_free_lst(t_list **list)
 	p = (*list)->prev;
 	n = (*list)->next;
 	ft_free_data((t_data *)((*list)->content));
-	p->next = n;
+	if (p != NULL)
+		p->next = n;
 	if (n != NULL)
 		n->prev = p;
 	free (*list);
+	*list = n;
 }
 
 static int	ft_unset(t_list *list, char *parse)
@@ -24,10 +26,11 @@ static int	ft_unset(t_list *list, char *parse)
 	while (list)
 	{
 		p = ((t_data *)(list->content));
-		if (list->prev != NULL)
-			p_prev = ((t_data *)(list->prev->content));
 		if (ft_strncmp(p->env, parse, ft_strlen(parse) + 1) == 0)
+		{
 			ft_free_lst(&list);
+			return (1);
+		}
 		list = list->next;
 	}
 	if (!list)
@@ -37,14 +40,7 @@ static int	ft_unset(t_list *list, char *parse)
 
 int	ft_check_unset(t_parse *parse, t_list *var)
 {
-	int	fd;
-
-	fd = ft_open_file(parse->output, 1);
-	if (fd == -1)
-		return (-1);
 	if (ft_unset(var, parse->input[1]) == -1)
 		return (-1);
-	if (fd != 1)
-		close (fd);
 	return (0);
 }

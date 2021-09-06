@@ -56,7 +56,7 @@ static int	ft_cpy(char *l, char **mtx)
 	i = 0;
 	j = 0;
 	k = 0;
-	while (l[i] && (!ft_is_in_str(" <>", l[i]) || ft_is_in_quotes(l, i, '\'', '\"')))
+	while (l[i] && (!ft_in_str(" <>", l[i]) || ft_in_quotes(l, i, '\'', '\"')))
 	{
 		if (l[i] == '\'' && ft_is_quotes(l, i, '\'', '\"') == 1)
 			j += 0;
@@ -75,7 +75,7 @@ static int	ft_cpy(char *l, char **mtx)
 	return (i);
 }
 
-int	ft_create_str_parse(char **mtx, char **red, char *line)//	la condizione di stampa $ dentro a <single_quotes>, comprese in <double_quotes> va inserita qui!
+int	ft_create_str_parse(char **mtx, char **red, char *line)
 {
 	int	i;
 	int	num;

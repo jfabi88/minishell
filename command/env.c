@@ -17,13 +17,6 @@ static void	ft_env(int fd, t_list *list)
 
 int	ft_check_env(t_parse *parse, t_list *var)
 {
-	int	fd;
-
-	fd = ft_open_file(parse->output, 1);
-	if (fd == -1)
-		return (-1);
-	ft_env(fd, var);
-	if (fd != 1)
-		close (fd);
+	ft_env(1, var);
 	return (0);
 }

@@ -48,6 +48,7 @@ char	*ft_find_env(t_list *list, char *env, int len)
 
 	while (list)
 	{
+		//printf("Dentro il while\n");
 		temp = ((t_data *)(list->content))->env;
 		if (ft_strncmp(temp, env, len + 1) == 0)
 			return (((t_data *)(list->content))->content);

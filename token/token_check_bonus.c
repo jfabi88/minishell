@@ -29,6 +29,8 @@ static int	ft_first_car(char *line)
 	i = 0;
 	while (line[i] == ' ')
 		i++;
+	if (line[i] == 0)
+		return (-1);
 	if (line[i] == '&' && line[i + 1] == '&')
 		return (ft_error(10, 0, "&&"));
 	else if (line[i] == '&')
@@ -80,5 +82,5 @@ int	ft_check_token(char *ln)
 			return (-1);
 		i++;
 	}
-	return (1);
+	return ((ln != NULL) - 1);
 }

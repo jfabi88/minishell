@@ -46,3 +46,19 @@ t_list	*ft_new_datalist(const char *env, const char *content, int id)
 		ft_free_data(data);
 	return (list);
 }
+
+int	ft_data_lst_size(t_list *data_list, int id)
+{
+	t_data	*data;
+	int		ret;
+
+	ret = 0;
+	while (data_list)
+	{
+		data = data_list->content;
+		if (data->id == id || id == 2)
+			ret++;
+		data_list = data_list->next;
+	}
+	return (ret);
+}

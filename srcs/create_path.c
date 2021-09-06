@@ -48,7 +48,7 @@ char	*ft_create_path(t_list *list, char *str)
 	int		i;
 
 	i = 0;
-	temp = ft_find_env(list, "PWD", 3);
+	temp = ft_get_pwd();
 	matrix = ft_split(str, '/');
 	if (matrix == NULL)
 		return (NULL);
@@ -92,11 +92,18 @@ char	*ft_create_home_path(t_list *list)
 {
 	int		len;
 	char	*path;
+	char	*home;
 
-	len = ft_strlen(ft_find_env(list, "HOME", 4));
+	home = ft_find_env(list, "HOME", 4);
+	if (home == NULL)
+	{
+		ft_error(8, 0, "HOME");
+		return (NULL);
+	}
+	len = ft_strlen(home);
 	path = malloc(len + 1);
 	if (path == NULL)
 		return (NULL);
-	ft_strlcpy(path, ft_find_env(list, "HOME", 4), len + 1);
+	ft_strlcpy(path, home, len + 1);
 	return (path);
 }

@@ -11,30 +11,33 @@ SRCS		=	\
 				command/export.c \
 				command/pwd.c \
 				command/unset.c \
+				command/utils.c \
 				file_manager/file.c \
 				gnl/get_next_line_utils.c \
 				gnl/get_next_line.c \
 				parse/parse_dollar.c \
 				parse/parse_check.c \
+				parse/parse_create.c \
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
-				pipe/pipe.c \
+				pipe/exec_pipe.c \
+				pipe/create_pipe.c \
 				read/prompt.c \
 				read/read.c \
 				read/history.c \
 				srcs/create_path.c \
-				srcs/data_utils.c \
-				srcs/env_utils.c \
 				srcs/error.c \
-				srcs/file_utils.c \
-				srcs/flag_utils.c \
-				srcs/ft_m_strlcpy.c \
 				srcs/main.c \
-				srcs/lst_utils.c \
-				srcs/mtr_utils.c \
-				srcs/utils.c \
-				srcs/utils_2.c \
+				utils/data_utils.c \
+				utils/env_utils.c \
+				utils/file_utils.c \
+				utils/flag_utils.c \
+				utils/lst_utils.c \
+				utils/mtr_utils.c \
+				utils/utils.c \
+				utils/utils_2.c \
+				utils/utils_3.c
 
 SRCS_BONUS	=	\
 				command/all_com.c \
@@ -44,35 +47,39 @@ SRCS_BONUS	=	\
 				command/export.c \
 				command/pwd.c \
 				command/unset.c \
+				command/utils.c \
+				file_manager/file.c \
 				gnl/get_next_line_utils.c \
 				gnl/get_next_line.c \
 				parse/parse_dollar.c \
 				parse/parse_check.c \
+				parse/parse_create.c \
 				parse/parse_manager.c \
 				parse/parse_utils.c \
 				parse/parse.c \
-				pipe/pipe.c \
-				read/history.c \
+				pipe/exec_pipe.c \
+				pipe/create_pipe.c \
 				read/prompt.c \
 				read/read.c \
+				read/history.c \
 				srcs/create_path.c \
-				srcs/data_utils.c \
-				srcs/env_utils.c \
 				srcs/error.c \
-				srcs/file_utils.c \
-				srcs/flag_utils.c \
-				srcs/ft_m_strlcpy.c \
-				srcs/lst_utils.c \
-				srcs/mtr_utils.c \
-				srcs/utils.c \
-				srcs/utils_2.c \
-				srcs_bonus/main_bonus.c \
 				srcs_bonus/exit_bonus.c \
+				srcs_bonus/main_bonus.c \
 				token/token_bonus.c \
-				token/token2_bonus.c \
 				token/token_check_bonus.c \
 				token/token_utils_bonus.c \
 				token/token_utils2_bonus.c \
+				token/token2_bonus.c \
+				utils/data_utils.c \
+				utils/env_utils.c \
+				utils/file_utils.c \
+				utils/flag_utils.c \
+				utils/lst_utils.c \
+				utils/mtr_utils.c \
+				utils/utils.c \
+				utils/utils_2.c \
+				utils/utils_3.c
 
 OBJS		= $(SRCS:.c=.o)
 

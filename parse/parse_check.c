@@ -12,16 +12,16 @@ static int	ft_check_red(char *line, char c)
 		i++;
 	while (line[i] == ' ')
 		i++;
-	flag = ft_is_in_str("\"#&\'()*\\;?`><", line[i]);
+	flag = ft_in_str("\"#&\'()*\\;?`><", line[i]);
 	if (flag == 1 && (line[i + 1] == ' ' || line[i + 1] == 0))
 		return (ft_error(1, line[i], NULL));
-	flag = ft_is_in_str("!#&()\\;`<>", line[i]);
+	flag = ft_in_str("!#&()\\;`<>", line[i]);
 	if (flag == 1 && (line[i + 1] != ' ' || line[i + 1] != 0))
 		return (ft_error(1, line[i], NULL));
-	flag = ft_is_in_str("./~", line[i]);
+	flag = ft_in_str("./~", line[i]);
 	if (flag == 1 && (line[i + 1] == ' ' || line[i + 1] == 0))
 		return (ft_error(2, line[i], NULL));
-	flag = ft_is_in_str("/~", line[i]);
+	flag = ft_in_str("/~", line[i]);
 	if (flag == 1 && (line[i + 1] != ' ' || line[i + 1] != 0))
 		return (ft_error(2, line[i], NULL));
 	if (line[i] == 0)
@@ -56,9 +56,9 @@ int	ft_parse_check(char *line)
 			flg = 2;
 		else if (line[i] == '\"' && flg == 2)
 			flg = 0;
-		if (flg == 0 && ft_is_in_str("!><", line[i]))
+		if (flg == 0 && ft_in_str("!><", line[i]))
 		{
-			if (ft_flag_check(line + i) == -1)
+			if (ft_flag_check(line + 1) == -1)
 				return (-1);
 		}
 		i++;
