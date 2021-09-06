@@ -79,6 +79,7 @@ static int	ft_run(char *line, t_list *history, t_list *var)
 {
 	t_list	*parse_list;
 	int		num;
+	char	*c_num;
 	int		fd[2];
 
 	num = 0;
@@ -87,9 +88,11 @@ static int	ft_run(char *line, t_list *history, t_list *var)
 	free(line);
 	ft_save_fd(&fd[0], &fd[1]);
 	num = ft_go(parse_list, history, var);
-	ft_add_env(var, "?", ft_itoa(num), 1);
+	c_num = ft_itoa(num);
+	ft_add_env(var, "?", c_num, 1);
 	ft_restore_fd(fd);
 	ft_free_parse_list(parse_list);
+	free(c_num);
 	return (num);
 }
 
@@ -109,10 +112,10 @@ int	main(int argc, char *argv[], char *env[])
 		ft_error(16, 0, NULL);
 	if (ft_file_history(&list, var) == -1)
 		ft_error(17, 0, NULL);
-	line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+	//line = ft_prompt("# Orders, my Lord? ", &list, &origin);
 	while (1)
 	{
-		ft_run(line, list, var);
 		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+		ft_run(line, list, var);
 	}
 }
