@@ -21,7 +21,7 @@ int	ft_run_extra_terminal(char *del)
 	pid_t	pid;
 	int		fd;
 
-	fd = open("heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
+	fd = open(".heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
 	if (fd == -1)
 		exit (-1);
 	pid = fork();
@@ -35,7 +35,7 @@ int	ft_run_extra_terminal(char *del)
 	signal(SIGINT, ft_aspetta);
 	waitpid(pid, NULL, 0);
 	close (fd);
-	fd = open("heredoc", O_RDONLY, 00755);
+	fd = open(".heredoc", O_RDONLY, 00755);
 	return (fd);
 }
 
