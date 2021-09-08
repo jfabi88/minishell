@@ -1,28 +1,42 @@
 #include "minishell.h"
 
+static int	ft_run_extra_terminal_child(char *del, int fd)
+{
+	char	*line;
+
+	signal(SIGINT, ft_ciao);
+	line = readline("> ");
+	while (line)
+	{
+		if (ft_strncmp(line, del, ft_strlen(del) + 1) == 0)
+			return (0);
+		ft_putendl_fd(line, fd);
+		line = readline("> ");
+	}
+	return (0);
+}
+
 int	ft_run_extra_terminal(char *del)
 {
 	pid_t	pid;
-	int		status;
-	char	*line;
+	int		fd;
 
+	fd = open("heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
+	if (fd == -1)
+		exit (-1);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	else if (pid == 0)
 	{
-		line = readline("> ");
-		while (line)
-		{
-			if (ft_strncmp(line, del, ft_strlen(del) + 1) == 0)
-				exit(0);
-			line = readline("> ");
-		}
+		ft_run_extra_terminal_child(del, fd);
+		exit(0);
 	}
-	signal(SIGINT, ft_null);
-	signal(SIGKILL, ft_null);
+	signal(SIGINT, ft_aspetta);
 	waitpid(pid, NULL, 0);
-	return (0);
+	close (fd);
+	fd = open("heredoc", O_RDONLY, 00755);
+	return (fd);
 }
 
 int	ft_open_file(char **output, int fd)

@@ -49,17 +49,19 @@ char	*ft_strdel(char *str, int num)
 	return (ret);
 }
 
-static int	ft_list_to_mtx_utils(char *mtx, t_data *d)
+static int	ft_list_to_mtx_utils(char **mtx, t_data *d)
 {
-	int	s_l;
+	int		s_l;
+	char	*tmp;
 
 	s_l = ft_strlen(d->env);
-	mtx = malloc(ft_strlen(d->content) + s_l + 2);
-	if (mtx == NULL)
+	tmp = malloc(ft_strlen(d->content) + s_l + 2);
+	if (tmp == NULL)
 		return (-1);
-	ft_memcpy(mtx, d->env, s_l);
-	ft_memcpy(mtx + s_l, "=", 1);
-	ft_strlcpy(mtx + s_l + 1, d->content, ft_strlen(d->content) + 1);
+	ft_memcpy(tmp, d->env, s_l);
+	ft_memcpy(tmp + s_l, "=", 1);
+	ft_strlcpy(tmp + s_l + 1, d->content, ft_strlen(d->content) + 1);
+	*mtx = tmp;
 	return (0);
 }
 
@@ -78,7 +80,7 @@ char	**ft_lst_to_mtx(t_list *list)
 		data = ((t_data *)(list->content));
 		if (data->id == 0)
 		{
-			if (ft_list_to_mtx_utils(mtx[len], data) == -1)
+			if (ft_list_to_mtx_utils(&(mtx[len]), data) == -1)
 				return (ft_free_matrix(mtx));
 			len++;
 		}

@@ -114,7 +114,7 @@ int	main(int argc, char *argv[], char *env[])
 		ft_error(17, 0, NULL);
 	while (1)
 	{
-		line = ft_prompt("# Orders, my Lord? ", &list, &origin);
+		line = ft_prompt("#minishell: ", &list, &origin);
 		ft_run(line, list, var);
 	}
 }

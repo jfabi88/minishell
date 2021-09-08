@@ -176,6 +176,10 @@ int		ft_mtrlen(char **matrix);
 char	**ft_mtrlcpy(char **src, int len);
 void	*ft_free_matrix(char **matrix);
 
+/* signal_utils.c */
+void	ft_aspetta(int sign);
+void	ft_ciao(int sign);
+
 /* utils.c */
 void	ft_free_list(t_list *list);
 void	ft_free_parse_list(t_list *list);
@@ -201,6 +205,7 @@ void	ft_free_data(t_data *data);
 */
 
 int		ft_running(t_token *token, t_list *list, t_list *var, int num);
+int		ft_token_run(t_token *token, t_list *history, t_list *var);
 
 /* token.c */
 t_token	*ft_tokanizer(char *line);

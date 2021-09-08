@@ -53,8 +53,6 @@ static int	ft_parse_lst(char **line, t_parse *parse)
 	int		len;
 	int		r_len;
 
-	if (ft_parse_check(*line) == -1)
-		return (-1);
 	len = ft_matlen_parse(*line);
 	r_len = ft_redlen_parse(*line);
 	parse->input = (char **)ft_calloc(sizeof(char *), (len - r_len + 1));

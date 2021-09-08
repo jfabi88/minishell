@@ -35,6 +35,7 @@ SRCS		=	\
 				utils/flag_utils.c \
 				utils/lst_utils.c \
 				utils/mtr_utils.c \
+				utils/signal_utils.c \
 				utils/utils.c \
 				utils/utils_2.c \
 				utils/utils_3.c
@@ -66,6 +67,7 @@ SRCS_BONUS	=	\
 				srcs/error.c \
 				srcs_bonus/exit_bonus.c \
 				srcs_bonus/main_bonus.c \
+				srcs_bonus/run_bonus.c \
 				token/token_bonus.c \
 				token/token_check_bonus.c \
 				token/token_utils_bonus.c \
@@ -77,6 +79,7 @@ SRCS_BONUS	=	\
 				utils/flag_utils.c \
 				utils/lst_utils.c \
 				utils/mtr_utils.c \
+				utils/signal_utils.c \
 				utils/utils.c \
 				utils/utils_2.c \
 				utils/utils_3.c

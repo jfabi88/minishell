@@ -39,6 +39,24 @@ static int	ft_flag_check(char *str)
 	return (num);
 }
 
+static int	ft_is_empty(char *line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (line == NULL)
+		return (1);
+	while (line[i] == ' ')
+		i++;
+	j = i;
+	while (line[i])
+		i++;
+	if (i == j)
+		return (1);
+	return (0);
+}
+
 int	ft_parse_check(char *line)
 {
 	int	i;
@@ -46,6 +64,8 @@ int	ft_parse_check(char *line)
 
 	i = 0;
 	flg = 0;
+	if (ft_is_empty(line) == 1)
+		return (-1);
 	while (line && line[i])
 	{
 		if (line[i] == '\'' && flg == 0 && ft_find_next_c(line, i, '\''))

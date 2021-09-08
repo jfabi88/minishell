@@ -65,6 +65,11 @@ t_list	*ft_list_parse(char *line)
 	while (pipe_list)
 	{
 		parse = ft_parsing(pipe_list->content);
+		if (parse == NULL)
+		{
+			ft_free_list(tmp);
+			return (NULL);
+		}
 		ft_lst_add_content(parse, &ret, 2);
 		pipe_list = pipe_list->next;
 	}

@@ -12,12 +12,12 @@ int	ft_open_red(char **output, int *fd_in, int *fd_out)
 	while (output && output[i])
 	{
 		flag = ft_is_flag(output[i]);
-		if (flag != 4 && fd[flag % 2] != flag % 2)
+		if (fd[flag % 2] != flag % 2)
 			close (fd[flag % 2]);
 		if (flag == 1 || flag == 3 || flag == 2)
 			fd[flag % 2] = ft_open_arrow(flag, output[i + 1]);
 		if (flag == 4)
-			ft_run_extra_terminal(output[i + 1]);
+			fd[flag % 2] = ft_run_extra_terminal(output[i + 1]);
 		if (fd[1] < 0 || fd[0] < 0)
 			return (-1);
 		i += 2;
