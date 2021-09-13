@@ -67,7 +67,9 @@ static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 		num = ft_execute(parse_list->content, history, var);
 	else if (parse_list && parse_list->prev == NULL)
 	{
-		ft_open_red(((t_parse *)(parse_list->content))->output, &fd[0], &fd[1]);
+		if (ft_open_red(((t_parse *)(parse_list->content))->output, \
+		&fd[0], &fd[1]) == -1)
+			return (1);
 		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
 		num = ft_execute(parse_list->content, history, var);

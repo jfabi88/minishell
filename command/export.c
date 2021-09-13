@@ -12,7 +12,7 @@ static int	ft_create_export(char *str, t_list *var)
 		return (-1);
 	if (ft_find_env(var, matrix[0], ft_strlen(matrix[0])) == NULL)
 	{
-		list = ft_new_datalist(matrix[0], matrix[1], 1);
+		list = ft_new_datalist(matrix[0], matrix[1], 0);
 		if (list == NULL)
 			ret = -1;
 		else
@@ -34,17 +34,13 @@ static int	ft_check_export_format(char *str)
 	i = 0;
 	if (ft_isalpha(str[i]) == 0)
 		return (-1);
-	while (ft_isalnum(str[i]))
+	while (ft_isalnum(str[i]) == 1)
 		i++;
 	if (str[i] == 0)
 		return (2);
 	else if (str[i] != '=')
 		return (-1);
 	i++;
-	while (ft_isalnum(str[i]))
-		i++;
-	if (str[i] != 0)
-		return (-1);
 	return (1);
 }
 

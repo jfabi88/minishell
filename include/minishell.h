@@ -40,7 +40,6 @@ typedef struct s_parse
 }				t_parse;
 
 t_token	*g_token;
-int		g_fd;
 
 /*
 **	>---COMMAND---<

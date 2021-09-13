@@ -7,10 +7,13 @@ static void	ft_env(int fd, t_list *list)
 	while (list)
 	{
 		p = ((t_data *)(list->content));
-		ft_putstr_fd(p->env, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(p->content, fd);
-		ft_putchar_fd('\n', fd);
+		if (p->id == 0)
+		{
+			ft_putstr_fd(p->env, fd);
+			ft_putchar_fd('=', fd);
+			ft_putstr_fd(p->content, fd);
+			ft_putchar_fd('\n', fd);
+		}
 		list = list->next;
 	}
 }

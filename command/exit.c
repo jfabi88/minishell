@@ -2,8 +2,7 @@
 
 int	ft_check_exit(t_parse *parse, t_list *list, t_list *var)
 {
-	if (ft_cpy_history(list, var) == -1)
-		exit (-1);
+	ft_cpy_history(list, var);
 	ft_free_listenv(var);
 	ft_free_parse(parse);
 	while (list)
