@@ -214,7 +214,6 @@ t_token	*ft_tokanizer(char *line);
 int		ft_list_token(char *line, t_list **list);
 
 /* token_utils.c */
-void	ft_print_token(t_token *token);
 int		ft_after_flag(char *line);
 int		ft_next_pare(char *line);
 int		ft_is_inpar(char *line, int pos);
