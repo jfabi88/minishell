@@ -83,6 +83,7 @@ t_parse	*ft_parsing(char *line);
 
 /* parse_check.c */
 int		ft_parse_check(char *line);
+int		ft_check_command(char *str);
 
 /* parse_create.c */
 t_parse	*ft_create_parse(char **stringa);

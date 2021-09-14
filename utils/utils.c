@@ -7,7 +7,8 @@ void	ft_free_parse_list(t_list *list)
 	while (list)
 	{
 		tmp = list;
-		ft_free_parse(list->content);
+		if (list->content)
+			ft_free_parse(list->content);
 		list = list->next;
 		free(tmp);
 	}

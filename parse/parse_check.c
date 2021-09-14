@@ -85,3 +85,27 @@ int	ft_parse_check(char *line)
 	}
 	return (1);
 }
+
+int	ft_check_command(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (!ft_in_str(">< ", str[i]))
+			return (1);
+		else if (ft_in_str("><", str[i]) && !ft_in_quotes(str, i, '\'', '\"'))
+		{
+			while (ft_in_str("><", str[i]))
+				i++;
+			while (str[i] == ' ')
+				i++;
+			while (str[i] && !ft_in_str(">< ", str[i]))
+				i++;
+		}
+		else
+			i++;
+	}
+	return (-1);
+}

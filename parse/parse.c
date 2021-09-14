@@ -81,6 +81,8 @@ t_parse	*ft_parsing(char *line)
 		return (NULL);
 	if (ft_parse_check(line) == -1)
 		return (NULL);
+	if (ft_check_command(line) == -1)
+		return (NULL);
 	pars = (t_parse *)malloc(sizeof(t_parse));
 	if (pars == NULL)
 		return (NULL);

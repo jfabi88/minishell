@@ -30,6 +30,8 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 {
 	int	num;
 
+	if (parse == NULL)
+		return (1);
 	if (ft_strncmp(parse->command, "echo", 5) == 0)
 		num = ft_check_echo(parse);
 	else if (ft_strncmp(parse->command, "pwd", 4) == 0)
@@ -67,7 +69,8 @@ static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 		num = ft_execute(parse_list->content, history, var);
 	else if (parse_list && parse_list->prev == NULL)
 	{
-		if (ft_open_red(((t_parse *)(parse_list->content))->output, \
+		if (parse_list->content == NULL || \
+		ft_open_red(((t_parse *)(parse_list->content))->output, \
 		&fd[0], &fd[1]) == -1)
 			return (1);
 		dup2(fd[0], STDIN_FILENO);

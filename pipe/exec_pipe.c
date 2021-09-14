@@ -5,7 +5,11 @@ static int	ft_exec_pipe_father(int fd[2], t_parse *data)
 	int	fd_red[2];
 
 	close(fd[1]);
-	ft_open_red(data->output, &fd_red[0], &fd_red[1]);
+	if (data == NULL || ft_open_red(data->output, &fd_red[0], &fd_red[1]) == -1)
+	{
+		close(fd[0]);
+		return (1);
+	}
 	if (fd_red[0] == 0)
 		dup2(fd[0], STDIN_FILENO);
 	else
@@ -23,10 +27,9 @@ static int	ft_exec_pipe_child(int fd[2], t_parse *data, t_list *h, t_list *env)
 	int	fd_red[2];
 
 	close(fd[0]);
-	if (ft_open_red(data->output, &fd_red[0], &fd_red[1]) == -1)
+	if (data == NULL || ft_open_red(data->output, &fd_red[0], &fd_red[1]) == -1)
 	{
 		close(fd[1]);
-		close(fd[0]);
 		return (1);
 	}
 	if (fd_red[1] == 1)
