@@ -54,6 +54,7 @@ char	*ft_create_path(t_list *list, char *str)
 		return (NULL);
 	path = malloc(ft_strlen(temp) + 1);
 	ft_strlcpy(path, temp, ft_strlen(temp) + 1);
+	free(temp);//
 	while (path && matrix && matrix[i])
 	{
 		temp = path;
