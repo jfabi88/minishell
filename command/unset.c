@@ -41,6 +41,6 @@ static int	ft_unset(t_list *list, char *parse)
 int	ft_check_unset(t_parse *parse, t_list *var)
 {
 	if (ft_unset(var, parse->input[1]) == -1)
-		return (-1);
+		return (1);
 	return (0);
 }

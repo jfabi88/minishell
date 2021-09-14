@@ -8,15 +8,15 @@ static int	ft_cd(char *path, char *input, t_list *var)
 
 	oldpwd = ft_find_env(var, "PWD", 3);
 	cd = chdir(path);
-	if (cd == -1)
+	if (cd == 1)
 		return (ft_error(5, 0, input));
 	pwd = malloc(4097);
 	getcwd(pwd, 4097);
 	if (pwd == NULL)
-		return (-1);
+		return (1);
 	ft_add_env(var, "OLDPWD", oldpwd, 0);
 	if (ft_add_env(var, "PWD", path, 0) == -1)
-		return (-1);
+		return (1);
 	return (0);
 }
 
@@ -67,7 +67,7 @@ int	ft_check_cd(t_parse *parse, t_list *var)
 	flag = ft_check_flag(parse->input);
 	path = ft_run_cd(parse->input, var);
 	if (path == NULL)
-		return (-1);
+		return (1);
 	num = ft_cd(path, parse->input[1], var);
 	if (flag == 1)
 	{

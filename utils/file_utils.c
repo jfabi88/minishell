@@ -19,6 +19,7 @@ static int	ft_run_extra_terminal_child(char *del, int fd)
 int	ft_run_extra_terminal(char *del)
 {
 	pid_t	pid;
+	int		status;
 	int		fd;
 
 	fd = open(".heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
@@ -28,14 +29,14 @@ int	ft_run_extra_terminal(char *del)
 	if (pid < 0)
 		return (-1);
 	else if (pid == 0)
-	{
-		ft_run_extra_terminal_child(del, fd);
-		exit(0);
-	}
+		exit(ft_run_extra_terminal_child(del, fd));
 	signal(SIGINT, ft_aspetta);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
 	close (fd);
-	fd = open(".heredoc", O_RDONLY, 00755);
+	if (status == 0)
+		fd = open(".heredoc", O_RDONLY, 00755);
+	else
+		fd = open(".heredoc", O_RDONLY | O_TRUNC, 00755);
 	return (fd);
 }
 

@@ -64,6 +64,8 @@ static void	ft_newstr(char buf[5], char **line, t_list **list, int *size)
 		free (tmp);
 		tmp = NULL;
 	}
+	else if (buf[0] < 32 && buf[1] != '[')
+		return ;
 	else if (buf[1] == '[' && (buf[2] == 'A' || buf[2] == 'B'))
 		*line = ft_str_arrow(buf, tmp, list, size);
 	else if (buf[0] != 4)

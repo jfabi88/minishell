@@ -21,7 +21,7 @@ static int	ft_pwd(int fd, t_list *var)
 		ft_putchar_fd('\n', fd);
 		return (0);
 	}
-	return (-1);
+	return (1);
 }
 
 int	ft_check_pwd(t_parse *parse, t_list *var)

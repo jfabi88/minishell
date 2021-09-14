@@ -71,7 +71,7 @@ int	ft_check_export(t_parse *parse, t_list *var)
 
 	new_var = ft_calloc(3, sizeof(char *));
 	if (new_var == NULL)
-		return (-1);
+		return (1);
 	ft_run_export(parse->input, var);
 	ft_free_matrix(new_var);
 	return (0);

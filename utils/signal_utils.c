@@ -7,6 +7,5 @@ void	ft_aspetta(int sign)
 
 void	ft_ciao(int sign)
 {
-	printf("\n");
-	exit(0);
+	exit(1);
 }
