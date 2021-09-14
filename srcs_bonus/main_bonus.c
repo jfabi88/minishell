@@ -42,6 +42,8 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 {
 	int	num;
 
+	if (parse == NULL)
+		return (1);
 	if (ft_strncmp(parse->command, "echo", 5) == 0)
 		num = ft_check_echo(parse);
 	else if (ft_strncmp(parse->command, "pwd", 4) == 0)
@@ -64,6 +66,7 @@ int	ft_execute(t_parse *parse, t_list *list, t_list *var)
 int	ft_token_run(t_token *token, t_list *history, t_list *var)
 {
 	t_parse	*parse;
+	char	*tmp;
 	int		num;
 	int		fd[2];
 	int		fd_exec[2];
@@ -72,13 +75,17 @@ int	ft_token_run(t_token *token, t_list *history, t_list *var)
 	token->line = ft_expand(token->line, var);
 	parse = ft_parsing(token->line);
 	ft_save_fd(&fd[0], &fd[1]);
-	ft_open_red(parse->output, &fd_exec[0], &fd_exec[1]);
+	if (ft_open_red(parse->output, &fd_exec[0], &fd_exec[1]) == -1)
+		return (ft_add_env(var, "?", "1", 1));
 	dup2(fd_exec[0], STDIN_FILENO);
 	dup2(fd_exec[1], STDOUT_FILENO);
 	num = ft_execute(parse, history, var);
 	close(fd_exec[0]);
 	close(fd_exec[1]);
-	ft_add_env(var, "?", ft_itoa(num), 1);
+	tmp = ft_itoa(num);
+	if (tmp != NULL)
+		ft_add_env(var, "?", tmp, 1);
+	free(tmp);
 	ft_restore_fd(fd);
 	ft_free_parse(parse);
 	return (num);
@@ -103,7 +110,7 @@ int	main(int argc, char *argv[], char *env[])
 		ft_error(17, 0, NULL);
 	while (1)
 	{
-		line = ft_prompt("#minishell: ", &list, &origin);
+		line = ft_prompt("#mini_hell bonus: ", &list, &origin);
 		g_token = ft_tokanizer(line);
 		free(line);
 		ft_save_fd(&fd[0], &fd[1]);

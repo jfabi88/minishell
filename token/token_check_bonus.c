@@ -27,8 +27,6 @@ static int	ft_first_car(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] == ' ')
-		i++;
 	if (line[i] == 0)
 		return (-1);
 	if (line[i] == '&' && line[i + 1] == '&')
@@ -41,6 +39,10 @@ static int	ft_first_car(char *line)
 		return (ft_error(10, 0, "|"));
 	else if (line[i] == ')')
 		return (ft_error(10, 0, ")"));
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (ft_in_str("&|", line[i]) || line[i] == 0)
+		return (-1);
 	return (1);
 }
 
@@ -51,9 +53,18 @@ static int	ft_check_ao(char *line)
 
 	i = 0;
 	j = 0;
-	while (line[i + j] == line[i] && j < 2)
+	while (line[i] && line[i + j] == line[i] && j < 2)
 		j++;
-	return (ft_first_car(line + i + j));
+	if (ft_first_car(line + j) == -1)
+	{
+		if (line[i] == '&')
+			return (ft_error(10, 0, "&&"));
+		else if (line[i + 1] == '|')
+			return (ft_error(10, 0, "||"));
+		else
+			return (ft_error(10, 0, "|"));
+	}
+	return (0);
 }
 
 int	ft_check_token(char *ln)
