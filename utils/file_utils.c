@@ -1,10 +1,22 @@
 #include "minishell.h"
 
-static int	ft_run_extra_terminal_child(char *del, int fd)
+static void	ft_add_history(t_list *history)
+{
+	while (history)
+	{
+		add_history(history->content);
+		history = history->next;
+	}
+}
+
+static int	ft_run_extra_terminal_child(char *del, int fd, t_list *history)
 {
 	char	*line;
 
 	signal(SIGINT, ft_ciao);
+	signal(SIGQUIT, ft_ciao);
+	dup2(g_fd, STDIN_FILENO);
+	ft_add_history(history);
 	line = readline("> ");
 	while (line)
 	{
@@ -16,12 +28,14 @@ static int	ft_run_extra_terminal_child(char *del, int fd)
 	return (0);
 }
 
-int	ft_run_extra_terminal(char *del)
+int	ft_run_extra_terminal(char *del, t_list *history)
 {
 	pid_t	pid;
 	int		status;
 	int		fd;
 
+	signal(SIGINT, ft_aspetta);
+	signal(SIGQUIT, ft_aspetta);
 	fd = open(".heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
 	if (fd == -1)
 		exit (-1);
@@ -29,42 +43,13 @@ int	ft_run_extra_terminal(char *del)
 	if (pid < 0)
 		return (-1);
 	else if (pid == 0)
-		exit(ft_run_extra_terminal_child(del, fd));
-	signal(SIGINT, ft_aspetta);
+		exit(ft_run_extra_terminal_child(del, fd, history));
 	waitpid(pid, &status, 0);
 	close (fd);
 	if (status == 0)
 		fd = open(".heredoc", O_RDONLY, 00755);
 	else
 		fd = open(".heredoc", O_RDONLY | O_TRUNC, 00755);
-	return (fd);
-}
-
-int	ft_open_file(char **output, int fd)
-{
-	int	i;
-	int	flag;
-	int	fd_2;
-
-	i = 0;
-	fd_2 = 0;
-	while (output && output[i])
-	{
-		flag = ft_is_flag(output[i]);
-		if (fd != 1 && (flag == 1 || flag == 3))
-			close (fd);
-		if (fd_2 != 0 && (flag == 2))
-			close (fd_2);
-		if (flag == 1 || flag == 3)
-			fd = ft_open_arrow(flag, output[i + 1]);
-		else if (flag == 2)
-			fd_2 = ft_open_arrow(flag, output[i + 1]);
-		else if (flag == 4)
-			ft_run_extra_terminal(output[i + 1]);
-		if (fd < 0 || fd_2 < 0)
-			return (-1);
-		i += 2;
-	}
 	return (fd);
 }
 

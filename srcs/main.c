@@ -57,6 +57,7 @@ static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 	int		fd[2];
 	t_parse	*data;
 
+	num = 0;
 	if (parse_list && parse_list->next)
 	{
 		data = ((t_parse *)(parse_list->next)->content);
@@ -69,8 +70,8 @@ static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 	{
 		if (parse_list->content == NULL || \
 		ft_open_red(((t_parse *)(parse_list->content))->output, \
-		&fd[0], &fd[1]) == -1)
-			return (1);
+		&fd[0], &fd[1], history) == -1)
+			return (258);
 		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
 		num = ft_execute(parse_list->content, history, var);

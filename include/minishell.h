@@ -39,6 +39,7 @@ typedef struct s_parse
 	char	**output;
 }				t_parse;
 
+int	g_fd;
 t_token	*g_token;
 
 /*
@@ -72,7 +73,7 @@ char	*ft_check_path(char *str, t_list *var);
 /* file.c */
 void	ft_save_fd(int *fd_in, int *fd_out);
 void	ft_restore_fd(int fd[2]);
-int		ft_open_red(char **output, int *fd_in, int *fd_out);
+int		ft_open_red(char **output, int *fd_in, int *fd_out, t_list *history);
 
 /*
 **	>---PARSE---<
@@ -157,7 +158,7 @@ int		ft_create_env(t_list *list, const char *env, const char *text, int id);
 int		ft_add_env(t_list *var, char *dst, char *src, int id);
 
 /* file_utils.c */
-int		ft_run_extra_terminal(char *del);
+int		ft_run_extra_terminal(char *del, t_list *history);
 int		ft_open_file(char **output, int fd);
 int		ft_open_arrow(int flag, char *stringa);
 
