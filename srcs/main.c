@@ -106,7 +106,6 @@ int	main(int argc, char *argv[], char *env[])
 	t_list			*list;
 	struct termios	origin;
 
-	g_fd = open("LETTURA", O_RDWR | O_TRUNC | O_CREAT, 00755);
 	tcgetattr(STDIN_FILENO, &origin);
 	list = NULL;
 	if (argc < 0 || argv == NULL)
