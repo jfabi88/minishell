@@ -88,11 +88,8 @@ int	ft_running(t_token *t, t_list *history, t_list *var, int d)
 	else if (t)
 	{
 		num = ft_token_run(t, history, var);
-		if (d == 0)
-		{
-			num = ft_run_s_commands(t, num, var, history);
-			num = ft_run_commands(t, num, var, history);
-		}
+		num = ft_run_s_commands(t, num, var, history);
+		num = ft_run_commands(t, num, var, history);
 	}
 	return (num);
 }

@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-static void	ft_print_null(int sign)
-{
-	rl_redisplay();
-	return ;
-}
-
 static void	ft_add_history(t_list *history)
 {
 	while (history)

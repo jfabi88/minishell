@@ -39,8 +39,7 @@ typedef struct s_parse
 	char	**output;
 }				t_parse;
 
-int	g_fd;
-t_token	*g_token;
+int				g_fd;
 
 /*
 **	>---COMMAND---<
