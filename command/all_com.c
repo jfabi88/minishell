@@ -40,8 +40,6 @@ int	ft_execute_command(t_parse *parse, t_list *var)
 	char	*path;
 	char	**mtx;
 
-	signal(SIGINT, ft_null);
-	signal(SIGQUIT, ft_null);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -49,7 +47,11 @@ int	ft_execute_command(t_parse *parse, t_list *var)
 	}
 	else
 	{
+		signal(SIGINT, ft_null);
+		signal(SIGQUIT, ft_null);
 		waitpid(pid, &status, 0);
+		signal(SIGINT, ft_aspetta);
+		signal(SIGQUIT, ft_aspetta);
 		if (status == 2 || status == 3)
 			return (status + 128);
 		return (WEXITSTATUS(status));

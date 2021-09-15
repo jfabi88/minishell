@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+static void	ft_print_null(int sign)
+{
+	rl_redisplay();
+	return ;
+}
+
 static void	ft_add_history(t_list *history)
 {
 	while (history)
@@ -34,23 +40,24 @@ int	ft_run_extra_terminal(char *del, t_list *history)
 	int		status;
 	int		fd;
 
-	signal(SIGINT, ft_aspetta);
-	signal(SIGQUIT, ft_aspetta);
 	fd = open(".heredoc", O_RDWR | O_TRUNC | O_CREAT, 00755);
 	if (fd == -1)
-		exit (-1);
+		return (-1);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	else if (pid == 0)
 		exit(ft_run_extra_terminal_child(del, fd, history));
-	waitpid(pid, &status, 0);
-	close (fd);
-	if (status == 0)
-		fd = open(".heredoc", O_RDONLY, 00755);
 	else
-		fd = open(".heredoc", O_RDONLY | O_TRUNC, 00755);
-	return (fd);
+	{
+		waitpid(pid, &status, 0);
+		close (fd);
+		if (status == 0)
+			fd = open(".heredoc", O_RDONLY, 00755);
+		else
+			fd = open(".heredoc", O_RDONLY | O_TRUNC, 00755);
+		return (fd);
+	}
 }
 
 int	ft_open_arrow(int flag, char *stringa)

@@ -107,6 +107,8 @@ int	main(int argc, char *argv[], char *env[])
 	t_list			*list;
 	struct termios	origin;
 
+	signal(SIGINT, ft_aspetta);
+	signal(SIGQUIT, ft_aspetta);
 	tcgetattr(STDIN_FILENO, &origin);
 	list = NULL;
 	if (argc < 0 || argv == NULL)
