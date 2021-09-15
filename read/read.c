@@ -61,8 +61,7 @@ static void	ft_newstr(char buf[5], char **line, t_list **list, int *size)
 	del = *line;
 	if (buf == NULL)
 	{
-		free (tmp);
-		tmp = NULL;
+		tmp = ft_free_null(tmp);
 		return ;
 	}
 	else if (buf[0] < 32 && buf[1] != '[')
@@ -73,10 +72,7 @@ static void	ft_newstr(char buf[5], char **line, t_list **list, int *size)
 	{
 		*line = ft_create_line(buf, *line);
 		if (tmp != NULL)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
+			tmp = ft_free_null(tmp);
 		tmp = ft_m_strlcpy(*line, ft_strlen(*line) + 1);
 	}
 	if (buf[0] != 4)
