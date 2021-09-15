@@ -3,7 +3,7 @@
 static int	ft_exec_pipe_father(int fd[2], t_parse *data)
 {
 	close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	return (1);
 }
