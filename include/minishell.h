@@ -6,7 +6,7 @@
 /*   By: lmarzano <lmarzano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:54:23 by lmarzano          #+#    #+#             */
-/*   Updated: 2021/09/15 17:55:16 by lmarzano         ###   ########.fr       */
+/*   Updated: 2021/09/15 18:06:59 by lmarzano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,32 +211,5 @@ void	*ft_free_null(void	*obj);
 int		ft_find_strposition(char *str, char **matrix);
 void	ft_null(int sign);
 void	ft_free_data(t_data *data);
-
-/*
-**  >--TOKEN--<
-*/
-
-int		ft_running(t_token *token, t_list *list, t_list *var, int num);
-int		ft_token_run(t_token *token, t_list *history, t_list *var);
-
-/* token.c */
-t_token	*ft_tokanizer(char *line);
-
-/* token2.c */
-int		ft_list_token(char *line, t_list **list);
-
-/* token_utils.c */
-int		ft_after_flag(char *line);
-int		ft_next_pare(char *line);
-int		ft_is_inpar(char *line, int pos);
-int		ft_next_flag(char *line);
-
-/* token_utils2.c */
-void	ft_free_token(t_token *token);
-t_token	*ft_init_token(void);
-int		ft_count_c(char *line, char c);
-
-/* token_check.c */
-int		ft_check_token(char *ln);
 
 #endif
