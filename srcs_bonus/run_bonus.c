@@ -75,6 +75,7 @@ int	ft_running(t_token *t, t_list *history, t_list *var, int d)
 		if (num == -1)
 			return (-1);
 		ft_running(t->s_commands->content, history, var, 0);
+		ft_running(t->commands->content, history, var, 0);
 	}
 	else if (t && d < 2 && t->commands && !ft_strncmp(t->flag->content, "|", 2))
 	{
@@ -82,14 +83,16 @@ int	ft_running(t_token *t, t_list *history, t_list *var, int d)
 		if (num == -1)
 			return (-1);
 		ft_running(t->commands->content, history, var, 0);
+		ft_running(t->s_commands->content, history, var, 0);
 	}
 	else if (t)
 	{
 		num = ft_token_run(t, history, var);
-		if (d == 1 || d == 0)
-			num = ft_run_commands(t, num, var, history);
-		if (d == 2 || d == 0)
+		if (d == 0)
+		{
 			num = ft_run_s_commands(t, num, var, history);
+			num = ft_run_commands(t, num, var, history);
+		}
 	}
 	return (num);
 }

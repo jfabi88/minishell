@@ -65,9 +65,7 @@ static int	ft_go(t_list *parse_list, t_list *history, t_list *var)
 			return (num);
 		return (ft_go(parse_list->next, history, var));
 	}
-	if (parse_list && parse_list->prev != NULL)
-		num = ft_execute(parse_list->content, history, var);
-	else if (parse_list && parse_list->prev == NULL)
+	else if (parse_list)
 	{
 		if (parse_list->content == NULL || \
 		ft_open_red(((t_parse *)(parse_list->content))->output, \
@@ -108,6 +106,7 @@ int	main(int argc, char *argv[], char *env[])
 	t_list			*list;
 	struct termios	origin;
 
+	g_fd = open("LETTURA", O_RDWR | O_TRUNC | O_CREAT, 00755);
 	tcgetattr(STDIN_FILENO, &origin);
 	list = NULL;
 	if (argc < 0 || argv == NULL)

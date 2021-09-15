@@ -2,23 +2,9 @@
 
 static int	ft_exec_pipe_father(int fd[2], t_parse *data)
 {
-	int	fd_red[2];
-
 	close(fd[1]);
-	if (data == NULL || ft_open_red(data->output, &fd_red[0], &fd_red[1]) == -1)
-	{
-		close(fd[0]);
-		return (1);
-	}
-	if (fd_red[0] == 0)
 		dup2(fd[0], STDIN_FILENO);
-	else
-	{
-		dup2(fd_red[0], STDIN_FILENO);
-		close(fd_red[0]);
-	}
 	close(fd[0]);
-	dup2(fd_red[1], STDOUT_FILENO);
 	return (1);
 }
 
